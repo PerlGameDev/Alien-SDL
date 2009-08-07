@@ -1,5 +1,6 @@
 TODO list for Perl module Alien::SDL
 
-- Nothing yet
+0.01 
+	- Support detecting an already-installed SDL + Libraries
 
 
