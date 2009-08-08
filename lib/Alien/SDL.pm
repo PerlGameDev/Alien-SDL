@@ -2,6 +2,8 @@ package Alien::SDL;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Alien::SDL - building, finding and using SDL binaries
