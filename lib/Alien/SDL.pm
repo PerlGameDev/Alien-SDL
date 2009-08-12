@@ -37,6 +37,8 @@ In short C<Alien::SDL> can be used to detect and get
 configuration settings from an installed SDL and related libraries .
 =cut
 
+
+
 #################### main pod documentation begin ###################
 =head1 BUGS
 Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
