@@ -34,15 +34,14 @@ sub sdl_installed($)
 sub get_SDL()
 {
 	
-	my $FF = File::Fetch->new( uri =>'http://www.libsdl.org/release/SDL-1.2.8.tar.gz' );
+	my $FF = File::Fetch->new( uri =>'http://www.libsdl.org/release/SDL-devel-1.2.9-mingw32.tar.gz' );
 	my $where = $FF->fetch( to => './deps' );
-	print "Got archive SDL-1.2.8.tar.gz here $where\n";
+	print "Got archive $where\n";
 	my $sdl_ar = Archive::Extract->new(archive => $where);
 	$sdl_ar->extract( to => 'deps/' );
 	
-	$CWD = 'deps/SDL-1.2.8';
+	$CWD = 'deps/SDL-1.2.9';
 	{
-	`./configure`;
 	`make`;
 	`make install`;
 	}
