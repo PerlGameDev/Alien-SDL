@@ -3,9 +3,11 @@ use Module::Build;
 #
 use inc::Utility;
 
-print inc::Utility->sdl_installed;
 
 inc::Utility->get_SDL();
+inc::Utility->get_SDL_image();
+inc::Utility->get_SDL_mixer();
+
 
 Module::Build->new
     ( module_name     => 'Alien::SDL',

@@ -6,8 +6,7 @@ use File::chdir;
 use File::Fetch;
 use Archive::Extract;
 
-#checks to see if sdl-config is availabe
-#
+#checks to see if sdl-config is available
 sub sdl_con_found
 {
 	$_ = 1;
@@ -15,24 +14,27 @@ sub sdl_con_found
 	return $_;
 }
 
-sub sdl_installed($)
+
+sub get_url()
 {
-	my $location = shift;
-
-	if( defined $location )
-	{
-		carp 'location: '.$location;
-		return 0;
-	}
-	else
-	{
-		return sdl_con_found;
-	}
-
+	my $sdl_site = 'http://www.libsdl.org';
+	
+	my $sdl_projects_site =  $sdl_site.'/projects';
+	  
+	$urls = (
+	SDL => $sdl_site.'/release/',
+	image => $sdl_projects_site.'/SDL_image/release/',
+	mixer => $sdl_projects_site.'/SDL_mixer/release/',
+	ttf => $sdl_projects_site.'/SDL_ttf/release/',
+	net => $sdl_projects_site.'/SDL_net/release/',
+	);
+	return $urls;
 }
 
-sub get_SDL()
+sub get_SDL($$)
 {
+	my $version = shift;
+	my $suffix = shift;
 	
 	my $FF = File::Fetch->new( uri =>'http://www.libsdl.org/release/SDL-devel-1.2.9-mingw32.tar.gz' );
 	my $where = $FF->fetch( to => './deps' );
@@ -45,9 +47,29 @@ sub get_SDL()
 	`make`;
 	`make install`;
 	}
-	
-
 
 }
+
+sub get_SDL_image()
+{
+
+}
+
+sub get_SDL_mixer()
+{
+
+}
+
+sub get_SDL_ttf()
+{
+
+}
+
+sub get_SDL_sound()
+{
+
+}
+
+
 
 1;
