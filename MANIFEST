@@ -8,3 +8,4 @@ Makefile.PL
 lib/Alien/SDL.pm
 t/001_load.t
 inc/Utility.pm
+META.yml

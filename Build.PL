@@ -18,8 +18,7 @@ my $build_ref = Module::Build->new
     ( module_name     => 'Alien::SDL',
       license         => 'perl',
       requires	      => {
-	      		'File::chdir' => '0.1002'
-	      		}
+	      	   		}
     );
     
     

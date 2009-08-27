@@ -2,7 +2,7 @@ package inc::Utility;
 use strict;
 use warnings;
 use Carp;
-use File::chdir;
+#use File::chdir;
 use File::Fetch;
 use Archive::Extract;
 
@@ -50,34 +50,36 @@ sub cleanup_deps_folder {
 	rmdir $dir or print "error - $!";
 }
 
-sub get_SDL()
-{
+#sub get_SDL()
+#{
 	#my $version = shift;
 	#my $suffix = shift;
-	cleanup_deps_folder('deps');
-	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdlperl-deps.tar.bz2' );
-	my $where = $FF->fetch( to => 'deps' );
-	print "Got archive $where\n";
-	my $sdl_ar = Archive::Extract->new(archive => $where);
-	$sdl_ar->extract( to => 'deps' );
-	
-	$CWD = 'deps/sdlperl-deps.tar.bz2';
-	{
-	`make`;
-	`make install`;
-	}
-
-}
+#	cleanup_deps_folder('deps');
+#	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdlperl-deps.tar.bz2' );
+#	my $where = $FF->fetch( to => 'deps' );
+#	print "Got archive $where\n";
+#	my $sdl_ar = Archive::Extract->new(archive => $where);
+#	$sdl_ar->extract( to => 'deps' );
+#	
+#	$CWD = 'deps/sdlperl-deps.tar.bz2';
+#	{
+#	`make`;
+#	`make install`;
+#	}
+	#
+#}
 
 sub get_SDL_deps()
 {
+	my $self = shift;
 	my $location = shift;
-	croak "Require a location to extract too " if ( !(-e $location) );
-	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/libsdl-1.2.13-bin_20090825.ZIP' );
-	my $where = $FF->fetch( to => 'deps' );
+	croak "Require a location to extract to $location" if ( !(-d $location) );
+	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdldeps-aug26.zip' );
+	my $where = $FF->fetch( to => $location );
 	print "Got archive $where\n";
 	my $sdl_ar = Archive::Extract->new(archive => $where);
 	$sdl_ar->extract( to => $location );	
+	unlink $where;
 }
 
 
