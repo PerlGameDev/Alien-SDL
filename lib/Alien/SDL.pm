@@ -12,23 +12,7 @@ Alien::SDL - building, finding and using SDL binaries
 
     use Alien::SDL <options>;
 
-    my $version = Alien::SDL->version;
-    my $config = Alien::SDL->config;
-    my $compiler = Alien::SDL->compiler;
-    my $linker = Alien::SDL->linker;
-    my $include_path = Alien::SDL->include_path;
-    my $defines = Alien::SDL->defines;
-    my $cflags = Alien::SDL->c_flags;
-    my $linkflags = Alien::SDL->link_flags;
-    my $libraries = Alien::SDL->libraries( qw(sdl mixer image sound net ttf gfx svg) );
-    my @libraries = Alien::SDL->link_libraries( qw(sdl mixer image sound net ttf gfx svg));
-    my @implib = Alien::SDL->import_libraries( qw(sdl mixer image sound net ttf gfx svg) );
-    my @shrlib = Alien::SDL->shared_libraries( qw(sdl mixer image sound net ttf gfx svg) );
-    my @keys = Alien::SDL->library_keys; # 'sdl', 'mixer', ...
-    my $library_path = Alien::SDL->shared_library_path;
-    my $key = Alien::SDL->key;
-    my $prefix = Alien::SDL->prefix;
-
+    Just gets windows deps for strawberry perl
 =head1 DESCRIPTION
 
 Please see L<Alien> for the manifesto of the Alien namespace.
@@ -37,6 +21,10 @@ In short C<Alien::SDL> can be used to detect and get
 configuration settings from an installed SDL and related libraries .
 =cut
 
+sub new
+{
+	my $self = shift;
+}
 
 
 #################### main pod documentation begin ###################
@@ -54,7 +42,7 @@ Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
     CPAN ID: KTHAKORE
     none
     Thakore.Kartik@gmail.com
-    http://github.com/kthakore
+    http://yapgh.blogspot.com
 
 =head1 COPYRIGHT
 

@@ -9,7 +9,8 @@ use Archive::Extract;
 #checks to see if sdl-config is available
 sub sdl_con_found
 {
-	$_ = 1;
+	return 0 if ($^O =~ /MSWin*|Cygwin/);
+	local $_ = 1;	
 	`sdl-config --libs` or $_ = 0;
 	return $_;
 }
@@ -21,28 +22,46 @@ sub get_url()
 	
 	my $sdl_projects_site =  $sdl_site.'/projects';
 	  
-	$urls = (
-	SDL => $sdl_site.'/release/',
-	image => $sdl_projects_site.'/SDL_image/release/',
-	mixer => $sdl_projects_site.'/SDL_mixer/release/',
-	ttf => $sdl_projects_site.'/SDL_ttf/release/',
-	net => $sdl_projects_site.'/SDL_net/release/',
-	);
+	my $urls = [
+	 $sdl_site.'/release/SDL-1.2.9.tar.gz',
+	 $sdl_projects_site.'/SDL_image/release/',
+	 $sdl_projects_site.'/SDL_mixer/release/',
+	 $sdl_projects_site.'/SDL_ttf/release/',
+	 $sdl_projects_site.'/SDL_net/release/',
+	];
+	
 	return $urls;
 }
 
-sub get_SDL($$)
+
+#
+sub cleanup_deps_folder {
+        my $dir = shift;
+	local *DIR;
+
+	opendir DIR, $dir or die "opendir $dir: $!";
+	for (readdir DIR) {
+	        next if /^\.{1,2}$/;
+	        my $path = "$dir/$_";
+		unlink $path if -f $path;
+		cleanup_deps_folder($path) if -d $path;
+	}
+	closedir DIR;
+	rmdir $dir or print "error - $!";
+}
+
+sub get_SDL()
 {
-	my $version = shift;
-	my $suffix = shift;
-	
-	my $FF = File::Fetch->new( uri =>'http://www.libsdl.org/release/SDL-devel-1.2.9-mingw32.tar.gz' );
-	my $where = $FF->fetch( to => './deps' );
+	#my $version = shift;
+	#my $suffix = shift;
+	cleanup_deps_folder('deps');
+	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdlperl-deps.tar.bz2' );
+	my $where = $FF->fetch( to => 'deps' );
 	print "Got archive $where\n";
 	my $sdl_ar = Archive::Extract->new(archive => $where);
-	$sdl_ar->extract( to => 'deps/' );
+	$sdl_ar->extract( to => 'deps' );
 	
-	$CWD = 'deps/SDL-1.2.9';
+	$CWD = 'deps/sdlperl-deps.tar.bz2';
 	{
 	`make`;
 	`make install`;
@@ -50,24 +69,15 @@ sub get_SDL($$)
 
 }
 
-sub get_SDL_image()
+sub get_SDL_deps()
 {
-
-}
-
-sub get_SDL_mixer()
-{
-
-}
-
-sub get_SDL_ttf()
-{
-
-}
-
-sub get_SDL_sound()
-{
-
+	my $location = shift;
+	croak "Require a location to extract too " if ( !(-e $location) );
+	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/libsdl-1.2.13-bin_20090825.ZIP' );
+	my $where = $FF->fetch( to => 'deps' );
+	print "Got archive $where\n";
+	my $sdl_ar = Archive::Extract->new(archive => $where);
+	$sdl_ar->extract( to => $location );	
 }
 
 
