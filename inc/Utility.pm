@@ -74,7 +74,7 @@ sub get_SDL_deps()
 	my $self = shift;
 	my $location = shift;
 	croak "Require a location to extract to $location" if ( !(-d $location) );
-	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdldeps-aug26.zip' );
+	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdldeps-aug29.zip' );
 	my $where = $FF->fetch( to => $location );
 	print "Got archive $where\n";
 	my $sdl_ar = Archive::Extract->new(archive => $where);

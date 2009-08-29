@@ -13,6 +13,7 @@ Alien::SDL - building, finding and using SDL binaries
     use Alien::SDL <options>;
 
     Just gets windows deps for strawberry perl
+
 =head1 DESCRIPTION
 
 Please see L<Alien> for the manifesto of the Alien namespace.
@@ -29,6 +30,7 @@ sub new
 
 #################### main pod documentation begin ###################
 =head1 BUGS
+
 Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
 
 
