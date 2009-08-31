@@ -77,7 +77,7 @@ sub get_SDL_deps()
 	my $location = shift;
 	return if(sdl_con_found());
 	croak "Require a location to extract to $location" if ( !(-d $location) );
-	my $url = 'http://svn.ali.as/cpan/users/kmx/strawberry_packs/lib-SDL-bin_20090831+depend-DLLs.zip';
+	my $url = 'http://sdl.perl.org/lib-SDL-bin_win32.zip';
 	my $FF = File::Fetch->new( uri => $url);
 	my $where = $FF->fetch( to => $location );
 	print "Got archive $where\n";
