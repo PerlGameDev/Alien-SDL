@@ -2,18 +2,20 @@ package inc::Utility;
 use strict;
 use warnings;
 use Carp;
-#use File::chdir;
+use File::Spec;
 use File::Fetch;
 use Archive::Extract;
 
 #checks to see if sdl-config is available
+
 sub sdl_con_found
 {
-	return 0 if ($^O =~ /MSWin*|Cygwin/);
-	local $_ = 1;	
-	`sdl-config --libs` or $_ = 0;
-	return $_;
+       my $devnull = File::Spec->devnull();	
+       `sdl-config --libs 2>$devnull`;
+       return 1 unless ($? >> 8) and return 0;
+
 }
+
 
 
 sub get_url()
@@ -73,8 +75,10 @@ sub get_SDL_deps()
 {
 	my $self = shift;
 	my $location = shift;
+	return if(sdl_con_found());
 	croak "Require a location to extract to $location" if ( !(-d $location) );
-	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdldeps-aug29.zip' );
+	my $url = 'http://svn.ali.as/cpan/users/kmx/strawberry_packs/lib-SDL-bin_20090831+depend-DLLs.zip';
+	my $FF = File::Fetch->new( uri => $url);
 	my $where = $FF->fetch( to => $location );
 	print "Got archive $where\n";
 	my $sdl_ar = Archive::Extract->new(archive => $where);
