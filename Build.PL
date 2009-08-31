@@ -10,7 +10,7 @@ use Carp;
 #inc::Utility->get_SDL_image();
 #inc::Utility->get_SDL_mixer();
 #TODO: Make this programmatically find strawberry
-my $strawberry = 'C:\\strawberry\\' if( $^O =~ /Win*/);
+my $strawberry = "$Config::Config{prefix}/../" if( $^O =~ /Win*/);
 inc::Utility->get_SDL_deps( $strawberry ) if( $^O =~ /Win*/);
 
 
