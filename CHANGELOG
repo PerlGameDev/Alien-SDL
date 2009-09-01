@@ -1,2 +1,8 @@
+
+Aug 31 2009 Kartik Thakore
+- Made Alien extract windows bug in movable directory of Strawberry
+- Downloads a new pack for SDL deps in windows
+- Alien doesn't overwrite old information now
+
 Aug 26 2009 Kartik Thakore
 - Gets deps for windows and installs them
