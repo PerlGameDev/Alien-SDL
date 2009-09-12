@@ -26,7 +26,7 @@ sub get_url()
 	my $sdl_projects_site =  $sdl_site.'/projects';
 	  
 	my $urls = [
-	 $sdl_site.'/release/SDL-1.2.9.tar.gz',
+	 $sdl_site.'/release/SDL-1.2.13.tar.gz',
 	 $sdl_projects_site.'/SDL_image/release/',
 	 $sdl_projects_site.'/SDL_mixer/release/',
 	 $sdl_projects_site.'/SDL_ttf/release/',
