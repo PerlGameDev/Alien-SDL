@@ -1,5 +1,6 @@
-Sep 11 2009 Kartik Thakore
+Sep 12 2009 Kartik Thakore
 - Giving SDL building a try for no window platform
+- Added real test for SDL
 
 Aug 31 2009 Kartik Thakore
 - Made Alien extract windows bug in movable directory of Strawberry
