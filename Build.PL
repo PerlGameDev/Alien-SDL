@@ -13,6 +13,7 @@ use Carp;
 my $strawberry = "$Config::Config{prefix}/../" if( $^O =~ /Win*/);
 inc::Utility->get_SDL_deps( $strawberry ) if( $^O =~ /Win*/);
 
+inc::Utility->get_SDL() if( $^O !~ /Win*/);
 
 my $build_ref = Module::Build->new
     ( module_name     => 'Alien::SDL',

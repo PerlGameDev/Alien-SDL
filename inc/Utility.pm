@@ -1,11 +1,12 @@
 package inc::Utility;
 use strict;
 use warnings;
+use Cwd;
 use Carp;
 use File::Spec;
 use File::Fetch;
 use Archive::Extract;
-
+use Data::Dumper;
 #checks to see if sdl-config is available
 
 sub sdl_con_found
@@ -45,31 +46,38 @@ sub cleanup_deps_folder {
 	for (readdir DIR) {
 	        next if /^\.{1,2}$/;
 	        my $path = "$dir/$_";
-		unlink $path if -f $path;
+		unlink $path if (-f $path );
+		rmdir $path if (-d $path);
 		cleanup_deps_folder($path) if -d $path;
 	}
 	closedir DIR;
-	rmdir $dir or print "error - $!";
+	rmdir $dir;
 }
 
-#sub get_SDL()
-#{
-	#my $version = shift;
-	#my $suffix = shift;
-#	cleanup_deps_folder('deps');
-#	my $FF = File::Fetch->new( uri =>'http://cloud.github.com/downloads/kthakore/SDL_perl/sdlperl-deps.tar.bz2' );
-#	my $where = $FF->fetch( to => 'deps' );
-#	print "Got archive $where\n";
-#	my $sdl_ar = Archive::Extract->new(archive => $where);
-#	$sdl_ar->extract( to => 'deps' );
-#	
-#	$CWD = 'deps/sdlperl-deps.tar.bz2';
-#	{
-#	`make`;
-#	`make install`;
-#	}
-	#
-#}
+sub get_SDL()
+{
+	cleanup_deps_folder('deps');
+	my $urls = get_url();
+	my $sdl = $$urls[0];
+	my $FF = File::Fetch->new( uri => $sdl);
+	my $where = $FF->fetch( to => 'deps' );
+	carp "Got archive $where\n";
+	my $sdl_ar = Archive::Extract->new(archive => $where);
+	$sdl_ar->extract( to => 'deps' );
+	carp "Extracted Archive to $sdl_ar->extract_path \n";
+	my $pwd = Cwd::cwd();
+      	chdir  $sdl_ar->extract_path;
+	
+	carp "Configuring SDL \n";
+	`./configure`;
+	carp "Making SDL \n";
+	`make`;
+	carp "Installing SDL \n";
+	`make install`;
+	
+			
+	 chdir $pwd;
+ }
 
 sub get_SDL_deps()
 {
