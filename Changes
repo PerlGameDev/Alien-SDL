@@ -1,5 +1,11 @@
 Revision history for Perl module Alien::SDL
 
+0.06 Fri Sept 18 2009
+     - Added File::Fetch to inc
+     - Added File::Spec::Unix to inc
+     - Added IPC::cmd to inc
+     - Added Archive::Extract to inc
+
 0.02 Fri Aug  7 2009
     - Updated perlDoc
     

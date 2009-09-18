@@ -4,6 +4,7 @@ use warnings;
 use Cwd;
 use Carp;
 use File::Spec;
+use lib '.';
 use File::Fetch;
 use Archive::Extract;
 use Data::Dumper;

@@ -5,6 +5,10 @@ Todo
 Changes
 Build.PL
 Makefile.PL
+inc/Archive/Extract.pm
+inc/File/Fetch.pm
+inc/File/Spec/Unix.pm
+inc/IPC/Cmd.pm
 lib/Alien/SDL.pm
 t/001_load.t
 inc/Utility.pm
