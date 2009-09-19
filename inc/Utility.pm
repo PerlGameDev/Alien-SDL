@@ -42,7 +42,7 @@ sub get_url()
 sub cleanup_deps_folder {
         my $dir = shift;
 	local *DIR;
-
+	mkdir $dir;
 	opendir DIR, $dir or die "opendir $dir: $!";
 	for (readdir DIR) {
 	        next if /^\.{1,2}$/;
