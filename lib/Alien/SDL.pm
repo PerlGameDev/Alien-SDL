@@ -2,7 +2,7 @@ package Alien::SDL;
 use strict;
 use warnings;
 
-our $VERSION = '0.06.1';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -32,7 +32,6 @@ sub new
 =head1 BUGS
 
 Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
-
 
 =head1 SUPPORT
 

@@ -6,19 +6,18 @@ use warnings;
 use inc::Utility;
 use Data::Dumper;
 use Carp;
-#inc::Utility->get_SDL();
-#inc::Utility->get_SDL_image();
-#inc::Utility->get_SDL_mixer();
-#TODO: Make this programmatically find strawberry
 my $strawberry = "$Config::Config{prefix}/../" if( $^O =~ /Win*/);
 inc::Utility->get_SDL_deps( $strawberry ) if( $^O =~ /Win*/);
-
 inc::Utility->get_SDL() if( $^O !~ /Win*/ and !inc::Utility->sdl_con_found()) ;
+
+
 
 my $build_ref = Module::Build->new
     ( module_name     => 'Alien::SDL',
       license         => 'perl',
       requires	      => {
+	      		'File::Fetch' => '0.20',
+			'Archive::Extract' => '0.34'
 	      	   		}
     );
     
