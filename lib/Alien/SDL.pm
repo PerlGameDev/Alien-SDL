@@ -2,7 +2,7 @@ package Alien::SDL;
 use strict;
 use warnings;
 
-our $VERSION = '0.06';
+our $VERSION = '0.06.1';
 
 =head1 NAME
 

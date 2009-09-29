@@ -1,5 +1,7 @@
 Revision history for Perl module Alien::SDL
 
+0.06.1 Sat Sept 14 2009
+     - Fixed a stupid mistake
 0.06 Fri Sept 18 2009
      - Added File::Fetch to inc
      - Added File::Spec::Unix to inc
