@@ -15,7 +15,7 @@ inc::Utility->get_SDL() if( $^O !~ /Win*/ and !inc::Utility->sdl_con_found()) ;
 my $build_ref = Module::Build->new
     ( module_name     => 'Alien::SDL',
       license         => 'perl',
-      requires	      => {
+      configure_requires	      => {
 	      		'File::Fetch' => '0.20',
 			'Archive::Extract' => '0.34'
 	      	   		}
