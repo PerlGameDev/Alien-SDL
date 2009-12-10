@@ -10,6 +10,10 @@ my $strawberry = "$Config::Config{prefix}/../" if( $^O =~ /Win*/);
 inc::Utility->get_SDL_deps( $strawberry ) if( $^O =~ /Win*/);
 inc::Utility->get_SDL() if( $^O !~ /Win*/ and !inc::Utility->sdl_con_found()) ;
 
+if(!inc::Utility->sdl_con_found())
+{
+	croak 'SDL failed to compiled. Please installed libsdl from your OS package manager';
+}
 
 
 my $build_ref = Module::Build->new

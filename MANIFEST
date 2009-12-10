@@ -1,7 +1,4 @@
-Alien-SDL-0.06.tar.gz
-Build
 Build.PL
-CHANGELOG
 Changes
 inc/Archive/Extract.pm
 inc/File/Fetch.pm
@@ -10,9 +7,7 @@ inc/IPC/Cmd.pm
 inc/Utility.pm
 lib/Alien/SDL.pm
 LICENSE
-Makefile.PL
-MANIFEST
-MANIFEST.bak
+MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
 README

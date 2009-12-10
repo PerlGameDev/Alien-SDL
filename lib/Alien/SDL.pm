@@ -2,7 +2,7 @@ package Alien::SDL;
 use strict;
 use warnings;
 
-our $VERSION = '0.07.2';
+our $VERSION = '0.7.6';
 
 =head1 NAME
 
@@ -10,9 +10,7 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 SYNOPSIS
 
-    use Alien::SDL <options>;
-
-    Just gets windows deps for strawberry perl
+Just gets windows deps for strawberry perl
 
 =head1 DESCRIPTION
 
@@ -31,7 +29,7 @@ sub new
 #################### main pod documentation begin ###################
 =head1 BUGS
 
-Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
+Please post issues and bugs at L<http://sdlperl.ath.cx/projects/SDLPerl/>
 
 =head1 SUPPORT
 
