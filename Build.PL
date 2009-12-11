@@ -21,7 +21,8 @@ my $build_ref = Module::Build->new
       license         => 'perl',
       configure_requires	      => {
 	      		'File::Fetch' => '0.20',
-			'Archive::Extract' => '0.34'
+			'Archive::Extract' => '0.34',
+			'WWW::Mechanize' => '0'
 	      	   		}
     );
     

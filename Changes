@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+0.7.8
+     - Get and compile latest code for SDL, gfx, image, mixer, ttf and net
+
 0.7.6 
      - check if make failed or passed
 
