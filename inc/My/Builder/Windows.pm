@@ -4,11 +4,10 @@ use strict;
 use warnings;
 use base 'My::Builder';
 
-sub can_build_binaries_from_sources {
-  return 0; # no
-}
+sub can_build_binaries_from_sources { 0 } # no
 
 sub build_binaries {
+  my( $self, $build_out, $build_src ) = @_;
   die "###ERROR### Building from sources not supported on MS Windows platform";
 }
 

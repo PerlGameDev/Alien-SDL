@@ -1,35 +1,41 @@
 use strict;
 use warnings;
 
-use Data::Dumper;
-use File::Spec::Functions qw(catdir catfile);
-
 use lib "inc";
+use File::Spec::Functions qw(catdir catfile);
 use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
-
 use My::Builder::Unix;
 use My::Builder::Windows;
 
 #### Maybe do something more clever in the future
 my $package = 'My::Builder::Unix'; # default
-$package = 'My::Builder::Windows' if($^O eq 'MSWin32');
+$package = 'My::Builder::Windows' if($^O eq 'MSWin32x');
 
 #### Stadard Module::Builder stuff
 my $build = $package->new(
   module_name          => 'Alien::SDL',
-  license              => 'perl',
-  dist_author          => 'kthakore <kthakore@cpan.org>',
-  dist_version_from    => 'lib/Alien/SDL.pm',
+  all_from             => 'lib/Alien/SDL.pm',
   build_requires       => {
     'File::Spec'       => '0',
-    # M::B 0.36
+    'File::Path'       => '0',
+    'File::Fetch'      => '0',
+    'Archive::Extract' => '0',
+    'Digest::SHA1'     => '0',
+    'Config'           => '0',
   },
   configure_requires   => {
-    'File::Fetch'      => '0.20',
-    'Archive::Extract' => '0.34',
-    'WWW::Mechanize'   => '0'
+    'File::Spec'       => '0',
+    'Module::Build'    => '0.36',
   },
-  share_dir => 'sharedir', # used for storing compiled/prebuilt binaries of SDL lib + related libraries
+  meta_merge => {
+    keywords   => [qw[Alien SDL multimedia game sound music video mp3 ogg flac]],
+    resources  => {
+      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl/',
+      changelog  => 'http://github.com/kthakore/Alien_SDL/commits/master',
+      repository => 'http://github.com/kthakore/Alien_SDL'
+    }
+  },
+  share_dir => 'share', # used for storing compiled/prebuilt binaries of SDL lib + related libraries
 );
 $build->create_build_script();    
 
@@ -90,3 +96,6 @@ die "###ERROR### Invalid option" unless(($ans>0) && ($ans<=scalar(@candidates)))
 
 #### store build params into notes
 $build->notes('build_params', $candidates[$ans-1]);
+
+#### clean build_done stamp; force rebuild when running 'Build'
+$build->clean_build_done_marker;

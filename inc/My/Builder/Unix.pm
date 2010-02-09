@@ -4,19 +4,17 @@ use strict;
 use warnings;
 use base 'My::Builder';
 
-use Data::Dumper;
 use File::Spec::Functions qw(catdir catfile rel2abs);
 
-sub can_build_binaries_from_sources {
-  return 1; # yes
-}
+sub can_build_binaries_from_sources { 1 } # yes we can
 
 sub build_binaries {
-  my $self = shift;
-  my $bp = $self->notes('build_params');    
+  my( $self, $build_out, $build_src ) = @_;
+  my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    my $srcdir = catfile('build_src', $pack->{dirname});
-    my $prefixdir = rel2abs('build_out');
+    print "BUILDING package '" . $pack->{dirname} . "'...\n";
+    my $srcdir = catfile($build_src, $pack->{dirname});
+    my $prefixdir = rel2abs($build_out);
    $self->config_data('build_prefix', $prefixdir); # save it for future Alien::SDL::ConfigData
 
     # do './configure ...'
@@ -27,7 +25,7 @@ sub build_binaries {
       print "Configuring $pack->{pack}...\n";
       print "(cmd: $cmd)\n";
       chdir $srcdir;
-      $self->do_system($cmd) or die '###ERROR### ', $?;
+      ###$self->do_system($cmd) or die '###ERROR### ', $?;
       chdir $self->base_dir();
     }
 
@@ -35,8 +33,8 @@ sub build_binaries {
     my $cmd = "make install";
     print "Running make install $pack->{pack}...\n";
     print "(cmd: $cmd)\n";
-    chdir $srcdir;        
-    $self->do_system($cmd) or die '###ERROR### ', $?;
+    chdir $srcdir;
+    ###$self->do_system($cmd) or die '###ERROR### ', $?;
     chdir $self->base_dir();
   }
   return 1;
