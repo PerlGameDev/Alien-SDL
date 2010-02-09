@@ -23,7 +23,7 @@ sub build_binaries {
     my $run_configure = 'y';
     $run_configure = $self->prompt("Run ./configure again?", "n") if (-f "$srcdir/config.log");
     if (lc($run_configure) eq 'y') {
-      my $cmd = "./configure --prefix=$prefixdir";
+      my $cmd = "./configure --prefix=$prefixdir CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
       print "Configuring $pack->{pack}...\n";
       print "(cmd: $cmd)\n";
       chdir $srcdir;
