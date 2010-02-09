@@ -44,16 +44,16 @@ sub ACTION_code {
   }
   elsif($bp->{buildtype} eq 'use_prebuilt_binaries') {     
      $self->fetch_binaries;
-     #$self->clean_build_out;
+     #xxx $self->clean_build_out;
      $self->extract_binaries;     
-     #$self->set_config_data;
+     #xxx $self->set_config_data;
   }
   elsif($bp->{buildtype} eq 'build_from_sources' ) {  
      $self->fetch_sources;
      $self->extract_sources;
-     #$self->clean_build_out;
+     #xxx $self->clean_build_out;
      $self->build_binaries;
-     #$self->set_config_data;
+     #xxx $self->set_config_data;
   }
   
   # mark sucessfully finished build
