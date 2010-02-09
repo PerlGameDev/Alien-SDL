@@ -4,3 +4,12 @@ stage
 blib
 deps
 ^Build$
+^Build.bat$
+^MYMETA.yml$
+^tmp
+^build_
+^download
+^sharedir
+\.bak$
+\.zip$
+\.gz$

@@ -1,6 +1,9 @@
 package Alien::SDL;
 use strict;
 use warnings;
+use Alien::SDL::ConfigData;
+use File::ShareDir;
+
 
 our $VERSION = '0.7.8';
 
@@ -20,11 +23,33 @@ In short C<Alien::SDL> can be used to detect and get
 configuration settings from an installed SDL and related libraries .
 =cut
 
-sub new
+### main function - external interface
+sub sdl_config
 {
-	my $self = shift;
+  my $itype = Alien::SDL::ConfigData->config('install_type');
+  if($itype eq 'using_config_script') {
+    return _sdl_config_via_script();
+  }
+  elsif($itype eq 'using_config_data') {
+    return _sdl_config_via_config_data();
+  }
+  else {
+    return undef;
+  }
 }
 
+### internal functions
+sub _sdl_config_via_script
+{
+
+}
+
+sub _sdl_config_via_config_data
+{
+  #fetch sharedir
+  #read ConfigData
+  #create 
+}
 
 #################### main pod documentation begin ###################
 =head1 BUGS
