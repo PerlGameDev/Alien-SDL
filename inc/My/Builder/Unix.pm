@@ -25,7 +25,7 @@ sub build_binaries {
       print "Configuring $pack->{pack}...\n";
       print "(cmd: $cmd)\n";
       chdir $srcdir;
-      $self->do_system($cmd) or die '###ERROR### ', $?;
+      $self->do_system($cmd) or die "###ERROR### [$?] during ./configure ... ";
       chdir $self->base_dir();
     }
 
@@ -34,7 +34,7 @@ sub build_binaries {
     print "Running make install $pack->{pack}...\n";
     print "(cmd: $cmd)\n";
     chdir $srcdir;
-    $self->do_system($cmd) or die '###ERROR### ', $?;
+    $self->do_system($cmd) or die "###ERROR### [$?] during make ... ";
     chdir $self->base_dir();
   }
   return 1;

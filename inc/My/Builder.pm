@@ -23,8 +23,7 @@ sub ACTION_build {
 sub ACTION_code {
   my $self = shift;
   $self->SUPER::ACTION_code;
-
-  print STDERR "### ACTION_code: starting custom build process\n";
+  
   my $bp = $self->notes('build_params');
   die "###ERROR### Cannot continue build_params not defined" unless defined($bp);
 
@@ -32,13 +31,15 @@ sub ACTION_code {
   return if (-f 'build_done');
 
   # important directories
-  my $download  = 'download';
-  my $patches   = 'patches';
-  my $build_src = 'build_src';
-  my $build_out = catfile('share', 'build_out_' . $self->{properties}->{dist_version});
-  $self->add_to_cleanup($build_src, $build_out, qw(build_done));
+  my $download     = 'download';
+  my $patches      = 'patches';
+  my $share_subdir = 'build_out_' . $self->{properties}->{dist_version};
+  my $build_out    = catfile('share', $share_subdir);
+  my $build_src    = 'build_src';
+  $self->add_to_cleanup($build_src, $build_out);
 
   # save some data into future Alien::SDL::ConfigData
+  $self->config_data('share_subdir', $share_subdir);
   $self->config_data('build_params', $bp);
   $self->config_data('build_cc', $Config{cc});
   $self->config_data('build_arch', $Config{archname});
@@ -65,7 +66,6 @@ sub ACTION_code {
 
   # mark sucessfully finished build
   $self->touch_build_done_marker;
-  print STDERR "### ACTION_code: custom build process finished\n";
 }
 
 sub fetch_file {
@@ -137,9 +137,20 @@ sub extract_sources {
 }
 
 sub set_config_data {
-  my( $self, $build_out ) = @_;
-  print STDERR "#DEBUG: setting ConfigData based on '$build_out' not implemented yet\n";
+  my( $self, $build_out ) = @_;  
   # xxx TODO xxx
+  # 1/ $build_out/bin/sdl-config
+  # 1.1/ use sdl-config to get all info
+  # 2/ try to find 'sdl-config' and 'SDL.h' => guess $prefix  
+  # 2.1/ grep version from SDL.h
+  # 2.2/ use defaults fo cflags and libs
+  # 2.3/ fill shared libs
+  # use '@PrEfIx@' as a placeholder for the real prefix
+  $self->config_data('config_version', '1.2.14');
+  $self->config_data('config_prefix', '@PrEfIx@');
+  $self->config_data('config_libs', '"-L@PrEfIx@" -lSDLmain -lSDL');
+  $self->config_data('config_cflags', '"-I@PrEfIx@/include" -D_GNU_SOURCE=1 -Dmain=SDL_main');
+  $self->config_data('config_shared_libs', 'xxx TODO xxx');    
 }
 
 sub can_build_binaries_from_sources {

@@ -9,7 +9,7 @@ use My::Builder::Windows;
 
 #### Maybe do something more clever in the future
 my $package = 'My::Builder::Unix'; # default
-$package = 'My::Builder::Windows' if($^O eq 'MSWin32x');
+$package = 'My::Builder::Windows' if($^O eq 'MSWin32');
 
 #### Stadard Module::Builder stuff
 my $build = $package->new(
@@ -30,7 +30,7 @@ my $build = $package->new(
   meta_merge => {
     keywords   => [qw[Alien SDL multimedia game sound music video mp3 ogg flac]],
     resources  => {
-      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl/',
+      bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL',
       changelog  => 'http://github.com/kthakore/Alien_SDL/commits/master',
       repository => 'http://github.com/kthakore/Alien_SDL'
     }
@@ -39,17 +39,8 @@ my $build = $package->new(
 );
 $build->create_build_script();    
 
-print <<'END';
-
----------------------------------------------------------------------
-The Alien::SDL module installation will try to:
- * locate an already installed SDL related libs (via 'sdl-config')
- * check for SDL libs in directory specified by SDL_INST_DIR variable
- * download prebuilt SDL binaries (if available for your platform)
- * build SDL binaries from source codes (if possible on your system)
----------------------------------------------------------------------
-
-END
+#### clean build_done stamp; force rebuild when running 'Build'
+$build->clean_build_done_marker;
 
 #### check what options we have for our platform
 my $rv;
@@ -80,9 +71,11 @@ if($rv=check_prebuilt_binaries($build->os_type)) {
   push @candidates, @{$rv};  
 };
 
-if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_type))) {
+if(($rv=check_src_build($build->os_type)) && $build->can_build_binaries_from_sources()) {
   push @candidates, @{$rv};
 };
+
+push @candidates, { title => 'Quit installation' };
 
 #### ask user what way to go
 my $i = 1;
@@ -92,10 +85,11 @@ foreach my $c (@candidates) {
 }
 $prompt_string .= "\nWhat way do you wanna go?";
 my $ans = $build->prompt($prompt_string, 1);
-die "###ERROR### Invalid option" unless(($ans>0) && ($ans<=scalar(@candidates)));
 
-#### store build params into notes
-$build->notes('build_params', $candidates[$ans-1]);
-
-#### clean build_done stamp; force rebuild when running 'Build'
-$build->clean_build_done_marker;
+#### store build params into 'notes'
+if(($ans>0) && ($ans<scalar(@candidates))) { 
+  $build->notes('build_params', $candidates[$ans-1]);
+}
+else {
+  $build->notes('build_params', undef); # just to be sure
+}

@@ -11,7 +11,7 @@ use Config;
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => 'Binaries MSWin/32bit SDL-1.2.4 + SDL_gfx, SDL_sound, ...',
+      title    => 'Binaries MSWin/32bit SDL-1.2.4 + gfx,image,mixer,net,smpeg,ttf',
       url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_20090831+depend-DLLs.zip',
       sha1sum  => '9a56dc79fe0980567fc2309b8fb80a5daed04871',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
@@ -20,7 +20,7 @@ my $prebuilt_binaries = [
     },
     {
       title    => 'Broken binaries',
-      url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_20090831+depend-DLLsxxx.zip',
+      url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_20090831+depend-DLLsx.zip',
       sha1sum  => '9a56dc79fe0980567fc2309b8fb80a5daed04871',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
@@ -106,7 +106,7 @@ sub check_config_script
 sub check_prebuilt_binaries
 {
   print "Gonna check availability of prebuilt binaries ...\n";
-  print "(os=$^O archname=$Config{archname} cc=$Config{cc})\n";
+  print "(os=$^O cc=$Config{cc} archname=$Config{archname})\n";
   my @good = ();
   foreach my $b (@{$prebuilt_binaries}) {
     if ( ($^O =~ $b->{os_re}) && 
