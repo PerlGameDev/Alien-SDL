@@ -9,7 +9,8 @@ deps
 ^tmp
 ^build_
 ^download
-^sharedir
+^share
+\.tmp$
 \.bak$
 \.zip$
 \.gz$

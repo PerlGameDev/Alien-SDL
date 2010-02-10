@@ -15,29 +15,33 @@ $package = 'My::Builder::Windows' if($^O eq 'MSWin32');
 my $build = $package->new(
   module_name          => 'Alien::SDL',
   all_from             => 'lib/Alien/SDL.pm',
+  requires             => {
+    'File::Spec'       => '0',
+    'File::ShareDir'   => '0',
+  },
   build_requires       => {
     'File::Spec'       => '0',
     'File::Path'       => '0',
     'File::Fetch'      => '0',
+    'File::Find'       => '0',
     'Archive::Extract' => '0',
     'Digest::SHA1'     => '0',
     'Config'           => '0',
+    'Cwd'              => '0',
   },
   configure_requires   => {
     'File::Spec'       => '0',
     'Module::Build'    => '0.36',
   },
   meta_merge => {
-    keywords   => [qw[Alien SDL multimedia game sound music video mp3 ogg flac]],
     resources  => {
       bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL',
-      changelog  => 'http://github.com/kthakore/Alien_SDL/commits/master',
       repository => 'http://github.com/kthakore/Alien_SDL'
     }
   },
   share_dir => 'share', # used for storing compiled/prebuilt binaries of SDL lib + related libraries
 );
-$build->create_build_script();    
+$build->create_build_script();
 
 #### clean build_done stamp; force rebuild when running 'Build'
 $build->clean_build_done_marker;
@@ -59,8 +63,8 @@ if(defined($ENV{SDL_INST_DIR})) {
     }
   }
   else {
-    warn "###WARN### Non-existing directory '$ENV{SDL_INST_DIR}' - skipping\n";
-  }  
+    warn "###WARN### Non-existing directory '$ENV{SDL_INST_DIR}' - skipping";
+  }
 }
 
 if($rv=check_config_script("sdl-config")) {
@@ -68,7 +72,7 @@ if($rv=check_config_script("sdl-config")) {
 };
 
 if($rv=check_prebuilt_binaries($build->os_type)) {
-  push @candidates, @{$rv};  
+  push @candidates, @{$rv};
 };
 
 if(($rv=check_src_build($build->os_type)) && $build->can_build_binaries_from_sources()) {
@@ -87,7 +91,7 @@ $prompt_string .= "\nWhat way do you wanna go?";
 my $ans = $build->prompt($prompt_string, 1);
 
 #### store build params into 'notes'
-if(($ans>0) && ($ans<scalar(@candidates))) { 
+if(($ans>0) && ($ans<scalar(@candidates))) {
   $build->notes('build_params', $candidates[$ans-1]);
 }
 else {

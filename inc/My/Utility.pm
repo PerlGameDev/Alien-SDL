@@ -3,15 +3,18 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir);
 use Config;
+use File::Spec::Functions qw(splitdir catdir splitpath catpath);
+use File::Find qw(find);
+use Cwd qw(realpath);
 
 #### packs with prebuilt binaries
 # - all regexps has to match: arch_re ~ $Config{archname}, cc_re ~ $Config{cc}, os_re ~ $^O
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => 'Binaries MSWin/32bit SDL-1.2.4 + gfx,image,mixer,net,smpeg,ttf',
+      title    => 'Binaries MSWin/32bit SDL-1.2.13 + gfx,image,mixer,net,smpeg,ttf',
       url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_20090831+depend-DLLs.zip',
       sha1sum  => '9a56dc79fe0980567fc2309b8fb80a5daed04871',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
@@ -88,7 +91,7 @@ sub check_config_script
   my $script = shift || 'sdl-config';
   print "Gonna check config script...\n";
   print "(scriptname=$script)\n";
-  my $devnull = File::Spec->devnull();	
+  my $devnull = File::Spec->devnull();
   my $version = `$script --version 2>$devnull`;
   return if($? >> 8);
   my $prefix = `$script --prefix 2>$devnull`;
@@ -109,8 +112,8 @@ sub check_prebuilt_binaries
   print "(os=$^O cc=$Config{cc} archname=$Config{archname})\n";
   my @good = ();
   foreach my $b (@{$prebuilt_binaries}) {
-    if ( ($^O =~ $b->{os_re}) && 
-         ($Config{archname} =~ $b->{arch_re}) && 
+    if ( ($^O =~ $b->{os_re}) &&
+         ($Config{archname} =~ $b->{arch_re}) &&
 	 ($Config{cc} =~ $b->{cc_re}) ) {
       $b->{buildtype} = 'use_prebuilt_binaries';
       push @good, $b;
@@ -128,6 +131,53 @@ sub check_src_build
     $p->{buildtype} = 'build_from_sources';
   }
   return $source_packs;
+}
+
+sub find_file {
+  my ($dir, $re) = @_;
+  my @files;
+  $re ||= qr/.*/;
+  find({ wanted => sub { push @files, realpath($_) if /$re/ }, follow => 1, no_chdir => 1 }, $dir);
+  return @files;
+}
+
+sub find_SDL_dir {
+  my $root = shift;
+  my ($version, $prefix, $incdir, $libdir);
+  return unless $root;
+  
+  # try to find SDL_version.h
+  my ($found) = find_file($root, qr/SDL_version\.h$/i ); # take just the first one
+  return unless $found;
+  
+  # get version info  
+  open(DAT, $found) || return;
+  my @raw=<DAT>; 
+  close(DAT);
+  my ($v_maj) = grep(/^#define[ \t]+SDL_MAJOR_VERSION[ \t]+[0-9]+/, @raw);
+  $v_maj =~ s/^#define[ \t]+SDL_MAJOR_VERSION[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  my ($v_min) = grep(/^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+/, @raw); 
+  $v_min =~ s/^#define[ \t]+SDL_MINOR_VERSION[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  my ($v_pat) = grep(/^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+/, @raw); 
+  $v_pat =~ s/^#define[ \t]+SDL_PATCHLEVEL[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  return unless ($v_maj && $v_min && $v_pat);
+  $version = "$v_maj.$v_min.$v_pat";
+
+  # get prefix dir
+  my ($v, $d, $f) = splitpath($found);  
+  my @pp = reverse splitdir($d);  
+  shift(@pp) if(defined($pp[0]) && $pp[0] eq '');
+  shift(@pp) if(defined($pp[0]) && $pp[0] eq 'SDL');
+  if(defined($pp[0]) && $pp[0] eq 'include') {  
+    shift(@pp);  
+    @pp = reverse @pp;
+    return (
+      $version,
+      catpath($v, catdir(@pp), ''),
+      catpath($v, catdir(@pp, 'include'), ''),
+      catpath($v, catdir(@pp, 'lib'), ''),
+    );
+  }
 }
 
 1;

@@ -1,41 +1,89 @@
 NAME
     Alien::SDL - building, finding and using SDL binaries
 
-SYNOPSIS
-        use Alien::SDL <options>;
+VERSION
+    Version 0.8.0
 
-        my $version = Alien::SDL->version;
-        my $config = Alien::SDL->config;
-        my $compiler = Alien::SDL->compiler;
-        my $linker = Alien::SDL->linker;
-        my $include_path = Alien::SDL->include_path;
-        my $defines = Alien::SDL->defines;
-        my $cflags = Alien::SDL->c_flags;
-        my $linkflags = Alien::SDL->link_flags;
-        my $libraries = Alien::SDL->libraries( qw(sdl mixer image sound net ttf gfx svg) );
-        my @libraries = Alien::SDL->link_libraries( qw(sdl mixer image sound net ttf gfx svg));
-        my @implib = Alien::SDL->import_libraries( qw(sdl mixer image sound net ttf gfx svg) );
-        my @shrlib = Alien::SDL->shared_libraries( qw(sdl mixer image sound net ttf gfx svg) );
-        my @keys = Alien::SDL->library_keys; # 'sdl', 'mixer', ...
-        my $library_path = Alien::SDL->shared_library_path;
-        my $key = Alien::SDL->key;
-        my $prefix = Alien::SDL->prefix;
+SYNOPSIS
+    Alien::SDL tries (in given order) during its installation:
+
+    *   Locate an already installed SDL + related libraries (via
+        'sdl-config')
+
+    *   Check for SDL libs in directory specified by SDL_INST_DIR variable
+
+    *   Download prebuilt SDL binaries (if available for your platform)
+
+    *   Build SDL binaries from source codes (if possible on your system)
+
+    Later you can use Alien::SDL in your module that needs to link agains
+    SDL and/or related libraries like this:
+
+        # Example of Makefile.pl
+        use ExtUtils::MakeMaker;
+        use Alien::SDL;
+
+        WriteMakefile(
+          NAME         => 'Any::SDL::Module',
+          VERSION_FROM => 'lib/Any/SDL/Module.pm',
+          LIBS         => Alien::SDL->config('libs'),
+          INC          => Alien::SDL->config('cflags'),
+          # + additional params
+        );
 
 DESCRIPTION
     Please see Alien for the manifesto of the Alien namespace.
 
     In short "Alien::SDL" can be used to detect and get configuration
-    settings from an installed SDL and related libraries .
+    settings from an installed SDL and related libraries. Based on your
+    platform it offers the possibility to download and install prebuilt
+    binaries or to build SDL & co. from source codes.
+
+    The important facts:
+
+    *   The module does not modify in any way the already existing SDL
+        installation on your system.
+
+    *   If you reinstall SDL libs on your system you do not need to
+        reinstall Alien::SDL (providing that you use the same directory for
+        the new installation).
+
+    *   The prebuild binaries and/or binaries built from sources are always
+        installed into perl module's 'share' directory.
+
+    *   If you use prebuild binaries and/or binaries built from sources it
+        happens that some of the dynamic libraries (*.so, *.dll) will not
+        automaticly loadable as they will be stored somewhere under perl
+        module's 'share' directory. To handle this scenario Alien::SDL
+        offers some special functionality (see below).
+
+METHODS
+  sdl_config()
+    This function is the only public interface to this module. Basic
+    functionality works in a very similar maner to 'sdl-config' script:
+
+        Alien::SDL->config('prefix');   # gives the same string as 'sdl-config --prefix'
+        Alien::SDL->config('version');  # gives the same string as 'sdl-config --version'
+        Alien::SDL->config('libs');     # gives the same string as 'sdl-config --libs'
+        Alien::SDL->config('cflags');   # gives the same string as 'sdl-config --cflags'
+
+    On top of that this function supports special parameters:
+
+        Alien::SDL->config('shared_libs');
+
+    Returns the list of full paths to shared libraries (*.so, *.dll) that
+    will be required for running the resulting binaries you have linked with
+    SDL libs.
 
 BUGS
-Please post issues and bugs at http://github.com/kthakore/Alien_SDL/issues
-SUPPORT
+    Please post issues and bugs at
+    <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL>
+
 AUTHOR
         Kartik Thakore
         CPAN ID: KTHAKORE
-        none
         Thakore.Kartik@gmail.com
-        http://github.com/kthakore
+        http://yapgh.blogspot.com
 
 COPYRIGHT
     This program is free software; you can redistribute it and/or modify it
@@ -43,7 +91,4 @@ COPYRIGHT
 
     The full text of the license can be found in the LICENSE file included
     with this module.
-
-SEE ALSO
-    perl(1).
 

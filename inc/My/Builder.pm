@@ -4,9 +4,12 @@ use strict;
 use warnings;
 use base 'Module::Build';
 
-use File::Spec::Functions qw(catdir catfile);
+use lib "inc";
+use My::Utility qw(find_SDL_dir);
+use File::Spec::Functions qw(catdir catfile rel2abs abs2rel);
 use File::Path qw(make_path remove_tree);
 use File::Fetch;
+use File::Find;
 use Archive::Extract;
 use Digest::SHA1;
 use Config;
@@ -23,12 +26,12 @@ sub ACTION_build {
 sub ACTION_code {
   my $self = shift;
   $self->SUPER::ACTION_code;
-  
+
   my $bp = $self->notes('build_params');
   die "###ERROR### Cannot continue build_params not defined" unless defined($bp);
 
   # check marker
-  return if (-f 'build_done');
+  return if ($self->check_build_done_marker);
 
   # important directories
   my $download     = 'download';
@@ -128,7 +131,7 @@ sub extract_sources {
         my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
         print "Applying patch '$i'\n";
 	print "(cmd: $cmd)\n";
-        $self->do_system($cmd) or die '###ERROR### ', $?;
+        $self->do_system($cmd) or die "###ERROR### [$?] during patch ... ";
 	chdir $self->base_dir();
       }
     }
@@ -137,20 +140,29 @@ sub extract_sources {
 }
 
 sub set_config_data {
-  my( $self, $build_out ) = @_;  
+  my( $self, $build_out ) = @_;
+  
+  # try to find SDL root dir and set default settings
+  my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
+  die "###ERROR### Cannot find SDL directory in 'share'" unless $version;
+  $build_out = abs2rel($prefix, rel2abs('share'));
+  $self->config_data('share_subdir', $build_out);
+  # set defaults - use '@PrEfIx@' as a placeholder for the real prefix
+  my $cfg = {
+    # defaults
+    version     => $version,
+    prefix      => '@PrEfIx@',
+    libs        => '"-L@PrEfIx@/lib" -lSDLmain -lSDL',
+    cflags      => '"-I@PrEfIx@/include" -D_GNU_SOURCE=1 -Dmain=SDL_main',
+    shared_libs => '',
+  };
+  
   # xxx TODO xxx
-  # 1/ $build_out/bin/sdl-config
-  # 1.1/ use sdl-config to get all info
-  # 2/ try to find 'sdl-config' and 'SDL.h' => guess $prefix  
-  # 2.1/ grep version from SDL.h
-  # 2.2/ use defaults fo cflags and libs
-  # 2.3/ fill shared libs
-  # use '@PrEfIx@' as a placeholder for the real prefix
-  $self->config_data('config_version', '1.2.14');
-  $self->config_data('config_prefix', '@PrEfIx@');
-  $self->config_data('config_libs', '"-L@PrEfIx@" -lSDLmain -lSDL');
-  $self->config_data('config_cflags', '"-I@PrEfIx@/include" -D_GNU_SOURCE=1 -Dmain=SDL_main');
-  $self->config_data('config_shared_libs', 'xxx TODO xxx');    
+  # 1/ try $build_out/bin/sdl-config
+  # 2/ fill shared_libs
+  # xxx TODO xxx
+  
+  $self->config_data('config', $cfg);
 }
 
 sub can_build_binaries_from_sources {
@@ -206,5 +218,7 @@ sub patch_command {
   $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
   return "patch -N -p0 -u -b .bak < $patch_file";
 }
+
+
 
 1;

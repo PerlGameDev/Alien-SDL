@@ -1,0 +1,8 @@
+TODO list for Perl module Alien::SDL
+
+0.8.0
+  - shared_config - # 1/ try $build_out/bin/sdl-config # 2/ fill shared_libs
+  - add testing patches + check differencies Unix vs. Windows
+  - add test if patch command works + reasonable warning
+  - some MacOS support (either build from sources or prebuilt binaries)
+  - check build_requires vs. configure_requires
