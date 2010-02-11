@@ -237,7 +237,7 @@ sub check_sha1sum {
 sub patch_command {
   my( $self, $base_dir, $patch_file ) = @_;
   my $devnull = File::Spec->devnull();
-  my $test = `patchx --help 2> $devnull`;
+  my $test = `patch --help 2> $devnull`;
   if ($test) {
     $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
     # the patches are expected with UNIX newlines
