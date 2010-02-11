@@ -24,20 +24,22 @@ Alien::SDL tries (in given order) during its installation:
 
 =over
 
-=item * Locate an already installed SDL + related libraries (via 'sdl-config')
+=item * Locate an already installed SDL via 'sdl-config' script.
 
-=item * Check for SDL libs in directory specified by SDL_INST_DIR variable
+=item * Check for SDL libs in directory specified by SDL_INST_DIR variable.
+In this case the module performs SDL library detection via
+'$SDL_INST_DIR/bin/sdl-config' script.
 
-=item * Download prebuilt SDL binaries (if available for your platform)
+=item * Download prebuilt SDL binaries (if available for your platform).
 
-=item * Build SDL binaries from source codes (if possible on your system)
+=item * Build SDL binaries from source codes (if possible on your system).
 
 =back
 
 Later you can use Alien::SDL in your module that needs to link agains SDL
 and/or related libraries like this:
 
-    # Example of Makefile.pl
+    # Sample Makefile.pl
     use ExtUtils::MakeMaker;
     use Alien::SDL;
 
@@ -96,8 +98,12 @@ On top of that this function supports special parameters:
 
     Alien::SDL->config('shared_libs');
 
-Returns the list of full paths to shared libraries (*.so, *.dll) that will be
+Returns a list of full paths to shared libraries (*.so, *.dll) that will be
 required for running the resulting binaries you have linked with SDL libs.
+
+NOTE: config('shared_libs') returns an empty list if you have decided to use
+SDL libraries already installed on your system. This concerns 'sdl-config'
+detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 =head1 BUGS
 
@@ -109,6 +115,10 @@ Please post issues and bugs at L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-
     CPAN ID: KTHAKORE
     Thakore.Kartik@gmail.com
     http://yapgh.blogspot.com
+
+=head1 ACKNOWLEDGEMENTS
+
+    kmx - complete redesign between versions 0.7.x and 0.8.x
 
 =head1 COPYRIGHT
 

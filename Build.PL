@@ -17,11 +17,19 @@ my $build = $package->new(
   all_from             => 'lib/Alien/SDL.pm',
   requires             => {
     'File::Spec'       => '0',
-    'File::ShareDir'   => '0',
+    'File::Path'       => '0',
+    'File::Copy'       => '0',
+    'File::Fetch'      => '0',
+    'File::Find'       => '0',
+    'Archive::Extract' => '0',
+    'Digest::SHA1'     => '0',
+    'Config'           => '0',
+    'Cwd'              => '0',
   },
   build_requires       => {
     'File::Spec'       => '0',
     'File::Path'       => '0',
+    'File::Copy'       => '0',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Archive::Extract' => '0',
@@ -31,7 +39,14 @@ my $build = $package->new(
   },
   configure_requires   => {
     'File::Spec'       => '0',
-    'Module::Build'    => '0.36',
+    'File::Path'       => '0',
+    'File::Copy'       => '0',
+    'File::Fetch'      => '0',
+    'File::Find'       => '0',
+    'Archive::Extract' => '0',
+    'Digest::SHA1'     => '0',
+    'Config'           => '0',
+    'Cwd'              => '0',
   },
   meta_merge => {
     resources  => {

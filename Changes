@@ -1,5 +1,7 @@
 Revision history for Perl module Alien::SDL
 
+0.8.0
+     - Complete redesign by kmx, completely new interface
 0.7.8
      - Get and compile latest code for SDL, gfx, image, mixer, ttf and net
 
@@ -16,10 +18,6 @@ Revision history for Perl module Alien::SDL
 
 0.02 Fri Aug  7 2009
     - Updated perlDoc
-    
-Kartik Thakore <thakore.kartik@gmail.com>
 
 0.01 Thu Aug  6 2009
     - original version; created by ExtUtils::ModuleMaker 0.51
-
-

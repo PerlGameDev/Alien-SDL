@@ -7,19 +7,20 @@ VERSION
 SYNOPSIS
     Alien::SDL tries (in given order) during its installation:
 
-    *   Locate an already installed SDL + related libraries (via
-        'sdl-config')
+    *   Locate an already installed SDL via 'sdl-config' script.
 
-    *   Check for SDL libs in directory specified by SDL_INST_DIR variable
+    *   Check for SDL libs in directory specified by SDL_INST_DIR variable.
+        In this case the module performs SDL library detection via
+        '$SDL_INST_DIR/bin/sdl-config' script.
 
-    *   Download prebuilt SDL binaries (if available for your platform)
+    *   Download prebuilt SDL binaries (if available for your platform).
 
-    *   Build SDL binaries from source codes (if possible on your system)
+    *   Build SDL binaries from source codes (if possible on your system).
 
     Later you can use Alien::SDL in your module that needs to link agains
     SDL and/or related libraries like this:
 
-        # Example of Makefile.pl
+        # Sample Makefile.pl
         use ExtUtils::MakeMaker;
         use Alien::SDL;
 
@@ -71,9 +72,13 @@ METHODS
 
         Alien::SDL->config('shared_libs');
 
-    Returns the list of full paths to shared libraries (*.so, *.dll) that
-    will be required for running the resulting binaries you have linked with
-    SDL libs.
+    Returns a list of full paths to shared libraries (*.so, *.dll) that will
+    be required for running the resulting binaries you have linked with SDL
+    libs.
+
+    NOTE: config('shared_libs') returns an empty list if you have decided to
+    use SDL libraries already installed on your system. This concerns
+    'sdl-config' detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 BUGS
     Please post issues and bugs at
@@ -84,6 +89,9 @@ AUTHOR
         CPAN ID: KTHAKORE
         Thakore.Kartik@gmail.com
         http://yapgh.blogspot.com
+
+ACKNOWLEDGEMENTS
+        kmx - complete redesign between versions 0.7.x and 0.8.x
 
 COPYRIGHT
     This program is free software; you can redistribute it and/or modify it

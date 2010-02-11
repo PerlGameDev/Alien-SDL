@@ -3,10 +3,11 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file sed_inplace);
 use Config;
-use File::Spec::Functions qw(splitdir catdir splitpath catpath);
+use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
 use File::Find qw(find);
+use File::Copy qw(cp);
 use Cwd qw(realpath);
 
 #### packs with prebuilt binaries
@@ -43,7 +44,6 @@ my $source_packs = [
 	sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
 	patches => [
 	  'test1.patch',
-	  'test2.patch',
 	],
       },
       {
@@ -137,7 +137,7 @@ sub find_file {
   my ($dir, $re) = @_;
   my @files;
   $re ||= qr/.*/;
-  find({ wanted => sub { push @files, realpath($_) if /$re/ }, follow => 1, no_chdir => 1 }, $dir);
+  find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 }, $dir);
   return @files;
 }
 
@@ -177,6 +177,24 @@ sub find_SDL_dir {
       catpath($v, catdir(@pp, 'include'), ''),
       catpath($v, catdir(@pp, 'lib'), ''),
     );
+  }
+}
+
+sub sed_inplace {
+  # we expect to be called like this:
+  # sed_inplace("filename.txt", 's/0x([0-9]*)/n=$1/g');
+  my ($file, $re) = @_;
+  if (-e $file) {
+    cp($file, "$file.bak") or die "###ERROR### cp: $!";
+    open INPF, "<", "$file.bak" or die "###ERROR### open<: $!";
+    open OUTF, ">", $file or die "###ERROR### open>: $!";
+    binmode OUTF; # we do not want Windows newlines
+    while (<INPF>) {
+     eval( "$re" );
+     print OUTF $_; 
+    }
+    close INPF;
+    close OUTF;   
   }
 }
 

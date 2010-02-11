@@ -5,9 +5,10 @@ use warnings;
 use base 'Module::Build';
 
 use lib "inc";
-use My::Utility qw(find_SDL_dir);
+use My::Utility qw(find_SDL_dir find_file sed_inplace);
 use File::Spec::Functions qw(catdir catfile rel2abs abs2rel);
 use File::Path qw(make_path remove_tree);
+use File::Copy qw(cp);
 use File::Fetch;
 use File::Find;
 use Archive::Extract;
@@ -42,7 +43,7 @@ sub ACTION_code {
   $self->add_to_cleanup($build_src, $build_out);
 
   # save some data into future Alien::SDL::ConfigData
-  $self->config_data('share_subdir', $share_subdir);
+  $self->config_data('build_prefix', $build_out);
   $self->config_data('build_params', $bp);
   $self->config_data('build_cc', $Config{cc});
   $self->config_data('build_arch', $Config{archname});
@@ -107,11 +108,17 @@ sub fetch_sources {
 
 sub extract_binaries {
   my ($self, $download, $build_out) = @_;
+
+  # do extract binaries
   my $bp = $self->notes('build_params');
   my $archive = catfile($download, File::Fetch->new(uri => $bp->{url})->file);
   print "Extracting $archive...\n";
   my $ae = Archive::Extract->new( archive => $archive );
   die "###ERROR###: Cannot extract $archive ", $ae->error unless $ae->extract(to => $build_out);
+
+  # fix hardcoded prefix path in bin/sdl-config
+  my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
+  sed_inplace("$prefix/bin/sdl-config", 's/^prefix=.*/prefix=\''.quotemeta($prefix).'\'/');
 }
 
 sub extract_sources {
@@ -128,10 +135,12 @@ sub extract_sources {
       die "###ERROR###: cannot extract $pack ", $ae->error unless $ae->extract(to => $build_src);
       foreach my $i (@{$pack->{patches}}) {
         chdir catfile($build_src, $pack->{dirname});
-        my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
         print "Applying patch '$i'\n";
-	print "(cmd: $cmd)\n";
-        $self->do_system($cmd) or die "###ERROR### [$?] during patch ... ";
+        my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
+	if ($cmd) {
+          print "(cmd: $cmd)\n";
+          $self->do_system($cmd) or die "###ERROR### [$?] during patch ... ";
+	}
 	chdir $self->base_dir();
       }
     }
@@ -141,27 +150,39 @@ sub extract_sources {
 
 sub set_config_data {
   my( $self, $build_out ) = @_;
-  
-  # try to find SDL root dir and set default settings
+
+  # try to find SDL root dir
   my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
   die "###ERROR### Cannot find SDL directory in 'share'" unless $version;
-  $build_out = abs2rel($prefix, rel2abs('share'));
-  $self->config_data('share_subdir', $build_out);
-  # set defaults - use '@PrEfIx@' as a placeholder for the real prefix
+  $self->config_data('share_subdir', abs2rel($prefix, rel2abs('share')));
+
+  # set defaults
   my $cfg = {
     # defaults
     version     => $version,
     prefix      => '@PrEfIx@',
     libs        => '"-L@PrEfIx@/lib" -lSDLmain -lSDL',
     cflags      => '"-I@PrEfIx@/include" -D_GNU_SOURCE=1 -Dmain=SDL_main',
-    shared_libs => '',
+    shared_libs => [ ],
   };
-  
-  # xxx TODO xxx
-  # 1/ try $build_out/bin/sdl-config
-  # 2/ fill shared_libs
-  # xxx TODO xxx
-  
+
+  # overwrite values available via sdl-config
+  my $bp = $self->config_data('build_prefix') || $prefix;
+  my $devnull = File::Spec->devnull();
+  my $script = "$bp/bin/sdl-config";
+  foreach my $p (qw(version prefix libs cflags)) {
+    my $o=`$script --$p 2>$devnull`;
+    $o =~ s/\Q$bp\E/\@PrEfIx\@/g;
+    $cfg->{$p} = $o if $o;
+  }
+
+  # find and set shared_libs
+  my @shlibs = find_file($build_out, qr/\.\Q$Config{dlext}\E$/);
+  my $p = rel2abs($prefix);
+  $_ =~ s/^\Q$prefix\E/\@PrEfIx\@/ foreach (@shlibs);
+  $cfg->{shared_libs} = [ @shlibs ];
+
+  # write config
   $self->config_data('config', $cfg);
 }
 
@@ -215,10 +236,16 @@ sub check_sha1sum {
 
 sub patch_command {
   my( $self, $base_dir, $patch_file ) = @_;
-  $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
-  return "patch -N -p0 -u -b .bak < $patch_file";
+  my $devnull = File::Spec->devnull();
+  my $test = `patchx --help 2> $devnull`;
+  if ($test) {
+    $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
+    # the patches are expected with UNIX newlines
+    # the following command works on both UNIX+Windows
+    return "$^X -pe '' -- $patch_file | patch -N -p1 -u";
+  }
+  warn "###WARN### patch not available";
+  return '';
 }
-
-
 
 1;
