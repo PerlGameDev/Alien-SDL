@@ -18,35 +18,29 @@ my $build = $package->new(
   requires             => {
     'File::Spec'       => '0',
     'File::Path'       => '0',
-    'File::Copy'       => '0',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Archive::Extract' => '0',
     'Digest::SHA1'     => '0',
-    'Config'           => '0',
-    'Cwd'              => '0',
+    'Archive::Extract' => '0',
   },
   build_requires       => {
     'File::Spec'       => '0',
     'File::Path'       => '0',
-    'File::Copy'       => '0',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
-    'Archive::Extract' => '0',
     'Digest::SHA1'     => '0',
-    'Config'           => '0',
-    'Cwd'              => '0',
+    'Archive::Extract' => '0',
+    'Archive::Tar'     => '0',
+    'Archive::Zip'     => '0',
   },
   configure_requires   => {
     'File::Spec'       => '0',
     'File::Path'       => '0',
-    'File::Copy'       => '0',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
-    'Archive::Extract' => '0',
     'Digest::SHA1'     => '0',
-    'Config'           => '0',
-    'Cwd'              => '0',
+    'Archive::Extract' => '0',
   },
   meta_merge => {
     resources  => {
@@ -54,16 +48,20 @@ my $build = $package->new(
       repository => 'http://github.com/kthakore/Alien_SDL'
     }
   },
-  share_dir => 'share', # used for storing compiled/prebuilt binaries of SDL lib + related libraries
+  share_dir => 'sharedir',
+  # sharedir is used for storing compiled/prebuilt binaries of SDL lib + related libraries
+  # avoid using 'share' name as M::B doe not handle well paths like /xx/yy/share/zz/ww/share/xx
 );
 $build->create_build_script();
 
 #### clean build_done stamp; force rebuild when running 'Build'
 $build->clean_build_done_marker;
 
+print "\nWelcome to Alien::SDL module installation";
+print "\n-----------------------------------------\n\n";
+
 #### check what options we have for our platform
-my $rv;
-my @candidates = ();
+my $rv; my @candidates = ();
 
 if(defined($ENV{SDL_INST_DIR})) {
   print "Gonna use SDL_INST_DIR environment variable...\n";

@@ -12,64 +12,69 @@ use File::Copy qw(cp);
 use File::Fetch;
 use File::Find;
 use Archive::Extract;
-use Digest::SHA1;
+use Digest::SHA1 qw(sha1_hex);
 use Config;
 
 sub ACTION_build {
   my $self = shift;
-  # as we want to wipe 'share' dir during 'Build clean' we has
-  # to recreate 'share' dir at this point if it does not exist
-  mkdir 'share' unless(-d 'share');
-  $self->add_to_cleanup('share');
+  # as we want to wipe 'sharedir' during 'Build clean' we has
+  # to recreate 'sharedir' at this point if it does not exist
+  mkdir 'sharedir' unless(-d 'sharedir');
+  $self->add_to_cleanup('sharedir');
   $self->SUPER::ACTION_build;
 }
 
 sub ACTION_code {
   my $self = shift;
-  $self->SUPER::ACTION_code;
 
   my $bp = $self->notes('build_params');
   die "###ERROR### Cannot continue build_params not defined" unless defined($bp);
 
   # check marker
-  return if ($self->check_build_done_marker);
+  if (! $self->check_build_done_marker) {
 
-  # important directories
-  my $download     = 'download';
-  my $patches      = 'patches';
-  my $share_subdir = 'build_out_' . $self->{properties}->{dist_version};
-  my $build_out    = catfile('share', $share_subdir);
-  my $build_src    = 'build_src';
-  $self->add_to_cleanup($build_src, $build_out);
+    # important directories
+    my $download     = 'download';
+    my $patches      = 'patches';
+    # we are deriving the subdir name from $bp->{title} as we want to
+    # prevent troubles when user reinstalls the same version of
+    # Alien::SDL with different build options
+    my $share_subdir = $self->{properties}->{dist_version} . '_' . substr(sha1_hex($bp->{title}), 0, 8);
+    my $build_out    = catfile('sharedir', $share_subdir);
+    my $build_src    = 'build_src';
+    $self->add_to_cleanup($build_src, $build_out);
 
-  # save some data into future Alien::SDL::ConfigData
-  $self->config_data('build_prefix', $build_out);
-  $self->config_data('build_params', $bp);
-  $self->config_data('build_cc', $Config{cc});
-  $self->config_data('build_arch', $Config{archname});
-  $self->config_data('build_os', $^O);
+    # save some data into future Alien::SDL::ConfigData
+    $self->config_data('build_prefix', $build_out);
+    $self->config_data('build_params', $bp);
+    $self->config_data('build_cc', $Config{cc});
+    $self->config_data('build_arch', $Config{archname});
+    $self->config_data('build_os', $^O);
 
-  if($bp->{buildtype} eq 'use_config_script') {
-    $self->config_data('script', $bp->{script});
+    if($bp->{buildtype} eq 'use_config_script') {
+      $self->config_data('script', $bp->{script});
+    }
+    elsif($bp->{buildtype} eq 'use_prebuilt_binaries') {
+      # all the following functions die on error, no need to test ret values
+      $self->fetch_binaries($download);
+      $self->clean_dir($build_out);
+      $self->extract_binaries($download, $build_out);
+      $self->set_config_data($build_out);
+    }
+    elsif($bp->{buildtype} eq 'build_from_sources' ) {
+      # all the following functions die on error, no need to test ret values
+      $self->fetch_sources($download);
+      $self->extract_sources($download, $patches, $build_src);
+      $self->clean_dir($build_out);
+      $self->build_binaries($build_out, $build_src);
+      $self->set_config_data($build_out);
+    }
+
+    # mark sucessfully finished build
+    $self->touch_build_done_marker;
   }
-  elsif($bp->{buildtype} eq 'use_prebuilt_binaries') {
-    # all the following functions die on error, no need to test ret values
-    $self->fetch_binaries($download);
-    $self->clean_dir($build_out);
-    $self->extract_binaries($download, $build_out);
-    $self->set_config_data($build_out);
-  }
-  elsif($bp->{buildtype} eq 'build_from_sources' ) {
-    # all the following functions die on error, no need to test ret values
-    $self->fetch_sources($download);
-    $self->extract_sources($download, $patches, $build_src);
-    $self->clean_dir($build_out);
-    $self->build_binaries($build_out, $build_src);
-    $self->set_config_data($build_out);
-  }
 
-  # mark sucessfully finished build
-  $self->touch_build_done_marker;
+  $self->SUPER::ACTION_code;
 }
 
 sub fetch_file {
@@ -137,11 +142,11 @@ sub extract_sources {
         chdir catfile($build_src, $pack->{dirname});
         print "Applying patch '$i'\n";
         my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
-	if ($cmd) {
+        if ($cmd) {
           print "(cmd: $cmd)\n";
           $self->do_system($cmd) or die "###ERROR### [$?] during patch ... ";
-	}
-	chdir $self->base_dir();
+        }
+        chdir $self->base_dir();
       }
     }
   }
@@ -153,8 +158,8 @@ sub set_config_data {
 
   # try to find SDL root dir
   my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
-  die "###ERROR### Cannot find SDL directory in 'share'" unless $version;
-  $self->config_data('share_subdir', abs2rel($prefix, rel2abs('share')));
+  die "###ERROR### Cannot find SDL directory in 'sharedir'" unless $version;
+  $self->config_data('share_subdir', abs2rel($prefix, rel2abs('sharedir')));
 
   # set defaults
   my $cfg = {
@@ -162,7 +167,7 @@ sub set_config_data {
     version     => $version,
     prefix      => '@PrEfIx@',
     libs        => '"-L@PrEfIx@/lib" -lSDLmain -lSDL',
-    cflags      => '"-I@PrEfIx@/include" -D_GNU_SOURCE=1 -Dmain=SDL_main',
+    cflags      => '"-I@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main "-I@PrEfIx@/include"',
     shared_libs => [ ],
   };
 
@@ -173,6 +178,8 @@ sub set_config_data {
   foreach my $p (qw(version prefix libs cflags)) {
     my $o=`$script --$p 2>$devnull`;
     $o =~ s/\Q$bp\E/\@PrEfIx\@/g;
+    # prefix-hack required tu support also nonSDL libs in 'sharedir'
+    $o .= ' "-I@PrEfIx@/include"' if ($p eq 'prefix');
     $cfg->{$p} = $o if $o;
   }
 

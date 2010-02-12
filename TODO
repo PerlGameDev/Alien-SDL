@@ -1,7 +1,5 @@
 TODO list for Perl module Alien::SDL
 
-- check when ConfigData is generated: perl Build.PL, build install, build install
-- test on Linux
-- new Win32 binaries
-- more test
-- some MacOS support (either build from sources or prebuilt binaries)
+- upload new Win32 binaries
+- add more tests - maybe consider adding Alien::SDL->test_feature(...)
+

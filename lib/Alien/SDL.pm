@@ -158,7 +158,12 @@ sub _sdl_config_via_config_data
   return unless ($param =~ /[a-z0-9_]*/i);
   my $val = Alien::SDL::ConfigData->config('config')->{$param};
   return unless $val;
-  $val =~ s/\@PrEfIx\@/$real_prefix/g;
+  if ($param eq 'shared_libs') {
+    s/\@PrEfIx\@/$real_prefix/g foreach (@{$val});
+  }
+  else {
+    $val =~ s/\@PrEfIx\@/$real_prefix/g;
+  }
   return $val;
 }
 

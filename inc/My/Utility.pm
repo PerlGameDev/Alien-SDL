@@ -41,45 +41,45 @@ my $source_packs = [
         pack => 'SDL',
         dirname => 'SDL-1.2.14',
         url => 'http://www.libsdl.org/release/SDL-1.2.14.tar.gz',
-	sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
-	patches => [
-	  'test1.patch',
-	],
+        sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
+        patches => [
+          'test1.patch',
+        ],
       },
       {
         pack => 'SDL_image',
         dirname => 'SDL_image-1.2.10',
         url => 'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.10.tar.gz',
-	sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-	patches => [ ],
+        sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
+        patches => [ ],
       },
       {
         pack => 'SDL_mixer',
         dirname => 'SDL_mixer-1.2.11',
         url => 'http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.11.tar.gz',
-	sha1sum  => 'ef5d45160babeb51eafa7e4019cec38324ee1a5d',
-	patches => [ ],
+        sha1sum  => 'ef5d45160babeb51eafa7e4019cec38324ee1a5d',
+        patches => [ ],
       },
       {
         pack => 'SDL_ttf',
         dirname => 'SDL_ttf-2.0.9',
         url => 'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.9.tar.gz',
-	sha1sum  => '6bc3618b08ddbbf565fe8f63f624782c15e1cef2',
-	patches => [ ],
+        sha1sum  => '6bc3618b08ddbbf565fe8f63f624782c15e1cef2',
+        patches => [ ],
       },
       {
         pack => 'SDL_net',
         dirname => 'SDL_net-1.2.7',
         url => 'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-	sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-	patches => [ ],
+        sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
+        patches => [ ],
       },
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
         url => 'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.20.tar.gz',
-	sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
-	patches => [ ],
+        sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
+        patches => [ ],
       },
     ],
   },
@@ -114,7 +114,7 @@ sub check_prebuilt_binaries
   foreach my $b (@{$prebuilt_binaries}) {
     if ( ($^O =~ $b->{os_re}) &&
          ($Config{archname} =~ $b->{arch_re}) &&
-	 ($Config{cc} =~ $b->{cc_re}) ) {
+         ($Config{cc} =~ $b->{cc_re}) ) {
       $b->{buildtype} = 'use_prebuilt_binaries';
       push @good, $b;
     }
@@ -145,31 +145,31 @@ sub find_SDL_dir {
   my $root = shift;
   my ($version, $prefix, $incdir, $libdir);
   return unless $root;
-  
+
   # try to find SDL_version.h
   my ($found) = find_file($root, qr/SDL_version\.h$/i ); # take just the first one
   return unless $found;
-  
-  # get version info  
+
+  # get version info
   open(DAT, $found) || return;
-  my @raw=<DAT>; 
+  my @raw=<DAT>;
   close(DAT);
   my ($v_maj) = grep(/^#define[ \t]+SDL_MAJOR_VERSION[ \t]+[0-9]+/, @raw);
   $v_maj =~ s/^#define[ \t]+SDL_MAJOR_VERSION[ \t]+([0-9]+)[.\r\n]*$/$1/;
-  my ($v_min) = grep(/^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+/, @raw); 
+  my ($v_min) = grep(/^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+/, @raw);
   $v_min =~ s/^#define[ \t]+SDL_MINOR_VERSION[ \t]+([0-9]+)[.\r\n]*$/$1/;
-  my ($v_pat) = grep(/^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+/, @raw); 
+  my ($v_pat) = grep(/^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+/, @raw);
   $v_pat =~ s/^#define[ \t]+SDL_PATCHLEVEL[ \t]+([0-9]+)[.\r\n]*$/$1/;
   return unless ($v_maj && $v_min && $v_pat);
   $version = "$v_maj.$v_min.$v_pat";
 
   # get prefix dir
-  my ($v, $d, $f) = splitpath($found);  
-  my @pp = reverse splitdir($d);  
+  my ($v, $d, $f) = splitpath($found);
+  my @pp = reverse splitdir($d);
   shift(@pp) if(defined($pp[0]) && $pp[0] eq '');
   shift(@pp) if(defined($pp[0]) && $pp[0] eq 'SDL');
-  if(defined($pp[0]) && $pp[0] eq 'include') {  
-    shift(@pp);  
+  if(defined($pp[0]) && $pp[0] eq 'include') {
+    shift(@pp);
     @pp = reverse @pp;
     return (
       $version,
@@ -191,10 +191,10 @@ sub sed_inplace {
     binmode OUTF; # we do not want Windows newlines
     while (<INPF>) {
      eval( "$re" );
-     print OUTF $_; 
+     print OUTF $_;
     }
     close INPF;
-    close OUTF;   
+    close OUTF;
   }
 }
 
