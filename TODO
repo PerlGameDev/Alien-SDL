@@ -1,5 +1,6 @@
 TODO list for Perl module Alien::SDL
 
-- upload new Win32 binaries
-- add more tests - maybe consider adding Alien::SDL->test_feature(...)
+- prepare better Win32 binaries
+- add more tests
+- consider adding Alien::SDL->test_feature(...)
 

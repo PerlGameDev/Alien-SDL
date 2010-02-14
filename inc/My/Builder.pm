@@ -6,7 +6,7 @@ use base 'Module::Build';
 
 use lib "inc";
 use My::Utility qw(find_SDL_dir find_file sed_inplace);
-use File::Spec::Functions qw(catdir catfile rel2abs abs2rel);
+use File::Spec::Functions qw(catdir catfile splitpath catpath rel2abs abs2rel);
 use File::Path qw(make_path remove_tree);
 use File::Copy qw(cp);
 use File::Fetch;
@@ -187,8 +187,15 @@ sub set_config_data {
   my @shlibs = find_file($build_out, qr/\.\Q$Config{dlext}\E$/);
   my $p = rel2abs($prefix);
   $_ =~ s/^\Q$prefix\E/\@PrEfIx\@/ foreach (@shlibs);
-  $cfg->{shared_libs} = [ @shlibs ];
+  $cfg->{ld_shared_libs} = [ @shlibs ];
 
+  my %tmp = ();
+  foreach (@shlibs) {
+    my ($v, $d, $f) = splitpath($_);
+    $tmp{ catpath($v, $d, '') } = 1;
+  };
+  $cfg->{ld_paths} = [ keys %tmp ];
+  
   # write config
   $self->config_data('config', $cfg);
 }

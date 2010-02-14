@@ -96,14 +96,20 @@ functionality works in a very similar maner to 'sdl-config' script:
 
 On top of that this function supports special parameters:
 
-    Alien::SDL->config('shared_libs');
+    Alien::SDL->config('ld_shared_libs');
 
 Returns a list of full paths to shared libraries (*.so, *.dll) that will be
 required for running the resulting binaries you have linked with SDL libs.
 
-NOTE: config('shared_libs') returns an empty list if you have decided to use
-SDL libraries already installed on your system. This concerns 'sdl-config'
-detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
+    Alien::SDL->config('ld_paths');
+
+Returns a list of full paths to directories with shared libraries (*.so, *.dll)
+that will be required for running the resulting binaries you have linked with
+SDL libs.
+
+NOTE: config('ld_shared_libs') and config('ld_paths') return an empty list if
+you have decided to use SDL libraries already installed on your system. This
+concerns 'sdl-config' detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 =head1 BUGS
 
@@ -158,7 +164,7 @@ sub _sdl_config_via_config_data
   return unless ($param =~ /[a-z0-9_]*/i);
   my $val = Alien::SDL::ConfigData->config('config')->{$param};
   return unless $val;
-  if ($param eq 'shared_libs') {
+  if ($param =~ /^(ld_shared_libs|ld_paths)$/) {
     s/\@PrEfIx\@/$real_prefix/g foreach (@{$val});
   }
   else {

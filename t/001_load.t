@@ -11,5 +11,6 @@ like( Alien::SDL->config('prefix'), qr/.+/, "Testing config('prefix')" );
 # check the existance of prefix directory
 # check the existance of prefix/include directory
 # check the existance of prefix/include/SDL/SDL.h file
-# check the existance of share_libs files
+# check the existance of ld_share_libs files
+# check the existance of ld_paths dirs
 # compile and run sample code
