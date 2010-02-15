@@ -167,20 +167,23 @@ sub set_config_data {
     version     => $version,
     prefix      => '@PrEfIx@',
     libs        => '"-L@PrEfIx@/lib" -lSDLmain -lSDL',
-    cflags      => '"-I@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main "-I@PrEfIx@/include"',
+    cflags      => '"-I@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main "-I@PrEfIx@/include" "-I@PrEfIx@/include/smpeg"',
     shared_libs => [ ],
   };
 
   # overwrite values available via sdl-config
   my $bp = $self->config_data('build_prefix') || $prefix;
   my $devnull = File::Spec->devnull();
-  my $script = "$bp/bin/sdl-config";
+  my $script = rel2abs("$prefix/bin/sdl-config");
   foreach my $p (qw(version prefix libs cflags)) {
-    my $o=`$script --$p 2>$devnull`;
-    $o =~ s/\Q$bp\E/\@PrEfIx\@/g;
-    # prefix-hack required tu support also nonSDL libs in 'sharedir'
-    $o .= ' "-I@PrEfIx@/include"' if ($p eq 'prefix');
-    $cfg->{$p} = $o if $o;
+    my $o=`$script --$p 2>$devnull`;    
+    if ($o) {
+      $o =~ s/[\r\n]*$//;
+      $o =~ s/\Q$prefix\E/\@PrEfIx\@/g;
+      # prefix-hack required to support also nonSDL libs in 'sharedir'
+      $o .= ' "-I@PrEfIx@/include" "-I@PrEfIx@/include/smpeg"' if ($p eq 'cflags');
+      $cfg->{$p} = $o;
+    }
   }
 
   # find and set shared_libs
