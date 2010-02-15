@@ -1,6 +1,4 @@
 TODO list for Perl module Alien::SDL
 
-- prepare better Win32 binaries
-- add more tests
-- consider adding Alien::SDL->test_feature(...)
-
+- Win32 - prepare better prebuilt binaries
+- MacOS - add any support (either source build or prebuilt binaries)
