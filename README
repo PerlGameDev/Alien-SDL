@@ -60,7 +60,7 @@ DESCRIPTION
 
 METHODS
   sdl_config()
-    This function is the only public interface to this module. Basic
+    This function is the main public interface to this module. Basic
     functionality works in a very similar maner to 'sdl-config' script:
 
         Alien::SDL->config('prefix');   # gives the same string as 'sdl-config --prefix'
@@ -86,6 +86,15 @@ METHODS
     list if you have decided to use SDL libraries already installed on your
     system. This concerns 'sdl-config' detection and detection via
     '$SDL_INST_DIR/bin/sdl-config'.
+
+  check_header()
+    This function checks the availability of given header(s) when using
+    compiler options provided by "Alien::SDL->config('cflags')".
+
+        Alien::SDL->check_header('SDL.h');
+        Alien::SDL->check_header('SDL.h', 'SDL_net.h');
+
+    Returns 1 if all given headers are available, 0 otherwise.
 
 BUGS
     Please post issues and bugs at

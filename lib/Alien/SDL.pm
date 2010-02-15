@@ -5,6 +5,8 @@ use Alien::SDL::ConfigData;
 use File::ShareDir qw(dist_dir);
 use File::Spec;
 use File::Spec::Functions qw(catdir catfile );
+use File::Temp;
+use ExtUtils::CBuilder;
 
 =head1 NAME
 
@@ -86,7 +88,7 @@ functionality (see below).
 
 =head2 sdl_config()
 
-This function is B<the only public interface to this module>. Basic
+This function is the main public interface to this module. Basic
 functionality works in a very similar maner to 'sdl-config' script:
 
     Alien::SDL->config('prefix');   # gives the same string as 'sdl-config --prefix'
@@ -110,6 +112,16 @@ SDL libs.
 NOTE: config('ld_shared_libs') and config('ld_paths') return an empty list if
 you have decided to use SDL libraries already installed on your system. This
 concerns 'sdl-config' detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
+
+=head2 check_header()
+
+This function checks the availability of given header(s) when using compiler
+options provided by "Alien::SDL->config('cflags')".
+
+    Alien::SDL->check_header('SDL.h');
+    Alien::SDL->check_header('SDL.h', 'SDL_net.h');
+
+Returns 1 if all given headers are available, 0 otherwise.
 
 =head1 BUGS
 
@@ -136,12 +148,36 @@ LICENSE file included with this module.
 
 =cut
 
-### main function - external interface
+### get config params
 sub config
 {
   my ($package, $param) = @_;
   return _sdl_config_via_script($param) if(Alien::SDL::ConfigData->config('script'));
   return _sdl_config_via_config_data($param) if(Alien::SDL::ConfigData->config('config'));
+}
+
+### check presence of header(s) specified as params
+sub check_header {
+  my ($package, @header) = @_;
+  print STDERR "[$package] Testing header(s): " . join(', ', @header) . "\n";
+  my $cb = ExtUtils::CBuilder->new(quiet => 1);
+  my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my $inc = '';
+  $inc .= "#include <$_>\n" for @header;  
+  syswrite($fs, "$inc\n\nint demofunc(void) { return 0; }\n"); # write test source code
+  close($fs);
+  #open OLDERR, ">&STDERR";
+  #open STDERR, ">", File::Spec->devnull();  
+  my $obj = eval { $cb->compile( source => $src, extra_compiler_flags => Alien::SDL->config('cflags')); };
+  #open(STDERR, ">&OLDERR");
+  if($obj) {
+    unlink $obj;
+    return 1;
+  }
+  else {
+    print STDERR "###TEST FAILED### for: " . join(', ', @header) . "\n";
+    return 0;
+  }
 }
 
 ### internal functions

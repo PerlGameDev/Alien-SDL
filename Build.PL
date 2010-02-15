@@ -17,12 +17,9 @@ my $build = $package->new(
   all_from             => 'lib/Alien/SDL.pm',
   requires             => {
     'File::Spec'       => '0',
-    'File::Path'       => '0',
-    'File::Fetch'      => '0',
-    'File::Find'       => '0',
-    'Archive::Extract' => '0',
-    'Digest::SHA1'     => '0',
-    'Archive::Extract' => '0',
+    'File::Temp'       => '0',
+    'File::ShareDir'   => '0',
+    'ExtUtils::CBuilder' => '0',
   },
   build_requires       => {
     'File::Spec'       => '0',
