@@ -203,7 +203,7 @@ sub set_config_data {
     $tmp{ catpath($v, $d, '') } = 1;
     # available shared libs detection
     if ($f =~ /smpeg/) {
-      $shlib_map{$2} = $full;
+      $shlib_map{smpeg} = $full;
     }
     elsif ($f =~ /^(lib)?(png12)/) {
       $shlib_map{png12} = $full;
