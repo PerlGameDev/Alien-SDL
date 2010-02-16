@@ -186,18 +186,32 @@ sub set_config_data {
     }
   }
 
-  # find and set shared_libs
+  # find and set ld_shared_libs
   my @shlibs = find_file($build_out, qr/\.\Q$Config{dlext}\E$/);
   my $p = rel2abs($prefix);
   $_ =~ s/^\Q$prefix\E/\@PrEfIx\@/ foreach (@shlibs);
   $cfg->{ld_shared_libs} = [ @shlibs ];
 
+  # set ld_paths and ld_shlib_map
   my %tmp = ();
-  foreach (@shlibs) {
-    my ($v, $d, $f) = splitpath($_);
+  my %shlib_map = ();
+  foreach my $full (@shlibs) {
+    my ($v, $d, $f) = splitpath($full);
     $tmp{ catpath($v, $d, '') } = 1;
+    if ($f =~ /^(lib)?(smpeg)/) {
+      $shlib_map{smpeg} = $full;
+    }
+    elsif ($f =~ /^(lib)?(SDL_[a-zA-Z]{2,8})[^a-zA-Z]/) {
+      # sort of dark magic how to detect SDL_<something> related shlib
+      $shlib_map{$2} = $full;
+    }
+    elsif ($f =~ /^(lib)?(SDL)/) {
+      # '*SDL*' that did not pass previous test is probably core 'SDL'
+      $shlib_map{SDL} = $full;
+    }
   };
-  $cfg->{ld_paths} = [ keys %tmp ];
+  $cfg->{ld_paths} = [ keys %tmp ];  
+  $cfg->{ld_shlib_map} = \%shlib_map;
   
   # write config
   $self->config_data('config', $cfg);

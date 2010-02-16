@@ -109,9 +109,13 @@ Returns a list of full paths to directories with shared libraries (*.so, *.dll)
 that will be required for running the resulting binaries you have linked with
 SDL libs.
 
-NOTE: config('ld_shared_libs') and config('ld_paths') return an empty list if
-you have decided to use SDL libraries already installed on your system. This
-concerns 'sdl-config' detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
+    Alien::SDL->config('ld_shlib_map');
+
+XXX TODO XXX
+
+NOTE: config('ld_<something>') return an empty list if you have decided to use
+SDL libraries already installed on your system. This concerns 'sdl-config' 
+detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 =head2 check_header()
 
@@ -164,7 +168,12 @@ sub check_header {
   my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
   $inc .= "#include <$_>\n" for @header;  
-  syswrite($fs, "$inc\n\nint demofunc(void) { return 0; }\n"); # write test source code
+  syswrite($fs, <<MARKER); # write test source code
+#include <stdio.h>
+$inc
+int demofunc(void) { return 0; }
+
+MARKER
   close($fs);
   #open OLDERR, ">&STDERR";
   #open STDERR, ">", File::Spec->devnull();  
@@ -202,6 +211,11 @@ sub _sdl_config_via_config_data
   return unless $val;
   if ($param =~ /^(ld_shared_libs|ld_paths)$/) {
     s/\@PrEfIx\@/$real_prefix/g foreach (@{$val});
+  }
+  elsif ($param =~ /^(ld_shlib_map)$/) {
+    while (my ($nick, $full) = each %$val ) {
+      $val->{$nick} =~ s/\@PrEfIx\@/$real_prefix/g;
+    }
   }
   else {
     $val =~ s/\@PrEfIx\@/$real_prefix/g;
