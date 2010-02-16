@@ -198,7 +198,7 @@ sub set_config_data {
   foreach my $full (@shlibs) {
     my ($v, $d, $f) = splitpath($full);
     $tmp{ catpath($v, $d, '') } = 1;
-    if ($f =~ /^(lib)?(smpeg)/) {
+    if ($f =~ /smpeg/) {
       $shlib_map{smpeg} = $full;
     }
     elsif ($f =~ /^(lib)?(SDL_[a-zA-Z]{2,8})[^a-zA-Z]/) {
