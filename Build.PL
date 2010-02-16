@@ -7,9 +7,18 @@ use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
 use My::Builder::Unix;
 use My::Builder::Windows;
 
-#### Maybe do something more clever in the future
-my $package = 'My::Builder::Unix'; # default
-$package = 'My::Builder::Windows' if($^O eq 'MSWin32');
+### we need the platform-specific module
+my %platforms =(
+       MSWin32      => 'Windows',
+       MacOS        => 'Unix',    # maybe create My::Builder::MacOS in the future
+       darwin       => 'Unix',    # maybe create My::Builder::Darwin in the future
+       cygwin       => 'Unix',
+       freebsd      => 'Unix',
+       linux        => 'Unix',
+);
+my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
+print "Gonna use '$package' class ...\n";
+eval "require $package" or die "Require '$package' failed: $@\n";
 
 #### Stadard Module::Builder stuff
 my $build = $package->new(

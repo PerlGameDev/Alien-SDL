@@ -53,6 +53,11 @@ sub ACTION_code {
 
     if($bp->{buildtype} eq 'use_config_script') {
       $self->config_data('script', $bp->{script});
+      # include path trick - adding couple of addititonal locations
+      $self->config_data('additional_cflafs', '"-I'.$bp->{prefix}.'/include/smpeg" '.
+                                              '"-I'.$bp->{prefix}.'/include" ' .
+                                              $bp->get_additional_cflags);
+      $self->config_data('additional_libs', $bp->get_additional_libs);
     }
     elsif($bp->{buildtype} eq 'use_prebuilt_binaries') {
       # all the following functions die on error, no need to test ret values
@@ -167,7 +172,7 @@ sub set_config_data {
     version     => $version,
     prefix      => '@PrEfIx@',
     libs        => '"-L@PrEfIx@/lib" -lSDLmain -lSDL',
-    cflags      => '"-I@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main "-I@PrEfIx@/include" "-I@PrEfIx@/include/smpeg"',
+    cflags      => '"-I@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main',
     shared_libs => [ ],
   };
 
@@ -176,12 +181,10 @@ sub set_config_data {
   my $devnull = File::Spec->devnull();
   my $script = rel2abs("$prefix/bin/sdl-config");
   foreach my $p (qw(version prefix libs cflags)) {
-    my $o=`$script --$p 2>$devnull`;    
+    my $o=`$script --$p 2>$devnull`;
     if ($o) {
       $o =~ s/[\r\n]*$//;
       $o =~ s/\Q$prefix\E/\@PrEfIx\@/g;
-      # prefix-hack required to support also nonSDL libs in 'sharedir'
-      $o .= ' "-I@PrEfIx@/include" "-I@PrEfIx@/include/smpeg"' if ($p eq 'cflags');
       $cfg->{$p} = $o;
     }
   }
@@ -198,6 +201,7 @@ sub set_config_data {
   foreach my $full (@shlibs) {
     my ($v, $d, $f) = splitpath($full);
     $tmp{ catpath($v, $d, '') } = 1;
+    # available shared libs detection
     if ($f =~ /smpeg/) {
       $shlib_map{smpeg} = $full;
     }
@@ -210,22 +214,37 @@ sub set_config_data {
       $shlib_map{SDL} = $full;
     }
   };
-  $cfg->{ld_paths} = [ keys %tmp ];  
+  $cfg->{ld_paths} = [ keys %tmp ];
   $cfg->{ld_shlib_map} = \%shlib_map;
-  
+
   # write config
+  $self->config_data('additional_cflafs', '"-I@PrEfIx@/include" "-I@PrEfIx@/include/smpeg"');
+  $self->config_data('additional_libs', '');
   $self->config_data('config', $cfg);
 }
 
 sub can_build_binaries_from_sources {
   # this needs to be overriden in My::Builder::<platform>
+  my $self = shift;
   return 0; # no
 }
 
 sub build_binaries {
   # this needs to be overriden in My::Builder::<platform>
-  my( $self, $build_out, $build_src ) = @_;
+  my ($self, $build_out, $build_src) = @_;
   die "###ERROR### My::Builder cannot build SDL from sources, use rather My::Builder::<platform>";
+}
+
+sub get_additional_cflags {
+  # this needs to be overriden in My::Builder::<platform>
+  my $self = shift;
+  return '';
+}
+
+sub get_additional_libs {
+  # this needs to be overriden in My::Builder::<platform>
+  my $self = shift;
+  return '';
 }
 
 sub clean_dir {

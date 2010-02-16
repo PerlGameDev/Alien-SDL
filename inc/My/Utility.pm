@@ -23,7 +23,7 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => 'Binaries Win/32bit SDL-1.2.14 + gfx,image,mixer,net,smpeg,ttf,soundrtf,rtf (experimental)',
+      title    => 'Binaries Win/32bit SDL-1.2.14 + gfx,image,mixer,net,smpeg,ttf,sound,rtf (experimental)',
       url      => 'http://strawberryperl.com/package/kmx/sdl/SDL-bin-20100214-w32.zip',
       sha1sum  => '5c2ea3c31f7a84be84bba650583981eec9ce103d',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
@@ -103,6 +103,7 @@ sub check_config_script
     title     => "Already installed SDL ver=$version path=$prefix",
     buildtype => 'use_config_script',
     script    => $script,
+    prefix    => $prefix,
   };
 }
 

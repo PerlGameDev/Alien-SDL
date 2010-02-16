@@ -111,10 +111,12 @@ SDL libs.
 
     Alien::SDL->config('ld_shlib_map');
 
-XXX TODO XXX
+Returns a reference to hash of value pairs '<libnick>' => '<full_path_to_shlib'>,
+where '<libnick>' is shortname for SDL related library like: SDL, SDL_gfx, SDL_net,
+SDL_sound ... + some non-SDL shortnames e.g. smpeg, jpeg, png.
 
-NOTE: config('ld_<something>') return an empty list if you have decided to use
-SDL libraries already installed on your system. This concerns 'sdl-config' 
+NOTE: config('ld_<something>') return an empty list/hash if you have decided to
+use SDL libraries already installed on your system. This concerns 'sdl-config' 
 detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 =head2 check_header()
@@ -196,7 +198,14 @@ sub _sdl_config_via_script
   my $devnull = File::Spec->devnull();
   my $script = Alien::SDL::ConfigData->config('script');
   return unless ($script && ($param =~ /[a-z0-9_]*/i));
-  return `$script --$param 2>$devnull`;
+  my $val = `$script --$param 2>$devnull`;
+  if($param eq 'cflags') {
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflafs');
+  }
+  elsif($param eq 'libs') {
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
+  }
+  return $val;
 }
 
 sub _sdl_config_via_config_data
@@ -209,12 +218,20 @@ sub _sdl_config_via_config_data
   return unless ($param =~ /[a-z0-9_]*/i);
   my $val = Alien::SDL::ConfigData->config('config')->{$param};
   return unless $val;
+  # handle additional flags
+  if($param eq 'cflags') {
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflafs');
+  }
+  elsif($param eq 'libs') {
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
+  }  
+  # handle @PrEfIx@ replacement
   if ($param =~ /^(ld_shared_libs|ld_paths)$/) {
     s/\@PrEfIx\@/$real_prefix/g foreach (@{$val});
   }
   elsif ($param =~ /^(ld_shlib_map)$/) {
-    while (my ($nick, $full) = each %$val ) {
-      $val->{$nick} =~ s/\@PrEfIx\@/$real_prefix/g;
+    while (my ($k, $v) = each %$val ) {
+      $val->{$k} =~ s/\@PrEfIx\@/$real_prefix/g;
     }
   }
   else {

@@ -82,9 +82,16 @@ METHODS
     *.dll) that will be required for running the resulting binaries you have
     linked with SDL libs.
 
-    NOTE: config('ld_shared_libs') and config('ld_paths') return an empty
-    list if you have decided to use SDL libraries already installed on your
-    system. This concerns 'sdl-config' detection and detection via
+        Alien::SDL->config('ld_shlib_map');
+
+    Returns a reference to hash of value pairs '<libnick>' =>
+    '<full_path_to_shlib'>, where '<libnick>' is shortname for SDL related
+    library like: SDL, SDL_gfx, SDL_net, SDL_sound ... + some non-SDL
+    shortnames e.g. smpeg, jpeg, png.
+
+    NOTE: config('ld_<something>') return an empty list/hash if you have
+    decided to use SDL libraries already installed on your system. This
+    concerns 'sdl-config' detection and detection via
     '$SDL_INST_DIR/bin/sdl-config'.
 
   check_header()

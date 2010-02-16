@@ -6,7 +6,20 @@ use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
 
-sub can_build_binaries_from_sources { 1 } # yes we can
+sub get_additional_cflags {
+  my $self = shift;
+  return '';
+}
+
+sub get_additional_libs {
+  my $self = shift;
+  return '';
+}
+
+sub can_build_binaries_from_sources {
+  my $self = shift;
+  return 1; # yes we can
+}
 
 sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
