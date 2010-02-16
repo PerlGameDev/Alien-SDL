@@ -8,11 +8,13 @@ use File::Spec::Functions qw(catdir catfile rel2abs);
 
 sub get_additional_cflags {
   my $self = shift;
+  # xxx any platform specific -I/path/to/headers shoud go here
   return '';
 }
 
 sub get_additional_libs {
   my $self = shift;
+  # xxx any platform specific -L/path/to/libs shoud go here
   return '';
 }
 
