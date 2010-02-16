@@ -202,7 +202,13 @@ sub set_config_data {
     my ($v, $d, $f) = splitpath($full);
     $tmp{ catpath($v, $d, '') } = 1;
     # available shared libs detection
-    if ($f =~ /^(lib)?(png|tiff|jpeg|smpeg)[^a-zA-Z0-9]/) {
+    if ($f =~ /smpeg/) {
+      $shlib_map{$2} = $full;
+    }
+    elsif ($f =~ /^(lib)?(png12)/) {
+      $shlib_map{png12} = $full;
+    }
+    elsif ($f =~ /^(lib)?(tiff|jpeg|png)[^a-zA-Z]/) {
       $shlib_map{$2} = $full;
     }
     elsif ($f =~ /^(lib)?(SDL_[a-zA-Z]{2,8})[^a-zA-Z0-9]/) {
