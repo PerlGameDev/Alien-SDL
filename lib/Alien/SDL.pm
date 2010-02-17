@@ -199,6 +199,7 @@ sub _sdl_config_via_script
   my $script = Alien::SDL::ConfigData->config('script');
   return unless ($script && ($param =~ /[a-z0-9_]*/i));
   my $val = `$script --$param 2>$devnull`;
+  $val =~ s/[\r\n]*$//;
   if($param eq 'cflags') {
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflafs');
   }
