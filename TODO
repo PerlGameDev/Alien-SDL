@@ -2,3 +2,5 @@ TODO list for Perl module Alien::SDL
 
 - Win32 - prepare better prebuilt binaries
 - MacOS - add any support (either source build or prebuilt binaries)
+- Unix  - more testing needed (non-Linux platforms untested with the new v0.8.x)
+- discuss automated CPAN Testers issues (and perhaps change build defaults somehow)
