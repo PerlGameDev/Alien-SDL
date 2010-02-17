@@ -5,5 +5,4 @@ TODO list for Perl module Alien::SDL
 - Unix  - more testing needed (non-Linux platforms untested with the new v0.8.x)
 - discuss automated CPAN Testers issues (and perhaps change build defaults somehow)
 
-- [kmx] add sometning like Alien::SDL->get_header_version('SDL_xyz.h');
 - [kmx] think of a complex t\alien_sdl_interface.t (we need this more in SDL_perl)

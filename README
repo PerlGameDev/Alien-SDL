@@ -103,6 +103,23 @@ METHODS
 
     Returns 1 if all given headers are available, 0 otherwise.
 
+  get_header_version()
+    Tries to find a header file specified as a param in SDL prefix direcotry
+    and based on "#define" macros inside this header file tries to get a
+    version triplet.
+
+        Alien::SDL->get_header_version('SDL_mixer.h');
+        Alien::SDL->get_header_version('SDL_version.h');
+        Alien::SDL->get_header_version('SDL_gfxPrimitives.h');
+        Alien::SDL->get_header_version('SDL_image.h');
+        Alien::SDL->get_header_version('SDL_mixer.h');
+        Alien::SDL->get_header_version('SDL_net.h');
+        Alien::SDL->get_header_version('SDL_ttf.h');
+        Alien::SDL->get_header_version('smpeg.h');
+
+    Returns string like '1.2.3' or undef if not able to find and parse
+    version info.
+
 BUGS
     Please post issues and bugs at
     <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL>

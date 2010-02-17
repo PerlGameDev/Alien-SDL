@@ -4,7 +4,8 @@ use warnings;
 use Alien::SDL::ConfigData;
 use File::ShareDir qw(dist_dir);
 use File::Spec;
-use File::Spec::Functions qw(catdir catfile );
+use File::Find;
+use File::Spec::Functions qw(catdir catfile rel2abs);
 use File::Temp;
 use ExtUtils::CBuilder;
 
@@ -129,6 +130,22 @@ options provided by "Alien::SDL->config('cflags')".
 
 Returns 1 if all given headers are available, 0 otherwise.
 
+=head2 get_header_version()
+
+Tries to find a header file specified as a param in SDL prefix direcotry and
+based on "#define" macros inside this header file tries to get a version triplet.
+
+    Alien::SDL->get_header_version('SDL_mixer.h');
+    Alien::SDL->get_header_version('SDL_version.h');
+    Alien::SDL->get_header_version('SDL_gfxPrimitives.h');
+    Alien::SDL->get_header_version('SDL_image.h');
+    Alien::SDL->get_header_version('SDL_mixer.h');
+    Alien::SDL->get_header_version('SDL_net.h');
+    Alien::SDL->get_header_version('SDL_ttf.h');
+    Alien::SDL->get_header_version('smpeg.h');
+
+Returns string like '1.2.3' or undef if not able to find and parse version info.
+
 =head1 BUGS
 
 Please post issues and bugs at L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL>
@@ -160,6 +177,33 @@ sub config
   my ($package, $param) = @_;
   return _sdl_config_via_script($param) if(Alien::SDL::ConfigData->config('script'));
   return _sdl_config_via_config_data($param) if(Alien::SDL::ConfigData->config('config'));
+}
+
+### get version info from given header file
+sub get_header_version {
+  my ($package, $header) = @_;
+  return unless $header;
+
+  # try to find header
+  my $root = Alien::SDL->config('prefix');
+  my @files;
+  find({ wanted => sub { push @files, rel2abs($_) if /\Q$header\E$/ }, follow => 1, no_chdir => 1 }, $root);
+  return unless @files;
+
+  # get version info
+  open(DAT, $files[0]) || return;
+  my @raw=<DAT>;
+  close(DAT);
+
+  # generic magic how to get version major/minor/patchlevel
+  my ($v_maj) = grep(/^#define[ \t]+[A-Z_]+?MAJOR[A-Z_]*[ \t]+[0-9]+/, @raw);
+  $v_maj =~ s/^#define[ \t]+[A-Z_]+[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  my ($v_min) = grep(/^#define[ \t]+[A-Z_]+MINOR[A-Z_]*[ \t]+[0-9]+/, @raw);
+  $v_min =~ s/^#define[ \t]+[A-Z_]+[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  my ($v_pat) = grep(/^#define[ \t]+[A-Z_]+(PATCHLEVEL|MICRO)[A-Z_]*[ \t]+[0-9]+/, @raw);
+  $v_pat =~ s/^#define[ \t]+[A-Z_]+[ \t]+([0-9]+)[.\r\n]*$/$1/;
+  return if (($v_maj eq '')||($v_min eq '')||($v_pat eq ''));
+  return "$v_maj.$v_min.$v_pat";
 }
 
 ### check presence of header(s) specified as params
