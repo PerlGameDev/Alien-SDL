@@ -161,7 +161,7 @@ sub find_SDL_dir {
   $v_min =~ s/^#define[ \t]+SDL_MINOR_VERSION[ \t]+([0-9]+)[.\r\n]*$/$1/;
   my ($v_pat) = grep(/^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+/, @raw);
   $v_pat =~ s/^#define[ \t]+SDL_PATCHLEVEL[ \t]+([0-9]+)[.\r\n]*$/$1/;
-  return unless ($v_maj && $v_min && $v_pat);
+  return if (($v_maj eq '')||($v_min eq '')||($v_pat eq ''));
   $version = "$v_maj.$v_min.$v_pat";
 
   # get prefix dir
