@@ -6,16 +6,48 @@ use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
 
+my $inc_lib_candidates = {
+  '/usr/local/include/SDL11'  => '/usr/local/lib', #freebsd
+  '/usr/pkg/include',         => '/usr/local/lib', #netbsd
+  '/usr/pkg/include/SDL'      => '/usr/local/lib', #netbsd
+  '/usr/pkg/include/smpeg'    => '/usr/local/lib', #netbsd
+  '/usr/local/include'        => '/usr/local/lib',
+  '/usr/local/include/gl'     => '/usr/local/lib',
+  '/usr/local/include/GL'     => '/usr/local/lib',
+  '/usr/local/include/SDL'    => '/usr/local/lib',
+  '/usr/local/include/smpeg'  => '/usr/local/lib',
+  '/usr/include'              => '/usr/lib',
+  '/usr/include/gl'           => '/usr/lib',
+  '/usr/include/GL'           => '/usr/lib',
+  '/usr/include/SDL'          => '/usr/lib',
+  '/usr/include/smpeg'        => '/usr/lib',
+  '/usr/X11R6/include'        => '/usr/X11R6/lib',
+  '/usr/X11R6/include/gl'     => '/usr/X11R6/lib',
+  '/usr/X11R6/include/GL'     => '/usr/X11R6/lib',
+};
+
 sub get_additional_cflags {
   my $self = shift;
-  # xxx any platform specific -I/path/to/headers shoud go here
-  return '';
+  my @list = ();
+  ### any platform specific -L/path/to/libs shoud go here
+  for (keys %$inc_lib_candidates) {
+    push @list, "-I$_" if (-d $_);
+  }
+  return join(' ', @list);
 }
 
 sub get_additional_libs {
   my $self = shift;
-  # xxx any platform specific -L/path/to/libs shoud go here
-  return '';
+  ### any platform specific -L/path/to/libs shoud go here  
+  my @list = ();  
+  my %rv; # putting detected dir into hash to avoid duplicates
+  for (keys %$inc_lib_candidates) {
+    my $ld = $inc_lib_candidates->{$_};  
+    $rv{"-L$ld"} = 1 if ((-d $_) && (-d $ld));    
+  }
+  push @list, (keys %rv);
+  push @list, '-lpthread' if ($^O eq 'openbsd');
+  return join(' ', @list);
 }
 
 sub can_build_binaries_from_sources {
