@@ -56,8 +56,8 @@ sub ACTION_code {
       # include path trick - adding couple of addititonal locations
       $self->config_data('additional_cflafs', '-I'.$bp->{prefix}.'/include/smpeg '.
                                               '-I'.$bp->{prefix}.'/include ' .
-                                              $bp->get_additional_cflags);
-      $self->config_data('additional_libs', $bp->get_additional_libs);
+                                              $self->get_additional_cflags);
+      $self->config_data('additional_libs', $self->get_additional_libs);
     }
     elsif($bp->{buildtype} eq 'use_prebuilt_binaries') {
       # all the following functions die on error, no need to test ret values
@@ -224,8 +224,10 @@ sub set_config_data {
   $cfg->{ld_shlib_map} = \%shlib_map;
 
   # write config
-  $self->config_data('additional_cflafs', '-I@PrEfIx@/include -I@PrEfIx@/include/smpeg');
-  $self->config_data('additional_libs', '');
+  $self->config_data('additional_cflafs', '-I@PrEfIx@/include ' .
+                                          '-I@PrEfIx@/include/smpeg ' .
+                                          $self->get_additional_cflags);
+  $self->config_data('additional_libs', $self->get_additional_libs);
   $self->config_data('config', $cfg);
 }
 
