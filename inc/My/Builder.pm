@@ -50,6 +50,10 @@ sub ACTION_code {
     $self->config_data('build_cc', $Config{cc});
     $self->config_data('build_arch', $Config{archname});
     $self->config_data('build_os', $^O);
+    $self->config_data('script', '');            # just to be sure
+    $self->config_data('config', {});            # just to be sure
+    $self->config_data('additional_cflafs', ''); # just to be sure
+    $self->config_data('additional_libs', '');   # just to be sure
 
     if($bp->{buildtype} eq 'use_config_script') {
       $self->config_data('script', $bp->{script});
