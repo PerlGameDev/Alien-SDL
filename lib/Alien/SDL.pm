@@ -186,8 +186,10 @@ sub get_header_version {
 
   # try to find header
   my $root = Alien::SDL->config('prefix');
+  #warn 'Finding in '.$root.'/include';
+  my $include = File::Spec->catfile($root, 'include');
   my @files;
-  find({ wanted => sub { push @files, rel2abs($_) if /\Q$header\E$/ }, follow => 1, no_chdir => 1 }, $root);
+  find({ wanted => sub { push @files, rel2abs($_) if /\Q$header\E$/ }, follow => 1, no_chdir => 1 }, $include);
   return unless @files;
 
   # get version info
