@@ -4,8 +4,8 @@ use warnings;
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
 use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
-use My::Builder::Unix;
-use My::Builder::Windows;
+#use My::Builder::Unix;
+#use My::Builder::Windows;
 
 ### we need the platform-specific module
 my %platforms =(
