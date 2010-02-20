@@ -19,7 +19,7 @@ Version 0.8.0
 
 =cut
 
-our $VERSION = '0.8.0';
+our $VERSION = '0.8.1';
 
 =head1 SYNOPSIS
 
@@ -189,7 +189,7 @@ sub get_header_version {
   #warn 'Finding in '.$root.'/include';
   my $include = File::Spec->catfile($root, 'include');
   my @files;
-  find({ wanted => sub { push @files, rel2abs($_) if /\Q$header\E$/ }, follow => 1, no_chdir => 1 }, $include);
+  find({ wanted => sub { push @files, rel2abs($_) if /\Q$header\E$/ }, follow => 1, no_chdir => 1, follow_skip => 2 }, $include);
   return unless @files;
 
   # get version info

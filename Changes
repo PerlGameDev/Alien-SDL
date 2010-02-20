@@ -1,7 +1,11 @@
 Revision history for Perl module Alien::SDL
 
+0.8.1
+     - Quick fix for follow_skip in File::Find, and test numbers
+
 0.8.0
      - Complete redesign by kmx, completely new interface
+     - Fixed Bug on File::Find usage to get headers
 0.7.8
      - Get and compile latest code for SDL, gfx, image, mixer, ttf and net
 
