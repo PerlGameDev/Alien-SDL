@@ -5,6 +5,7 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
+use Config;
 
 my $inc_lib_candidates = {
   '/usr/local/include/SDL11'  => '/usr/local/lib', #freebsd
@@ -38,12 +39,12 @@ sub get_additional_cflags {
 
 sub get_additional_libs {
   my $self = shift;
-  ### any platform specific -L/path/to/libs shoud go here  
-  my @list = ();  
+  ### any platform specific -L/path/to/libs shoud go here
+  my @list = ();
   my %rv; # putting detected dir into hash to avoid duplicates
   for (keys %$inc_lib_candidates) {
-    my $ld = $inc_lib_candidates->{$_};  
-    $rv{"-L$ld"} = 1 if ((-d $_) && (-d $ld));    
+    my $ld = $inc_lib_candidates->{$_};
+    $rv{"-L$ld"} = 1 if ((-d $_) && (-d $ld));
   }
   push @list, (keys %rv);
   push @list, '-lpthread' if ($^O eq 'openbsd');
@@ -70,8 +71,7 @@ sub build_binaries {
     my $run_configure = 'y';
     $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "n") if (-f "config.status");
     if (lc($run_configure) eq 'y') {
-      my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
-                " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+      my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
       print "Configuring $pack->{pack}...\n";
       print "(cmd: $cmd)\n";
       $self->do_system($cmd) or die "###ERROR### [$?] during ./configure ... ";
@@ -86,6 +86,25 @@ sub build_binaries {
     chdir $self->base_dir();
   }
   return 1;
+}
+
+### internal helper functions
+
+sub _get_configure_cmd {
+  my ($self, $pack, $prefixdir) = @_;
+  # set default value
+  my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
+            " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+
+  if(($pack eq 'SDL_gfx') && ($Config{archname} =~ /x86_64/)) {
+    # based on http://cblfs.cross-lfs.org/index.php/SDL_gfx#64Bit
+    $cmd = 'CC="gcc ${BUILD64}" USE_ARCH=64' .
+           " ./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
+           ' --disable-mmx --libdir=/usr/lib64' .
+           " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+  }
+
+  return $cmd;
 }
 
 1;
