@@ -96,7 +96,7 @@ sub _get_configure_cmd {
   my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
             " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
 
-  if(($pack eq 'SDL_gfx') && ($Config{archname} =~ /x86_64/)) {
+  if( ($pack eq 'SDL_gfx') && ($Config{archname} =~ /64/i || $Config{archname} =~ /2level/)) {
     # based on http://cblfs.cross-lfs.org/index.php/SDL_gfx#64Bit
     $cmd = 'CC="gcc ${BUILD64}" USE_ARCH=64' .
            " ./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
