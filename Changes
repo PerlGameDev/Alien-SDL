@@ -1,5 +1,11 @@
 Revision history for Perl module Alien::SDL
 
+0.8.2 
+     - Local sharedir building [kmx, FROGGS]
+     - 64bit building [kthakore, kmx]
+     - Darwin testing [Mike Stok] and fixing [kthakore, kmx]
+
+
 0.8.1
      - Quick fix for follow_skip in File::Find, and test numbers
 
