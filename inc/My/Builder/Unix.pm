@@ -92,17 +92,20 @@ sub build_binaries {
 
 sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
-  # set default value
-  my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
-            " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+  my $extra = '';
 
-  if(($pack eq 'SDL_gfx') && ($Config{archname} =~ /x86_64/)) {
-    # based on http://cblfs.cross-lfs.org/index.php/SDL_gfx#64Bit
-    $cmd = 'CC="gcc ${BUILD64}" USE_ARCH=64' .
-           " ./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
-           ' --disable-mmx --libdir=/usr/lib64' .
-           " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+  # NOTE: all ugly IFs concerning ./configure params have to go here
+
+  if(($pack eq 'SDL_gfx') && ($Config{archname} =~ /64/i || $Config{archname} =~ /2level/)) {
+    $extra .= ' --disable-mmx';
   }
+
+  if($pack =~ /^SDL_/) {
+    $extra .= ' --with-sdl-prefix=$prefixdir';
+  }
+
+  my $cmd = "./configure $extra --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
+            " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
 
   return $cmd;
 }

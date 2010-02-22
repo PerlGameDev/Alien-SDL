@@ -15,7 +15,7 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 0.8.0
+Version 0.8.1
 
 =cut
 
