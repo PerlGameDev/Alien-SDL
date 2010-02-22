@@ -100,11 +100,11 @@ sub _get_configure_cmd {
     $extra .= ' --disable-mmx';
   }
 
-  if($pack =~ /^SDL_/) {
-    $extra .= ' --with-sdl-prefix=$prefixdir';
+  if($pack =~ /^SDL_.*/) {
+    $extra .= " --with-sdl-prefix=$prefixdir";
   }
 
-  my $cmd = "./configure $extra --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
+  my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
             " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
 
   return $cmd;
