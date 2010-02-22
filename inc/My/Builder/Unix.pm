@@ -98,9 +98,12 @@ sub _get_configure_cmd {
 
   if( ($pack eq 'SDL_gfx') && ($Config{archname} =~ /64/i || $Config{archname} =~ /2level/)) {
     # based on http://cblfs.cross-lfs.org/index.php/SDL_gfx#64Bit
+    my $libdir = ' ';
+    $libdir = '--libdir=/usr/lib64' unless $Config{archname} =~ /2level/;
+    
     $cmd = 'CC="gcc ${BUILD64}" USE_ARCH=64' .
            " ./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes" .
-           ' --disable-mmx --libdir=/usr/lib64' .
+           ' --disable-mmx ' . $libdir .
            " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
   }
 

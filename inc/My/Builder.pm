@@ -41,6 +41,7 @@ sub ACTION_code {
     # Alien::SDL with different build options
     my $share_subdir = $self->{properties}->{dist_version} . '_' . substr(sha1_hex($bp->{title}), 0, 8);
     my $build_out    = catfile('sharedir', $share_subdir);
+    
     my $build_src    = 'build_src';
     $self->add_to_cleanup($build_src, $build_out);
 
