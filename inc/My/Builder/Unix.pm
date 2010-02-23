@@ -96,7 +96,7 @@ sub _get_configure_cmd {
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
 
-  if(($pack eq 'SDL_gfx') && ($Config{archname} =~ /64/i || $Config{archname} =~ /2level/)) {
+  if(($pack eq 'SDL_gfx') && $Config{archname} =~ /64|2level/i) {
     $extra .= ' --disable-mmx';
   }
 
