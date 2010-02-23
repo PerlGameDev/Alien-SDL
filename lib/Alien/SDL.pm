@@ -87,7 +87,7 @@ functionality (see below).
 
 =head1 METHODS
 
-=head2 sdl_config()
+=head2 config()
 
 This function is the main public interface to this module. Basic
 functionality works in a very similar maner to 'sdl-config' script:
