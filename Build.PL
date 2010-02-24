@@ -32,7 +32,7 @@ my $build = $package->new(
   },
   build_requires       => {
     'File::Spec'       => '0',
-    'File::Path'       => '0',
+    'File::Path'       => '2.07',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Digest::SHA1'     => '0',
@@ -42,7 +42,7 @@ my $build = $package->new(
   },
   configure_requires   => {
     'File::Spec'       => '0',
-    'File::Path'       => '0',
+    'File::Path'       => '2.07',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Digest::SHA1'     => '0',

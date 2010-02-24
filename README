@@ -59,7 +59,7 @@ DESCRIPTION
         offers some special functionality (see below).
 
 METHODS
-  sdl_config()
+  config()
     This function is the main public interface to this module. Basic
     functionality works in a very similar maner to 'sdl-config' script:
 
