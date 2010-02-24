@@ -3,7 +3,8 @@ Revision history for Perl module Alien::SDL
 0.8.2 
      - Local sharedir building [kmx, FROGGS]
      - 64bit building [kthakore, kmx]
-     - Darwin testing [Mike Stok] and fixing [kthakore, kmx]
+     - Darwin testing [Mike Stok, Stuart Watt, Chas Owens] and fixing [kthakore, kmx]
+     - Dependencies fixes [kmx]
 
 
 0.8.1
