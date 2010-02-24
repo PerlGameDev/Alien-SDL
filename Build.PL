@@ -24,6 +24,8 @@ eval "require $package" or die "Require '$package' failed: $@\n";
 my $build = $package->new(
   module_name          => 'Alien::SDL',
   all_from             => 'lib/Alien/SDL.pm',
+  dist_abstract        => 'Get, Build and Use SDL libraries',
+  dist_author	       => 'Kartik Thakore <KTHAKORE@cpan.org>',
   requires             => {
     'File::Spec'       => '0',
     'File::Temp'       => '0',
