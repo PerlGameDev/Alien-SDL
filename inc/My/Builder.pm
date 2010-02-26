@@ -12,7 +12,7 @@ use File::Copy qw(cp);
 use File::Fetch;
 use File::Find;
 use Archive::Extract;
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 use Config;
 
 sub ACTION_build {
@@ -287,7 +287,7 @@ sub clean_build_done_marker {
 
 sub check_sha1sum {
   my( $self, $file, $sha1sum ) = @_;
-  my $sha1 = Digest::SHA1->new;
+  my $sha1 = Digest::SHA->new;
   my $fh;
   open($fh, $file) or die "###ERROR## Cannot check checksum for '$file'\n";
   binmode($fh);
