@@ -15,15 +15,17 @@ use Cwd qw(realpath);
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => 'Binaries Win/32bit SDL-1.2.13 + gfx,image,mixer,net,smpeg,ttf',
-      url      => 'http://strawberryperl.com/package/kmx/sdl/SDL-bin-20090831+depend-DLLs.zip',
-      sha1sum  => '9a56dc79fe0980567fc2309b8fb80a5daed04871',
+      title    => "Binaries Win/32bit SDL-1.2.14 (stable)\n" .
+                  "\t(gfx, image, mixer, net, smpeg, ttf)",
+      url      => 'http://sdl.perl.org/assets/lib-SDL-bin_win32.zip',
+      sha1sum  => 'b3f419e6886512b18f2e052013f0d6828aeed40c',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
     {
-      title    => 'Binaries Win/32bit SDL-1.2.14 + gfx,image,mixer,net,smpeg,ttf,sound,rtf (experimental)',
+      title    => "Binaries Win/32bit SDL-1.2.14 (experimental)\n" .
+	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => 'http://strawberryperl.com/package/kmx/sdl/SDL-bin-20100214-w32.zip',
       sha1sum  => '5c2ea3c31f7a84be84bba650583981eec9ce103d',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
