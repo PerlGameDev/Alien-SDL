@@ -1,8 +1,7 @@
 TODO list for Perl module Alien::SDL
 
 - Win32 - prepare better prebuilt binaries
-- MacOS - add any support (either source build or prebuilt binaries)
-- Unix  - more testing needed (non-Linux platforms untested with the new v0.8.x)
 - discuss automated CPAN Testers issues (and perhaps change build defaults somehow)
 
 - [kmx] think of a complex t\alien_sdl_interface.t (we need this more in SDL_perl)
+- [kmx] switch from Digest::SHA1 to Digest::SHA
