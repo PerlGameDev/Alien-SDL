@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+0.9
+     - An updated windows pack [kmx]
+     - Dependencies of SHA fixed [kmx]
+
 0.8.2 
      - Local sharedir building [kmx, FROGGS]
      - 64bit building [kthakore, kmx]
