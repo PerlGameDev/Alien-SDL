@@ -26,6 +26,7 @@ my $build = $package->new(
   all_from             => 'lib/Alien/SDL.pm',
   dist_abstract        => 'Get, Build and Use SDL libraries',
   dist_author	       => 'Kartik Thakore <KTHAKORE@cpan.org>',
+  license              => 'perl',
   requires             => {
     'File::Spec'       => '0',
     'File::Temp'       => '0',
@@ -56,6 +57,7 @@ my $build = $package->new(
       repository => 'http://github.com/kthakore/Alien_SDL'
     }
   },
+  create_readme => 1,
   share_dir => 'sharedir',
   # sharedir is used for storing compiled/prebuilt binaries of SDL lib + related libraries
   # avoid using 'share' name as M::B doe not handle well paths like /xx/yy/share/zz/ww/share/xx
