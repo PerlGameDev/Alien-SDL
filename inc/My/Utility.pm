@@ -15,7 +15,7 @@ use Cwd qw(realpath);
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (stable)\n" .
+      title    => "Binaries Win/32bit SDL-1.2.14 (stable, 20090831)\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf)",
       url      => 'http://sdl.perl.org/assets/lib-SDL-bin_win32.zip',
       sha1sum  => 'b3f419e6886512b18f2e052013f0d6828aeed40c',
@@ -24,11 +24,20 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (experimental)\n" .
+      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100301)\n" .
 	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
-      url      => 'http://strawberryperl.com/package/kmx/sdl/SDL-bin-20100214-w32.zip',
-      sha1sum  => '5c2ea3c31f7a84be84bba650583981eec9ce103d',
+      url      => 'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100301.zip',
+      sha1sum  => 'e6dc884a833199e195523a9a31352d4ed5cb6255',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
+      os_re    => qr/^MSWin32$/,
+      cc_re    => qr/gcc/,
+    },
+    {
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100301)\n" .
+	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
+      url      => 'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100301.zip',
+      sha1sum  => '4576dfeb812450fce5bb22b915985ec696ea699f',
+      arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
