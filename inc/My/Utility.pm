@@ -33,7 +33,7 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100301)\n" .
+      title    => "Binaries Win/64bit SDL-1.2.14 (experimental, 20100301)\n" .
 	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => 'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100301.zip',
       sha1sum  => '4576dfeb812450fce5bb22b915985ec696ea699f',
