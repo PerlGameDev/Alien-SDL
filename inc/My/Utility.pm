@@ -15,17 +15,17 @@ use Cwd qw(realpath);
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (stable, 20090831)\n" .
+      title    => "Binaries Win/32bit SDL-1.2.14 (RECOMMENDED, 20090831)\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf)",
-      url      => 'http://sdl.perl.org/assets/lib-SDL-bin_win32.zip',
-      sha1sum  => 'b3f419e6886512b18f2e052013f0d6828aeed40c',
+      url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_win32_v2.zip',
+      sha1sum  => 'eaeeb96b0115462f6736de568de8ec233a2397a5',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
     {
       title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100301)\n" .
-	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
+                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => 'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100301.zip',
       sha1sum  => 'e6dc884a833199e195523a9a31352d4ed5cb6255',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
@@ -34,7 +34,7 @@ my $prebuilt_binaries = [
     },
     {
       title    => "Binaries Win/64bit SDL-1.2.14 (experimental, 20100301)\n" .
-	              "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
+                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => 'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100301.zip',
       sha1sum  => '4576dfeb812450fce5bb22b915985ec696ea699f',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
@@ -45,6 +45,7 @@ my $prebuilt_binaries = [
 
 #### tarballs with source codes
 my $source_packs = [
+## the first set for source code build will be a default option
   {
     title   => 'Source code build SDL-1.2.14 + SDL_(image|mixer|ttf|net|gfx)',
     members     => [
@@ -94,8 +95,16 @@ my $source_packs = [
       },
     ],
   },
+## you can define more than one set for source code build
+#  {
+#    title   => 'Source code build SDL-1.2.14 + SDL_(image|mixer|ttf|net|gfx)',
+#    members     => [
+#      {
+#        ...
+#      },
+#    ],
+#  },
 ];
-
 
 sub check_config_script
 {
