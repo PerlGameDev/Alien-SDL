@@ -108,7 +108,7 @@ push @candidates, { title => 'Quit installation' };
 my $i = 1;
 my $prompt_string = "\nYou have the following options:\n";
 foreach my $c (@candidates) {
-  $prompt_string .= "[" . $i++ . "] Use: " . $c->{title} . "\n"
+  $prompt_string .= "[" . $i++ . "] " . $c->{title} . "\n"
 }
 $prompt_string .= "\nWhat way do you wanna go?";
 my $ans = $build->prompt($prompt_string, 1);

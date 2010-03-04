@@ -93,6 +93,7 @@ sub build_binaries {
 sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
   my $extra = '';
+  my $cmd;
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
 
@@ -104,9 +105,15 @@ sub _get_configure_cmd {
     $extra .= " --with-sdl-prefix=$prefixdir";
   }
 
-  my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
-            " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
-
+  if($pack =~ /^zlib/) {
+    # does not support params CFLAGS=...
+    $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra";
+  }
+  else {
+    $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
+           " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+  }
+  
   # we need to have $prefixdir/bin in PATH while running ./configure
   $cmd = "PATH=\"$prefixdir/bin:\$PATH\" $cmd";
   
