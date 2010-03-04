@@ -100,7 +100,7 @@ my $source_packs = [
 ## another src build set
   {
     title   => "Source code build: SDL-1.2.14 & co. + all prereq. libraries\n" .
-               "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)\n",
+               "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
     members     => [
       {
         pack => 'zlib',
