@@ -107,6 +107,9 @@ sub _get_configure_cmd {
   my $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
             " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
 
+  # we need to have $prefixdir/bin in PATH while running ./configure
+  $cmd = "PATH=\"$prefixdir/bin:\$PATH\" $cmd";
+  
   return $cmd;
 }
 
