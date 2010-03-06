@@ -105,6 +105,11 @@ sub _get_configure_cmd {
     $extra .= " --with-sdl-prefix=$prefixdir";
   }
 
+  if(($pack eq 'SDL') && ($^O eq 'cygwin')) {
+    # kmx experienced troubles while cygwin build when nasm was present in PATH
+    $extra .= " --disable-nasm";
+  }
+
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra";
