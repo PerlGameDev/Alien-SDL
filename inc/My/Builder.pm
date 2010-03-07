@@ -304,7 +304,7 @@ sub patch_command {
     $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
     # the patches are expected with UNIX newlines
     # the following command works on both UNIX+Windows
-    return "$^X -pe '' -- $patch_file | patch -N -p1 -u";
+    return qq("$^X" -pe0 -- "$patch_file" | patch -p1);
   }
   warn "###WARN### patch not available";
   return '';
