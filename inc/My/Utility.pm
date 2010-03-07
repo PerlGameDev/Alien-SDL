@@ -113,6 +113,9 @@ my $source_packs = [
         dirname => 'jpeg-7',
         url => 'http://www.ijg.org/files/jpegsrc.v7.tar.gz',
         sha1sum  => '88cced0fc3dbdbc82115e1d08abce4e9d23a4b47',
+        patches => [
+          'jpeg-7_cygwin.patch',
+        ],
       },
       {
         pack => 'libpng',
