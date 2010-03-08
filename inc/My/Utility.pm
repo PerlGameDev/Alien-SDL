@@ -17,8 +17,8 @@ my $prebuilt_binaries = [
     {
       title    => "Binaries Win/32bit SDL-1.2.14 (RECOMMENDED, 20090831)\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf)",
-      url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_win32_v2.zip',
-      sha1sum  => 'eaeeb96b0115462f6736de568de8ec233a2397a5',
+      url      => 'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_win32_v3.zip',
+      sha1sum  => '64950f826469e6938aa3e513aa40da8689a2f074',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
