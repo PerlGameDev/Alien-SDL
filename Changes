@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.0 
+     - TODO for 1.0 release has been met so incrementing 
+
 0.9.1
      - extended Windows/32bit binaries made a default option
      - additional src build set added (no preinstalled jpeg, freetype2, png required)
