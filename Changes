@@ -1,5 +1,10 @@
 Revision history for Perl module Alien::SDL
 
+NEXT
+     - extended Windows/32bit binaries made a default option
+     - additional src build set added (no preinstalled jpeg, freetype2, png required)
+     - cygwin related patches [http://rt.cpan.org/Ticket/Display.html?id=55202]
+
 0.9
      - An updated windows pack [kmx]
      - Dependencies of SHA fixed [kmx]
