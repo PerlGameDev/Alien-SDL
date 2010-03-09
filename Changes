@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+NEXT
+     - Powerpc fixes [ioanrogers]
+
 1.0 
      - TODO for 1.0 release has been met so incrementing 
 
