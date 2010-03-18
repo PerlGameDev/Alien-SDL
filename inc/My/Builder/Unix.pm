@@ -93,6 +93,8 @@ sub build_binaries {
 sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
   my $extra = '';
+  my $extra_cflags = "-I$prefixdir/include";
+  my $extra_ldflags = "-L$prefixdir/lib";  
   my $cmd;
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
@@ -105,7 +107,7 @@ sub _get_configure_cmd {
     $extra .= ' --disable-video-ps3';
   }
 
-  if($pack =~ /^SDL_.*/) {
+  if($pack =~ /^SDL_/) {
     $extra .= " --with-sdl-prefix=$prefixdir";
   }
 
@@ -114,13 +116,19 @@ sub _get_configure_cmd {
     $extra .= " --disable-nasm";
   }
 
+  if(($pack eq 'SDL') && ($^O eq 'darwin')) {
+    # fix for many MacOS CPAN tester reports saying "error: X11/Xlib.h: No such file or directory"
+    $extra_cflags .= ' -I/usr/X11R6/include';
+    $extra_ldflags .= ' -L/usr/X11R6/lib';
+  }
+  
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra";
   }
   else {
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
-           " CFLAGS=-I$prefixdir/include LDFLAGS=-L$prefixdir/lib";
+           " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
   }
   
   # we need to have $prefixdir/bin in PATH while running ./configure

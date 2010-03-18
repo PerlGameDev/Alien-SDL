@@ -2,6 +2,7 @@ Revision history for Perl module Alien::SDL
 
 NEXT
      - Powerpc fixes [ioanrogers]
+     - fix for many failing MacOS CPAN tester reports [kmx]
 
 1.0 
      - TODO for 1.0 release has been met so incrementing 
