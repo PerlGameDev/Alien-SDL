@@ -4,17 +4,11 @@ use warnings;
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
 use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
-#use My::Builder::Unix;
-#use My::Builder::Windows;
 
-### we need the platform-specific module
+#### we need the platform-specific module
 my %platforms =(
-       MSWin32      => 'Windows',
-       MacOS        => 'Unix',    # maybe create My::Builder::MacOS in the future
-       darwin       => 'Unix',    # maybe create My::Builder::Darwin in the future
-       cygwin       => 'Unix',
-       freebsd      => 'Unix',
-       linux        => 'Unix',
+       # Unix = default, thus not listing all UNIX like systems
+       MSWin32 => 'Windows',       
 );
 my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
 print "Gonna use '$package' class ...\n";
@@ -42,6 +36,7 @@ my $build = $package->new(
     'Archive::Extract' => '0',
     'Archive::Tar'     => '0',
     'Archive::Zip'     => '0',
+    'Module::Build'    => '0.36',
   },
   configure_requires   => {
     'File::Spec'       => '0',
@@ -50,6 +45,7 @@ my $build = $package->new(
     'File::Find'       => '0',
     'Digest::SHA'      => '0',
     'Archive::Extract' => '0',
+    'Module::Build'    => '0.36',
   },
   meta_merge => {
     resources  => {

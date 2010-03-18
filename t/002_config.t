@@ -10,7 +10,7 @@ like( Alien::SDL->config('prefix'), qr/.+/, "Testing config('prefix')" );
 ### check if prefix is a real directory
 my $p = Alien::SDL->config('prefix');
 diag ("Prefix='$p'");
-is( (-d Alien::SDL->config('prefix')), 1, "Testing existance of 'prefix' directory" );
+is( (-d Alien::SDL->config('prefix')), 1, "Testing existence of 'prefix' directory" );
 
 ### check if list of ld_shared_libs contains existing files
 my $l_result = 1;
