@@ -207,21 +207,21 @@ sub set_config_data {
     $tmp{ catpath($v, $d, '') } = 1;
     # available shared libs detection
     if ($f =~ /smpeg/) {
-      $shlib_map{smpeg} = $full;
+      $shlib_map{smpeg} = $full unless $shlib_map{smpeg};
     }
     elsif ($f =~ /^(lib)?(png12)/) {
-      $shlib_map{png12} = $full;
+      $shlib_map{png12} = $full unless $shlib_map{png12};
     }
     elsif ($f =~ /^(lib)?(tiff|jpeg|png)[^a-zA-Z]/) {
-      $shlib_map{$2} = $full;
+      $shlib_map{$2} = $full unless $shlib_map{$2};
     }
     elsif ($f =~ /^(lib)?(SDL_[a-zA-Z]{2,8})[^a-zA-Z0-9]/) {
       # sort of dark magic how to detect SDL_<something> related shlib
-      $shlib_map{$2} = $full;
+      $shlib_map{$2} = $full unless $shlib_map{$2};
     }
     elsif ($f =~ /^(lib)?(SDL)/) {
       # '*SDL*' that did not pass previous test is probably core 'SDL'
-      $shlib_map{SDL} = $full;
+      $shlib_map{SDL} = $full unless $shlib_map{SDL};
     }
   };
   $cfg->{ld_paths} = [ keys %tmp ];
