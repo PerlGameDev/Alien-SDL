@@ -3,6 +3,7 @@ Revision history for Perl module Alien::SDL
 NEXT
      - Powerpc fixes [ioanrogers]
      - fix for many failing MacOS CPAN tester reports [kmx]
+     - updated packages (zlib-1.2.4, jpeg-8a, libpng-1.4.1, freetype-2.3.12) in src build [kmx]
 
 1.0 
      - TODO for 1.0 release has been met so incrementing 
