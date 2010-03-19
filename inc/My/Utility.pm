@@ -15,10 +15,10 @@ use Cwd qw(realpath);
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100301) RECOMMENDED\n" .
+      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100319) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
-      url      => 'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100301.zip',
-      sha1sum  => 'e6dc884a833199e195523a9a31352d4ed5cb6255',
+      url      => 'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100319.zip',
+      sha1sum  => 'fc968684900f09fb7656735edc6472fe961ec536',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
