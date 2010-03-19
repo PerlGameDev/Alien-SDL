@@ -124,7 +124,7 @@ sub _get_configure_cmd {
   
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
-    $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra";
+    $cmd = "./configure --prefix=$prefixdir";
   }
   else {
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .

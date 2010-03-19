@@ -104,30 +104,27 @@ my $source_packs = [
     members     => [
       {
         pack => 'zlib',
-        dirname => 'zlib-1.2.3',
-        url => 'http://www.zlib.net/zlib-1.2.3.tar.gz',
-        sha1sum  => '60faeaaf250642db5c0ea36cd6dcc9f99c8f3902',
+        dirname => 'zlib-1.2.4',
+        url => 'http://www.zlib.net/zlib-1.2.4.tar.gz',
+        sha1sum  => '22965d40e5ca402847f778d4d10ce4cba17459d1',
       },
       {
         pack => 'jpeg',
-        dirname => 'jpeg-7',
-        url => 'http://www.ijg.org/files/jpegsrc.v7.tar.gz',
-        sha1sum  => '88cced0fc3dbdbc82115e1d08abce4e9d23a4b47',
-        patches => [
-          'jpeg-7_cygwin.patch',
-        ],
+        dirname => 'jpeg-8a',
+        url => 'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
+        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
       },
       {
         pack => 'libpng',
-        dirname => 'libpng-1.2.40',
-        url => 'http://downloads.sourceforge.net/libpng/libpng-1.2.40.tar.gz',
-        sha1sum  => 'a3f2df01871da15d66f103a5b4e793601e4d1043',
+        dirname => 'libpng-1.4.1',
+        url => 'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
+        sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
       },
       {
         pack => 'freetype',
-        dirname => 'freetype-2.3.11',
-        url => 'http://mirror.lihnidos.org/GNU/savannah/freetype/freetype-2.3.11.tar.gz',
-        sha1sum  => 'e8627804a5230594ec2327ab8caf25b0d05b9a31',
+        dirname => 'freetype-2.3.12',
+        url => 'http://mirror.lihnidos.org/GNU/savannah/freetype/freetype-2.3.12.tar.gz',
+        sha1sum  => '0082ec5e99fec5a1c6d89b321a7e2f201542e4b3',
       },
       {
         pack => 'SDL',
