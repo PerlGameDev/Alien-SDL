@@ -252,7 +252,7 @@ sub _sdl_config_via_script
   my $val = `$script --$param 2>$devnull`;
   $val =~ s/[\r\n]*$//;
   if($param eq 'cflags') {
-    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflafs');
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflags');
   }
   elsif($param eq 'libs') {
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
@@ -272,7 +272,7 @@ sub _sdl_config_via_config_data
   return unless $val;
   # handle additional flags
   if($param eq 'cflags') {
-    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflafs');
+    $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflags');
   }
   elsif($param eq 'libs') {
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
