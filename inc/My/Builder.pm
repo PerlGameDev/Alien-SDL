@@ -52,7 +52,7 @@ sub ACTION_code {
     $self->config_data('build_os', $^O);
     $self->config_data('script', '');            # just to be sure
     $self->config_data('config', {});            # just to be sure
-    $self->config_data('additional_cflafs', ''); # just to be sure
+    $self->config_data('additional_cflags', ''); # just to be sure
     $self->config_data('additional_libs', '');   # just to be sure
 
     if($bp->{buildtype} eq 'use_config_script') {
@@ -228,7 +228,7 @@ sub set_config_data {
   $cfg->{ld_shlib_map} = \%shlib_map;
 
   # write config
-  $self->config_data('additional_cflafs', '-I@PrEfIx@/include ' .
+  $self->config_data('additional_cflags', '-I@PrEfIx@/include ' .
                                           '-I@PrEfIx@/include/smpeg ' .
                                           $self->get_additional_cflags);
   $self->config_data('additional_libs', $self->get_additional_libs);
