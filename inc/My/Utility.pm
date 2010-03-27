@@ -97,7 +97,67 @@ my $source_packs = [
       },
     ],
   },
-## another src build set
+## another src build set (incl. PANGO SUPPORT)
+  {
+    title   => "Source code build: SDL-1.2.14 & co. (PANGO SUPPORT)\n" .
+               "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx|Pango)\n" .
+	       "\tneeds preinstalled: (libpng|jpeg|freetype2|pango)-devel\n" .
+               "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!" ,
+    members     => [
+      {
+        pack => 'SDL',
+        dirname => 'SDL-1.2.14',
+        url => 'http://www.libsdl.org/release/SDL-1.2.14.tar.gz',
+        sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
+        patches => [
+          'test1.patch',
+        ],
+      },
+      {
+        pack => 'SDL_image',
+        dirname => 'SDL_image-1.2.10',
+        url => 'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.10.tar.gz',
+        sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_mixer',
+        dirname => 'SDL_mixer-1.2.11',
+        url => 'http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.11.tar.gz',
+        sha1sum  => 'ef5d45160babeb51eafa7e4019cec38324ee1a5d',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_ttf',
+        dirname => 'SDL_ttf-2.0.10',
+        url => 'http://www.libsdl.org/tmp/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz',
+        sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_net',
+        dirname => 'SDL_net-1.2.7',
+        url => 'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
+        sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_gfx',
+        dirname => 'SDL_gfx-2.0.20',
+        url => 'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.20.tar.gz',
+        sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_Pango',
+        dirname => 'SDL_Pango-0.1.2',
+        url => 'http://downloads.sourceforge.net/sdlpango/SDL_Pango-0.1.2.tar.gz',
+        sha1sum  => 'c30f2941d476d9362850a150d29cb4a93730af68',
+        patches => [ ],
+      },
+    ],
+  },
+## another src build set (all from sources)
   {
     title   => "Source code build: SDL-1.2.14 & co. + all prereq. libraries\n" .
                "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
