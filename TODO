@@ -5,3 +5,6 @@ TODO list for Perl module Alien::SDL
 - move prebuilt binaries to http://sdl.perl.org/
 - switch src builds to SDL_ttf-2.0.10.tar.gz (not released yet)
   unofficial version: http://www.libsdl.org/tmp/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz
+- give option to use old sources
+- give app to update and manage source code see below
+- use a json file which we can update off site (not hard coded) to link to new SHA sum and packs
