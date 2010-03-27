@@ -1,10 +1,11 @@
 Revision history for Perl module Alien::SDL
 
-NEXT
+1.1
      - Powerpc fixes [ioanrogers]
      - fix for many failing MacOS CPAN tester reports [kmx]
      - updated packages (zlib-1.2.4, jpeg-8a, libpng-1.4.1, freetype-2.3.12) in src build [kmx]
      - new Win32 binaries by FROGGS (now works well on WinXP & Win7)
+     - typo fixes [dorkfish]
 
 1.0 
      - TODO for 1.0 release has been met so incrementing 
