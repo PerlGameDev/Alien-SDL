@@ -77,8 +77,8 @@
  }
  
  /*!
---- src/SDL_Pango.h	2004-12-10 10:06:33.000000000 +0100
-+++ src/SDL_Pango.h	2006-09-24 22:46:01.000000000 +0200
+--- SDL_Pango-0.1.2/src/SDL_Pango.h	2004-12-10 10:06:33.000000000 +0100
++++ SDL_Pango-0.1.2/src/SDL_Pango.h	2006-09-24 22:46:01.000000000 +0200
 @@ -109,12 +109,20 @@
      SDLPANGO_DIRECTION_NEUTRAL	/*! Neutral */
  } SDLPango_Direction;
