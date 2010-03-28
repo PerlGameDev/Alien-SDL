@@ -148,7 +148,19 @@ sub extract_sources {
       my $ae = Archive::Extract->new( archive => $archive );
       die "###ERROR###: cannot extract $pack ", $ae->error unless $ae->extract(to => $build_src);
       foreach my $i (@{$pack->{patches}}) {
-        chdir catfile($build_src, $pack->{dirname});
+        chdir $srcdir;
+        print "Checking affected files for patch '$i'\n";
+        foreach my $k ($self->patch_get_affected_files($srcdir, catfile($patches, $i))) {
+		  # doing the same like -p1 for 'patch'
+		  $k =~ s/^[^\/]*\/(.*)$/$1/;
+          if(-e $k) {
+			print "Preparing file '$k'\n";
+            sed_inplace( $k, 's/\r\n/\n/gm' ); # converting to UNIX newlines
+          }
+		  else {
+		    print "###WARN### file '$k' for patch '$i' not found\n";
+		  }
+        }
         print "Applying patch '$i'\n";
         my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
         if ($cmd) {
@@ -298,16 +310,28 @@ sub check_sha1sum {
 
 sub patch_command {
   my( $self, $base_dir, $patch_file ) = @_;
+  
+  print("patch_command: $base_dir, $patch_file\n");
+  
   my $devnull = File::Spec->devnull();
   my $test = `patch --help 2> $devnull`;
   if ($test) {
     $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
     # the patches are expected with UNIX newlines
     # the following command works on both UNIX+Windows
-    return qq("$^X" -pe0 -- "$patch_file" | patch -p1);
+	return qq("$^X" -pe0 -- "$patch_file" | patch -p1); # paths of files to patch should be relative to build_src
   }
   warn "###WARN### patch not available";
   return '';
+}
+
+sub patch_get_affected_files {
+  my( $self, $base_dir, $patch_file ) = @_;
+  $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
+  open(DAT, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
+  my @affected_files = map{$_ =~ /^---\s*([\S]+)/} <DAT>;
+  close(DAT);
+  return @affected_files;
 }
 
 1;
