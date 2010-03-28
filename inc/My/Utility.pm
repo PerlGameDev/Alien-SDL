@@ -153,7 +153,7 @@ my $source_packs = [
         dirname => 'SDL_Pango-0.1.2',
         url => 'http://downloads.sourceforge.net/sdlpango/SDL_Pango-0.1.2.tar.gz',
         sha1sum  => 'c30f2941d476d9362850a150d29cb4a93730af68',
-        patches => [ ],
+        patches => [ 'SDL_Pango-0.1.2-API-adds.patch' ],
       },
     ],
   },
