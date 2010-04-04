@@ -58,8 +58,8 @@ sub ACTION_code {
     if($bp->{buildtype} eq 'use_config_script') {
       $self->config_data('script', $bp->{script});
       # include path trick - adding couple of addititonal locations
-      $self->config_data('additional_cflags', '-I'.$bp->{prefix}.'/include/smpeg '.
-                                              '-I'.$bp->{prefix}.'/include ' .
+      $self->config_data('additional_cflags', '-I"' . $bp->{prefix}.'/include/smpeg" '.
+                                              '-I"' . $bp->{prefix}.'/include" ' .
                                               $self->get_additional_cflags);
       $self->config_data('additional_libs', $self->get_additional_libs);
     }
@@ -187,8 +187,8 @@ sub set_config_data {
     # defaults
     version     => $version,
     prefix      => '@PrEfIx@',
-    libs        => '-L@PrEfIx@/lib -lSDLmain -lSDL',
-    cflags      => '-I@PrEfIx@/include/SDL -D_GNU_SOURCE=1 -Dmain=SDL_main',
+    libs        => '-L"@PrEfIx@/lib" -lSDLmain -lSDL',
+    cflags      => '-I"@PrEfIx@/include/SDL" -D_GNU_SOURCE=1 -Dmain=SDL_main',
     shared_libs => [ ],
   };
 
@@ -240,8 +240,8 @@ sub set_config_data {
   $cfg->{ld_shlib_map} = \%shlib_map;
 
   # write config
-  $self->config_data('additional_cflags', '-I@PrEfIx@/include ' .
-                                          '-I@PrEfIx@/include/smpeg ' .
+  $self->config_data('additional_cflags', '-I"@PrEfIx@/include" ' .
+                                          '-I"@PrEfIx@/include/smpeg" ' .
                                           $self->get_additional_cflags);
   $self->config_data('additional_libs', $self->get_additional_libs);
   $self->config_data('config', $cfg);
