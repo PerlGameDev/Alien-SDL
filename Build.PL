@@ -27,8 +27,11 @@ my $build = $package->new(
     'File::ShareDir'   => '0',
     'ExtUtils::CBuilder' => '0',
   },
-  build_requires       => {
+  build_requires       => {  #need to have for running: ./Build (install|test)
     'File::Spec'       => '0',
+    'File::Temp'       => '0',
+    'File::ShareDir'   => '0',
+    'ExtUtils::CBuilder' => '0',
     'File::Path'       => '2.07',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
@@ -38,7 +41,7 @@ my $build = $package->new(
     'Archive::Zip'     => '0',
     'Module::Build'    => '0.36',
   },
-  configure_requires   => {
+  configure_requires   => {  #need to have for running: perl Buil.PL
     'File::Spec'       => '0',
     'File::Path'       => '2.07',
     'File::Fetch'      => '0',
