@@ -61,10 +61,10 @@ sub build_binaries {
     }
 
     # do 'make install'
-    my $cmd = "make install";
+    my @cmd = ($self->_get_make, 'install');
     print "Running make install $pack->{pack}...\n";
-    print "(cmd: $cmd)\n";
-    $self->do_system($cmd) or die "###ERROR### [$?] during make ... ";
+    print "(cmd: ".join(' ',@cmd).")\n";
+    $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
 
     chdir $self->base_dir();
   }
@@ -121,6 +121,27 @@ sub _get_configure_cmd {
   $cmd = "PATH=\"$prefixdir/bin:\$PATH\" $cmd";
   
   return $cmd;
+}
+
+sub _get_make {
+  my ($self) = @_;
+  my $devnull = File::Spec->devnull();
+  my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
+  my %tested;
+  print "Gonna detect GNU make:\n";
+  foreach my $name ( @try ) {
+    next unless $name;
+    next if $tested{$name};
+    $tested{$name} = 1;
+    print "- testing: '$name'\n";
+    my $ver = `$name --version 2> $devnull`;
+    if ($ver =~ /GNU Make/i) {
+      print "- found: '$name'\n";
+      return $name
+    }
+  }
+  print "- fallback to: 'make'\n";
+  return 'make';
 }
 
 1;
