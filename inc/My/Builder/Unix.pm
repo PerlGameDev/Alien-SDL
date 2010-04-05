@@ -8,23 +8,6 @@ use File::Spec::Functions qw(catdir catfile rel2abs);
 use Config;
 
 my $inc_lib_candidates = {
-  '/usr/local/include/SDL11'  => '/usr/local/lib', #freebsd
-  '/usr/pkg/include',         => '/usr/local/lib', #netbsd
-  '/usr/pkg/include/SDL'      => '/usr/local/lib', #netbsd
-  '/usr/pkg/include/smpeg'    => '/usr/local/lib', #netbsd
-  '/usr/local/include'        => '/usr/local/lib',
-  '/usr/local/include/gl'     => '/usr/local/lib',
-  '/usr/local/include/GL'     => '/usr/local/lib',
-  '/usr/local/include/SDL'    => '/usr/local/lib',
-  '/usr/local/include/smpeg'  => '/usr/local/lib',
-  '/usr/include'              => '/usr/lib',
-  '/usr/include/gl'           => '/usr/lib',
-  '/usr/include/GL'           => '/usr/lib',
-  '/usr/include/SDL'          => '/usr/lib',
-  '/usr/include/smpeg'        => '/usr/lib',
-  '/usr/X11R6/include'        => '/usr/X11R6/lib',
-  '/usr/X11R6/include/gl'     => '/usr/X11R6/lib',
-  '/usr/X11R6/include/GL'     => '/usr/X11R6/lib',
 };
 
 sub get_additional_cflags {
