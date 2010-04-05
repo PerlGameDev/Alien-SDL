@@ -116,11 +116,14 @@ sub _get_configure_cmd {
     $extra .= " --disable-nasm";
   }
 
-  if(($pack eq 'SDL') && ($^O eq 'darwin')) {
-    # fix for many MacOS CPAN tester reports saying "error: X11/Xlib.h: No such file or directory"
-    $extra_cflags .= ' -I/usr/X11R6/include';
-    $extra_ldflags .= ' -L/usr/X11R6/lib';
-  }
+  ### This was intended as a fix for http://www.cpantesters.org/cpan/report/7064012
+  ### Unfortunately does not work.
+  #
+  #if(($pack eq 'SDL') && ($^O eq 'darwin')) {
+  #  # fix for many MacOS CPAN tester reports saying "error: X11/Xlib.h: No such file or directory"
+  #  $extra_cflags .= ' -I/usr/X11R6/include';
+  #  $extra_ldflags .= ' -L/usr/X11R6/lib';
+  #}
   
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
