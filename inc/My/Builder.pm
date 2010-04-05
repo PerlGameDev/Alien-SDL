@@ -320,8 +320,8 @@ sub patch_command {
   print("patch_command: $base_dir, $patch_file\n");
   
   my $devnull = File::Spec->devnull();
-  my $test = `patch -v 2> $devnull`;
-  if ($test) {
+  my $patch_rv = system("patch -v > $devnull 2>&1");
+  if ($patch_rv == 0) {
     $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
     # the patches are expected with UNIX newlines
     # the following command works on both UNIX+Windows
