@@ -287,7 +287,7 @@ sub find_file {
   my ($dir, $re) = @_;
   my @files;
   $re ||= qr/.*/;
-  find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 }, $dir);
+  find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
   return @files;
 }
 
