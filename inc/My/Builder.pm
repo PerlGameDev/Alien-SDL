@@ -205,6 +205,17 @@ sub set_config_data {
     }
   }
 
+  # find ld_shared_libs and create symlinks i necessary
+  my $symlink_exists = eval { symlink("",""); 1 };
+  if($symlink_exists)
+  {
+    my @shlibs_ = find_file($build_out, qr/\.\Q$Config{dlext}\E[\d\.]+$/);
+    foreach my $full (@shlibs_){
+      $full =~ qr/(\.\Q$Config{dlext}\E)[\d\.]+$/;
+      symlink($full, $1) unless -e $1;
+    }
+  }
+
   # find and set ld_shared_libs
   my @shlibs = find_file($build_out, qr/\.\Q$Config{dlext}\E$/);
   my $p = rel2abs($prefix);
