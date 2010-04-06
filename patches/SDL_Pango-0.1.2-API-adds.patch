@@ -79,7 +79,18 @@
  /*!
 --- SDL_Pango-0.1.2/src/SDL_Pango.h	2004-12-10 10:06:33.000000000 +0100
 +++ SDL_Pango-0.1.2/src/SDL_Pango.h	2006-09-24 22:46:01.000000000 +0200
-@@ -109,12 +109,20 @@
+@@ -27,6 +27,10 @@
+ #ifndef SDL_PANGO_H
+ #define SDL_PANGO_H
+ 
++#ifndef SDL_PANGO_FB
++#define SDL_PANGO_FB
++#endif
++
+ #include "SDL.h"
+ 
+ #include "begin_code.h"
+@@ -109,12 +113,20 @@
      SDLPANGO_DIRECTION_NEUTRAL	/*! Neutral */
  } SDLPango_Direction;
  
@@ -101,7 +112,7 @@
  extern DECLSPEC SDLPango_Context* SDLCALL SDLPango_CreateContext();
  
  extern DECLSPEC void SDLCALL SDLPango_FreeContext(
-@@ -157,6 +165,12 @@
+@@ -157,6 +170,12 @@
      const char *markup,
      int length);
  

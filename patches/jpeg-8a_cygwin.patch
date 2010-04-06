@@ -1,4 +1,4 @@
---- jpeg-8a/jmorecfg.h.orig	Fri Nov 20 09:01:24 2009
+--- jpeg-8a.orig/jmorecfg.h	Fri Nov 20 09:01:24 2009
 +++ jpeg-8a/jmorecfg.h	Fri Mar 19 01:22:26 2010
 @@ -233,7 +233,11 @@
   */

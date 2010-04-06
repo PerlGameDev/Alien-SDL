@@ -14,4 +14,10 @@ sub build_binaries {
   die "###ERROR### Building from sources not supported on MS Windows platform";
 }
 
+sub get_path {
+  my ( $self, $path ) = @_;
+  $path = '"' . $path . '"';
+  return $path;
+}
+
 1;

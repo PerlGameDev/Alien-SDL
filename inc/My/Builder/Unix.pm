@@ -8,24 +8,12 @@ use File::Spec::Functions qw(catdir catfile rel2abs);
 use Config;
 
 my $inc_lib_candidates = {
-  '/usr/local/include/SDL11'  => '/usr/local/lib', #freebsd
-  '/usr/pkg/include',         => '/usr/local/lib', #netbsd
-  '/usr/pkg/include/SDL'      => '/usr/local/lib', #netbsd
-  '/usr/pkg/include/smpeg'    => '/usr/local/lib', #netbsd
-  '/usr/local/include'        => '/usr/local/lib',
-  '/usr/local/include/gl'     => '/usr/local/lib',
-  '/usr/local/include/GL'     => '/usr/local/lib',
-  '/usr/local/include/SDL'    => '/usr/local/lib',
-  '/usr/local/include/smpeg'  => '/usr/local/lib',
-  '/usr/include'              => '/usr/lib',
-  '/usr/include/gl'           => '/usr/lib',
-  '/usr/include/GL'           => '/usr/lib',
-  '/usr/include/SDL'          => '/usr/lib',
-  '/usr/include/smpeg'        => '/usr/lib',
-  '/usr/X11R6/include'        => '/usr/X11R6/lib',
-  '/usr/X11R6/include/gl'     => '/usr/X11R6/lib',
-  '/usr/X11R6/include/GL'     => '/usr/X11R6/lib',
 };
+
+$inc_lib_candidates->{'/usr/pkg/include/smpeg'}   = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/local/include/smpeg'} = '/usr/local/lib' if -f '/usr/local/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/include/smpeg'}       = '/usr/lib'       if -f '/usr/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/X11R6/include'}       = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
 
 sub get_additional_cflags {
   my $self = shift;
@@ -78,10 +66,10 @@ sub build_binaries {
     }
 
     # do 'make install'
-    my $cmd = "make install";
+    my @cmd = ($self->_get_make, 'install');
     print "Running make install $pack->{pack}...\n";
-    print "(cmd: $cmd)\n";
-    $self->do_system($cmd) or die "###ERROR### [$?] during make ... ";
+    print "(cmd: ".join(' ',@cmd).")\n";
+    $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
 
     chdir $self->base_dir();
   }
@@ -116,11 +104,14 @@ sub _get_configure_cmd {
     $extra .= " --disable-nasm";
   }
 
-  if(($pack eq 'SDL') && ($^O eq 'darwin')) {
-    # fix for many MacOS CPAN tester reports saying "error: X11/Xlib.h: No such file or directory"
-    $extra_cflags .= ' -I/usr/X11R6/include';
-    $extra_ldflags .= ' -L/usr/X11R6/lib';
-  }
+  ### This was intended as a fix for http://www.cpantesters.org/cpan/report/7064012
+  ### Unfortunately does not work.
+  #
+  #if(($pack eq 'SDL') && ($^O eq 'darwin')) {
+  #  # fix for many MacOS CPAN tester reports saying "error: X11/Xlib.h: No such file or directory"
+  #  $extra_cflags .= ' -I/usr/X11R6/include';
+  #  $extra_ldflags .= ' -L/usr/X11R6/lib';
+  #}
   
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
@@ -135,6 +126,27 @@ sub _get_configure_cmd {
   $cmd = "PATH=\"$prefixdir/bin:\$PATH\" $cmd";
   
   return $cmd;
+}
+
+sub _get_make {
+  my ($self) = @_;
+  my $devnull = File::Spec->devnull();
+  my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
+  my %tested;
+  print "Gonna detect GNU make:\n";
+  foreach my $name ( @try ) {
+    next unless $name;
+    next if $tested{$name};
+    $tested{$name} = 1;
+    print "- testing: '$name'\n";
+    my $ver = `$name --version 2> $devnull`;
+    if ($ver =~ /GNU Make/i) {
+      print "- found: '$name'\n";
+      return $name
+    }
+  }
+  print "- fallback to: 'make'\n";
+  return 'make';
 }
 
 1;
