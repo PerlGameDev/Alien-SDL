@@ -1,6 +1,11 @@
 Revision history for Perl module Alien::SDL
 
 NEXT
+     - build_requires fixed (now contains also modules needed for ./Build test)
+     - Win32 patch - proper handling of spaces in dirname
+     - Better detection of patch utility (now works with old patch on bsd systems)
+     - GNU make autodetection (on bsd systems make!=GNU-make)
+     - SDL_Pango special patch now defines SDL_PANGO_FB
      - more diagnostics in t/001_load.t
      - improved patching mechanism (better CRLF/LF handling) [FROGGS]
      - Win/32bit binaries by FROGGS (with SDL_Pango patch)
