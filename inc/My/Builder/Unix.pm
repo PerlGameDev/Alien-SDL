@@ -16,7 +16,7 @@ $inc_lib_candidates->{'/usr/include/smpeg'}       = '/usr/lib'       if -f '/usr
 $inc_lib_candidates->{'/usr/X11R6/include'}       = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
 $inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/png.h';
 $inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/tiff.h';
-$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/jpglib.h';
+$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/jpeglib.h';
 
 sub get_additional_cflags {
   my $self = shift;
