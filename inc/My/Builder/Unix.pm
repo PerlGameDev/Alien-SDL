@@ -8,15 +8,17 @@ use File::Spec::Functions qw(catdir catfile rel2abs);
 use Config;
 
 my $inc_lib_candidates = {
+  '/usr/local/include' => '/usr/local/lib',
+  '/usr/local/include/smpeg' => '/usr/local/lib',
 };
 
 $inc_lib_candidates->{'/usr/pkg/include/smpeg'}   = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';
-$inc_lib_candidates->{'/usr/local/include/smpeg'} = '/usr/local/lib' if -f '/usr/local/include/smpeg/smpeg.h';
+#$inc_lib_candidates->{'/usr/local/include/smpeg'} = '/usr/local/lib' if -f '/usr/local/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/include/smpeg'}       = '/usr/lib'       if -f '/usr/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/X11R6/include'}       = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
-$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/png.h';
-$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/tiff.h';
-$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/jpeglib.h';
+#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/png.h';
+#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/tiff.h';
+#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/jpeglib.h';
 
 sub get_additional_cflags {
   my $self = shift;
