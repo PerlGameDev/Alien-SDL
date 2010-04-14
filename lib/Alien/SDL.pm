@@ -50,7 +50,7 @@ and/or related libraries like this:
     WriteMakefile(
       NAME         => 'Any::SDL::Module',
       VERSION_FROM => 'lib/Any/SDL/Module.pm',
-      LIBS         => Alien::SDL->config('libs'),
+      LIBS         => Alien::SDL->config('libs', [-lAdd_Lib]),
       INC          => Alien::SDL->config('cflags'),
       # + additional params
     );
@@ -175,9 +175,10 @@ LICENSE file included with this module.
 ### get config params
 sub config
 {
-  my ($package, $param) = @_;
-  return _sdl_config_via_script($param) if(Alien::SDL::ConfigData->config('script'));
-  return _sdl_config_via_config_data($param) if(Alien::SDL::ConfigData->config('config'));
+  my $package = shift;
+  my @params  = @_;
+  return _sdl_config_via_script(@params)      if(Alien::SDL::ConfigData->config('script'));
+  return _sdl_config_via_config_data(@params) if(Alien::SDL::ConfigData->config('config'));
 }
 
 ### get version info from given header file
@@ -245,7 +246,8 @@ MARKER
 ### internal functions
 sub _sdl_config_via_script
 {
-  my ($param) = @_;
+  my $param    = shift;
+  my @add_libs = @_;
   my $devnull = File::Spec->devnull();
   my $script = Alien::SDL::ConfigData->config('script');
   return unless ($script && ($param =~ /[a-z0-9_]*/i));
@@ -255,6 +257,7 @@ sub _sdl_config_via_script
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflags');
   }
   elsif($param eq 'libs') {
+    $val .= ' ' . join(' ', @add_libs) if scalar @add_libs;
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
   }
   return $val;
@@ -262,7 +265,8 @@ sub _sdl_config_via_script
 
 sub _sdl_config_via_config_data
 {
-  my ($param) = @_;
+  my $param    = shift;
+  my @add_libs = @_;
   my $share_dir = dist_dir('Alien-SDL');
   my $subdir = Alien::SDL::ConfigData->config('share_subdir');
   return unless $subdir;
@@ -275,6 +279,7 @@ sub _sdl_config_via_config_data
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_cflags');
   }
   elsif($param eq 'libs') {
+    $val .= ' ' . join(' ', @add_libs) if scalar @add_libs;
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
   }  
   # handle @PrEfIx@ replacement
