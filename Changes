@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+1.3  Thu Apr 15 2010
+     - additional libs can be specyfied via Alien::SDL->config('libs', [-lAdd_Lib]) [FROGGS]
+     - checking for required shared libs, warn if missed (for now) [FROGGS]
+
 1.2
      - build_requires fixed (now contains also modules needed for ./Build test)
      - Win32 patch - proper handling of spaces in dirname [FROGGS]

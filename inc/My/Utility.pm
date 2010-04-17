@@ -50,7 +50,14 @@ my $source_packs = [
     title   => "Source code build: SDL-1.2.14 & co. (RECOMMENDED)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx|Pango)\n" .
                "\tneeds preinstalled: (libpng|jpeg|freetype2|pango)-devel\n" .
-               "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!" ,
+               "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!",
+    prereqs => {
+        libs => [
+          'm', 'dl', 'pthread', 'c', # SDL
+          'png', 'jpeg', 'tiff',     # SDL_image
+          'pangoft2', 'pango', 'gobject', 'gmodule', 'glib', 'fontconfig', 'freetype', 'z', 'rt', 'expat', # SDL_Pango
+        ]
+    },
     members     => [
       {
         pack => 'SDL',
@@ -110,6 +117,13 @@ my $source_packs = [
     title   => "Source code build: SDL-1.2.14 & co. (NO PANGO)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx)\n" .
                "\tneeds preinstalled: (libpng|jpeg|freetype2)-devel",
+    prereqs => {
+        libs => [
+          'm', 'dl', 'pthread', 'c', # SDL
+          'png', 'jpeg', 'tiff',     # SDL_image
+          'freetype',                # SDL_ttf
+        ]
+    },
     members     => [
       {
         pack => 'SDL',
@@ -161,6 +175,12 @@ my $source_packs = [
   {
     title   => "Source code build: SDL-1.2.14 & co. + all prereq. libraries\n" .
                "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
+    prereqs => {
+        libs => [
+          'm', 'dl', 'pthread', 'c', # SDL
+          'tiff',                    # SDL_image
+        ]
+    },
     members     => [
       {
         pack => 'zlib',
