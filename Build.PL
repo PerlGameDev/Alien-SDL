@@ -19,7 +19,7 @@ my $build = $package->new(
   module_name          => 'Alien::SDL',
   all_from             => 'lib/Alien/SDL.pm',
   dist_abstract        => 'Get, Build and Use SDL libraries',
-  dist_author	       => 'Kartik Thakore <KTHAKORE@cpan.org>',
+  dist_author          => 'Kartik Thakore <KTHAKORE@cpan.org>',
   license              => 'perl',
   requires             => {
     'File::Spec'       => '0',
@@ -40,6 +40,7 @@ my $build = $package->new(
     'Archive::Tar'     => '0',
     'Archive::Zip'     => '0',
     'Module::Build'    => '0.36',
+    'Alien::PNG'       => '0',
   },
   configure_requires   => {  #need to have for running: perl Buil.PL
     'File::Spec'       => '0',
