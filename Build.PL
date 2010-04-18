@@ -26,6 +26,7 @@ my $build = $package->new(
     'File::Temp'       => '0',
     'File::ShareDir'   => '0',
     'ExtUtils::CBuilder' => '0',
+    'Alien::SDL'       => '0',
   },
   build_requires       => {  #need to have for running: ./Build (install|test)
     'File::Spec'       => '0',
@@ -40,6 +41,7 @@ my $build = $package->new(
     'Archive::Tar'     => '0',
     'Archive::Zip'     => '0',
     'Module::Build'    => '0.36',
+	'Alien::SDL'       => '0',
   },
   configure_requires   => {  #need to have for running: perl Buil.PL
     'File::Spec'       => '0',
