@@ -5,6 +5,7 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
+use Alien::PNG;
 use Config;
 
 my $inc_lib_candidates = {
@@ -97,8 +98,8 @@ sub _get_configure_cmd {
   }
   
   if($pack eq 'SDL_image') {
-    $extra_cflags .= ' -I/usr/local/include';
-    $extra_ldflags .= ' -L/usr/local/lib';
+    #$extra_cflags  .= ' -I/usr/local/include';
+    #$extra_ldflags .= ' -L/usr/local/lib';
   }
 
   if(($pack eq 'SDL') && ($Config{archname} =~ /(powerpc|ppc)/)) {
@@ -130,6 +131,9 @@ sub _get_configure_cmd {
   else {
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
            " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
+    
+    $cmd .= ' LIBPNG_CFLAGS="' . Alien::PNG->config('cflags') . '"'
+          . ' LIBPNG_LIBS="'   . Alien::PNG->config('libs')   . '"' if 'SDL_image' eq $pack;
   }
   
   # we need to have $prefixdir/bin in PATH while running ./configure
