@@ -98,7 +98,7 @@ if($rv=check_prebuilt_binaries($build->os_type)) {
   push @candidates, @{$rv};
 };
 
-if(($rv=check_src_build($build->os_type)) && $build->can_build_binaries_from_sources()) {
+if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_type))) {
   push @candidates, @{$rv};
 };
 

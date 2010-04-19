@@ -53,9 +53,9 @@ my $source_packs = [
                "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!",
     prereqs => {
         libs => [
-          'm', 'dl', 'pthread', 'c', # SDL
-          'png', 'jpeg', 'tiff',     # SDL_image
-          'pangoft2', 'pango', 'gobject', 'gmodule', 'glib', 'fontconfig', 'freetype', 'z', 'rt', 'expat', # SDL_Pango
+          'pthread',             # SDL
+          'png', 'jpeg', 'tiff', # SDL_image
+          'pangoft2', 'pango', 'gobject', 'gmodule', 'glib', 'fontconfig', 'freetype', 'expat', # SDL_Pango
         ]
     },
     members     => [
@@ -119,9 +119,9 @@ my $source_packs = [
                "\tneeds preinstalled: (libpng|jpeg|freetype2)-devel",
     prereqs => {
         libs => [
-          'm', 'dl', 'pthread', 'c', # SDL
-          'png', 'jpeg', 'tiff',     # SDL_image
-          'freetype',                # SDL_ttf
+          'pthread',             # SDL
+          'png', 'jpeg', 'tiff', # SDL_image
+          'freetype',            # SDL_ttf
         ]
     },
     members     => [
@@ -177,8 +177,8 @@ my $source_packs = [
                "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
     prereqs => {
         libs => [
-          'm', 'dl', 'pthread', 'c', # SDL
-          'tiff',                    # SDL_image
+          'pthread',             # SDL
+          'png', 'jpeg', 'tiff', # SDL_image
         ]
     },
     members     => [
@@ -297,10 +297,54 @@ sub check_src_build
 {
   print "Gonna check possibility for building from sources ...\n";
   print "(os=$^O cc=$Config{cc})\n";
+  my @good = ();
   foreach my $p (@{$source_packs}) {
     $p->{buildtype} = 'build_from_sources';
+	push @good, $p if check_prereqs($p);
   }
-  return $source_packs;
+  return \@good;
+}
+
+sub check_prereqs_libs {
+  my @libs = @_;
+
+  for my $lib (@libs) {
+    my $found_lib          = '';
+    my $found_inc          = '';
+    my $inc_lib_candidates = {
+      '/usr/local/include' => '/usr/local/lib',
+      '/usr/include'       => '/usr/lib',
+    };
+	my $header_map         = {
+	  'z'    => 'zlib',
+	  'jpeg' => 'jpeglib',
+	};
+	my $header             = (defined $header_map->{$lib}) ? $header_map->{$lib} : $lib;
+
+    foreach (keys %$inc_lib_candidates) {
+	  my $ld = $inc_lib_candidates->{$_};
+      next unless -d $_ && -d $ld;
+      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.\Q$Config{dlext}\E[\d\.]*$/);
+      ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
+      last if $found_lib && $found_inc;
+    }
+	
+	if($found_lib && $found_inc) {
+      return 1;
+    }
+    else {
+      print "WARNING: required lib(-dev) '$lib' not found, disabling affected option\n";
+    }
+  }
+}
+
+sub check_prereqs {
+  my $bp  = shift;
+  my $ret = 1;
+  
+  $ret &= check_prereqs_libs(@{$bp->{prereqs}->{libs}}) if defined $bp->{prereqs}->{libs};
+  
+  return $ret;
 }
 
 sub find_file {

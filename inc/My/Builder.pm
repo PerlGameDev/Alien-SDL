@@ -72,7 +72,6 @@ sub ACTION_code {
     }
     elsif($bp->{buildtype} eq 'build_from_sources' ) {
       # all the following functions die on error, no need to test ret values
-      $self->check_prereqs();
       $self->fetch_sources($download);
       $self->extract_sources($download, $patches, $build_src);
       $self->clean_dir($build_out);
@@ -113,41 +112,6 @@ sub fetch_binaries {
   my ($self, $download) = @_;
   my $bp = $self->notes('build_params');
   $self->fetch_file($bp->{url}, $bp->{sha1sum}, $download);
-}
-
-sub check_prereqs {
-  my ($self) = @_;
-  my $bp = $self->notes('build_params');
-  
-    sub _libs {
-        my $self = shift;
-        my @libs = @_;
-        
-        for my $lib (@libs) {
-          print "Checking for preinstalled lib '$lib' ";
-          
-          print "." for(length($lib)..10);
-          
-          my $found              = '';
-          my @inc_lib_candidates = (
-            '/usr/local/lib',
-            '/usr/lib',
-          );
-          
-          foreach (@inc_lib_candidates) {
-            next unless -d $_;
-            ($found) = find_file($_, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.\Q$Config{dlext}\E[\d\.]*$/);
-
-            if($found) {
-              printf(" found %s", $found);
-              last if $found;
-            }
-          }
-          print " ###WARN###: required lib not found" unless $found;
-          print "\n";
-        }
-    }
-  $self->_libs(@{$bp->{prereqs}->{libs}}) if defined $bp->{prereqs}->{libs};
 }
 
 sub fetch_sources {
