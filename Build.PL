@@ -105,13 +105,15 @@ if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_
 push @candidates, { title => 'Quit installation' };
 
 #### ask user what way to go
-my $i = 1;
-my $prompt_string = "\nYou have the following options:\n";
+my $i                     = 1;
+my $prompt_string         = "\nYou have the following options:\n";
+my $recommended_candidate = 1;
 foreach my $c (@candidates) {
-  $prompt_string .= "[" . $i++ . "] " . $c->{title} . "\n"
+  $recommended_candidate = $i if $c->{title} =~ /RECOMMENDED/;
+  $prompt_string        .= "[" . $i++ . "] " . $c->{title} . "\n"
 }
 $prompt_string .= "\nWhat way do you wanna go?";
-my $ans = $build->prompt($prompt_string, 1);
+my $ans = $build->prompt($prompt_string, $recommended_candidate);
 
 #### store build params into 'notes'
 if(($ans>0) && ($ans<scalar(@candidates))) {
