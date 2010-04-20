@@ -177,16 +177,16 @@ my $source_packs = [
                "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
     prereqs => {
         libs => [
-          'pthread',             # SDL
-          'png', 'jpeg', 'tiff', # SDL_image
+          'pthread', # SDL
+          'tiff',    # SDL_image
         ]
     },
     members     => [
       {
         pack => 'zlib',
-        dirname => 'zlib-1.2.4',
-        url => 'http://www.zlib.net/zlib-1.2.4.tar.gz',
-        sha1sum  => '22965d40e5ca402847f778d4d10ce4cba17459d1',
+        dirname => 'zlib-1.2.5',
+        url => 'http://zlib.net/zlib-1.2.5.tar.gz',
+        sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
       },
       {
         pack => 'jpeg',
