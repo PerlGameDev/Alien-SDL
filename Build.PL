@@ -89,9 +89,10 @@ if(defined($ENV{SDL_INST_DIR})) {
   }
 }
 
-if($rv=check_config_script("sdl-config")) {
-  push @candidates, $rv;
-};
+# we don't know how they are compiled, so we are compiling our own
+#if($rv=check_config_script("sdl-config")) {
+#  push @candidates, $rv;
+#};
 
 if($rv=check_prebuilt_binaries($build->os_type)) {
   push @candidates, @{$rv};
