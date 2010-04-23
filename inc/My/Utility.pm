@@ -216,7 +216,6 @@ my $source_packs = [
     prereqs => {
         libs => [
           'pthread', # SDL
-          'tiff',    # SDL_image
         ]
     },
     members     => [
