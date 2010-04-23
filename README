@@ -27,7 +27,7 @@ SYNOPSIS
         WriteMakefile(
           NAME         => 'Any::SDL::Module',
           VERSION_FROM => 'lib/Any/SDL/Module.pm',
-          LIBS         => Alien::SDL->config('libs'),
+          LIBS         => Alien::SDL->config('libs', [-lAdd_Lib]),
           INC          => Alien::SDL->config('cflags'),
           # + additional params
         );
