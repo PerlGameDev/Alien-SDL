@@ -82,6 +82,12 @@ my $source_packs = [
         patches => [ ],
       },
       {
+        pack => 'libpng',
+        dirname => 'libpng-1.4.1',
+        url => 'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
+        sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
+      },
+      {
         pack => 'SDL_image',
         dirname => 'SDL_image-1.2.10',
         url => 'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.10.tar.gz',
@@ -159,6 +165,12 @@ my $source_packs = [
         url => 'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
         sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
         patches => [ ],
+      },
+      {
+        pack => 'libpng',
+        dirname => 'libpng-1.4.1',
+        url => 'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
+        sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
       },
       {
         pack => 'SDL_image',
