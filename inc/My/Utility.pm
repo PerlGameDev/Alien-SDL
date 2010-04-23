@@ -49,12 +49,11 @@ my $source_packs = [
   {
     title   => "Source code build: SDL-1.2.14 & co. (RECOMMENDED)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx|Pango)\n" .
-               "\tneeds preinstalled: (libpng|jpeg|freetype2|pango)-devel\n" .
+               "\tneeds preinstalled: (freetype2|pango)-devel\n" .
                "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!",
     prereqs => {
         libs => [
-          'pthread',             # SDL
-          'png', 'jpeg', 'tiff', # SDL_image
+          'pthread', # SDL
           'pangoft2', 'pango', 'gobject', 'gmodule', 'glib', 'fontconfig', 'freetype', 'expat', # SDL_Pango
         ]
     },
@@ -67,6 +66,20 @@ my $source_packs = [
         patches => [
           'test1.patch',
         ],
+      },
+      {
+        pack => 'jpeg',
+        dirname => 'jpeg-8a',
+        url => 'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
+        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
+        patches => [ 'jpeg-8a_cygwin.patch' ],
+      },
+      {
+        pack => 'tiff',
+        dirname => 'tiff-3.9.1',
+        url => 'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
+        sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
+        patches => [ ],
       },
       {
         pack => 'SDL_image',
@@ -116,12 +129,11 @@ my $source_packs = [
   {
     title   => "Source code build: SDL-1.2.14 & co. (NO PANGO)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx)\n" .
-               "\tneeds preinstalled: (libpng|jpeg|freetype2)-devel",
+               "\tneeds preinstalled: freetype2-devel",
     prereqs => {
         libs => [
-          'pthread',             # SDL
-          'png', 'jpeg', 'tiff', # SDL_image
-          'freetype',            # SDL_ttf
+          'pthread',  # SDL
+          'freetype', # SDL_ttf
         ]
     },
     members     => [
@@ -133,6 +145,20 @@ my $source_packs = [
         patches => [
           'test1.patch',
         ],
+      },
+      {
+        pack => 'jpeg',
+        dirname => 'jpeg-8a',
+        url => 'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
+        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
+        patches => [ 'jpeg-8a_cygwin.patch' ],
+      },
+      {
+        pack => 'tiff',
+        dirname => 'tiff-3.9.1',
+        url => 'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
+        sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
+        patches => [ ],
       },
       {
         pack => 'SDL_image',
@@ -174,7 +200,7 @@ my $source_packs = [
 ## another src build set (all from sources)
   {
     title   => "Source code build: SDL-1.2.14 & co. + all prereq. libraries\n" .
-               "\tbuilds: zlib, jpeg, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
+               "\tbuilds: zlib, jpeg, tiff, png, freetype, SDL, SDL_(image|mixer|ttf|net|gfx)",
     prereqs => {
         libs => [
           'pthread', # SDL
@@ -194,6 +220,13 @@ my $source_packs = [
         url => 'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
         sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
         patches => [ 'jpeg-8a_cygwin.patch' ],
+      },
+      {
+        pack => 'tiff',
+        dirname => 'tiff-3.9.1',
+        url => 'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
+        sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
+        patches => [ ],
       },
       {
         pack => 'libpng',

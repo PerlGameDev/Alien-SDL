@@ -97,11 +97,6 @@ sub _get_configure_cmd {
     $extra .= ' --disable-mmx';
   }
   
-  if($pack eq 'SDL_image') {
-    $extra_cflags  .= ' -I/usr/local/include';
-    $extra_ldflags .= ' -L/usr/local/lib';
-  }
-
   if(($pack eq 'SDL') && ($Config{archname} =~ /(powerpc|ppc)/)) {
     $extra .= ' --disable-video-ps3';
   }
