@@ -102,8 +102,8 @@ my $source_packs = [
         pack => 'tiff',
         dirname => 'tiff-3.9.1',
         url => [
-          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
           'http://froggs.de/libtiff/tiff-3.9.1.tar.gz',
+          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
         ],
         sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
         patches => [ ],
@@ -226,8 +226,8 @@ my $source_packs = [
         pack => 'tiff',
         dirname => 'tiff-3.9.1',
         url => [
-          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
           'http://froggs.de/libtiff/tiff-3.9.1.tar.gz',
+          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
         ],
         sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
         patches => [ ],
@@ -326,8 +326,8 @@ my $source_packs = [
         pack => 'tiff',
         dirname => 'tiff-3.9.1',
         url => [
-          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
           'http://froggs.de/libtiff/tiff-3.9.1.tar.gz',
+          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
         ],
         sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
         patches => [ ],
