@@ -88,18 +88,26 @@ sub ACTION_code {
 
 sub fetch_file {
   my ($self, $url, $sha1sum, $download) = @_;
-  die "###ERROR### _fetch_file undefined url\n" unless $url;
+  die "###ERROR### _fetch_file undefined url\n"     unless @{$url}[0];
   die "###ERROR### _fetch_file undefined sha1sum\n" unless $sha1sum;
-  my $ff = File::Fetch->new(uri => $url);
+  my $ff = File::Fetch->new(uri => @{$url}[0]);
   my $fn = catfile($download, $ff->file);
   if (-e $fn) {
     print "Checking checksum for already existing '$fn'...\n";
     return 1 if $self->check_sha1sum($fn, $sha1sum);
     unlink $fn; #exists but wrong checksum
   }
-  print "Fetching '$url'...\n";
-  my $fullpath = $ff->fetch(to => $download);
-  die "###ERROR### Unable to fetch '$url'" unless $fullpath;
+
+  my $fullpath;
+  foreach my $current_url (@{$url})
+  {
+    die "###ERROR### _fetch_file undefined url\n" unless $current_url;
+    print "Fetching '$current_url'...\n";
+	$ff = File::Fetch->new(uri => $current_url);
+    $fullpath = $ff->fetch(to => $download);
+	last if $fullpath;
+  }
+  die "###ERROR### Unable to fetch '$ff->file'" unless $fullpath;
   if (-e $fn) {
     print "Checking checksum for '$fn'...\n";
     return 1 if $self->check_sha1sum($fn, $sha1sum);
@@ -125,7 +133,7 @@ sub extract_binaries {
 
   # do extract binaries
   my $bp = $self->notes('build_params');
-  my $archive = catfile($download, File::Fetch->new(uri => $bp->{url})->file);
+  my $archive = catfile($download, File::Fetch->new(uri => @{$bp->{url}}[0])->file);
   print "Extracting $archive...\n";
   my $ae = Archive::Extract->new( archive => $archive );
   die "###ERROR###: Cannot extract $archive ", $ae->error unless $ae->extract(to => $build_out);
@@ -143,7 +151,7 @@ sub extract_sources {
     my $unpack = 'y';
     $unpack = $self->prompt("Dir '$srcdir' exists, wanna replace with clean sources?", "n") if (-d $srcdir);
     if (lc($unpack) eq 'y') {
-      my $archive = catfile($download, File::Fetch->new(uri => $pack->{url})->file);
+      my $archive = catfile($download, File::Fetch->new(uri => @{$pack->{url}}[0])->file);
       print "Extracting $pack->{pack}...\n";
       my $ae = Archive::Extract->new( archive => $archive );
       die "###ERROR###: cannot extract $pack ", $ae->error unless $ae->extract(to => $build_src);
