@@ -61,10 +61,6 @@ my $build = $package->new(
   # sharedir is used for storing compiled/prebuilt binaries of SDL lib + related libraries
   # avoid using 'share' name as M::B doe not handle well paths like /xx/yy/share/zz/ww/share/xx
 );
-$build->create_build_script();
-
-#### clean build_done stamp; force rebuild when running 'Build'
-$build->clean_build_done_marker;
 
 print "\nWelcome to Alien::SDL module installation";
 print "\n-----------------------------------------\n\n";
@@ -117,6 +113,10 @@ my $ans = $build->prompt($prompt_string, $recommended_candidate);
 #### store build params into 'notes'
 if(($ans>0) && ($ans<scalar(@candidates))) {
   $build->notes('build_params', $candidates[$ans-1]);
+  $build->create_build_script();
+
+  #### clean build_done stamp; force rebuild when running 'Build'
+  $build->clean_build_done_marker;
 }
 else {
   $build->notes('build_params', undef); # just to be sure

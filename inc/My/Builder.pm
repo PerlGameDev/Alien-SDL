@@ -19,6 +19,12 @@ sub ACTION_build {
   my $self = shift;
   # as we want to wipe 'sharedir' during 'Build clean' we has
   # to recreate 'sharedir' at this point if it does not exist
+
+  my $bp = $self->notes('build_params');
+  die "###ERROR### Cannot continue build_params not defined" unless defined($bp);
+
+  print "Build option used:\n\t" . ($bp->{title} || 'n.a.');
+
   mkdir 'sharedir' unless(-d 'sharedir');
   $self->add_to_cleanup('sharedir');
   $self->SUPER::ACTION_build;
