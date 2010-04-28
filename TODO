@@ -11,3 +11,4 @@ TODO list for Perl module Alien::SDL
 - build new Win/64bit binaries with SDL_Pango patch
 - when checking for prereq. libs, use pkg-config if available
 - build only libs like png or tiff in case they are not already installed on the system
+- printing missing libs when calling Build
