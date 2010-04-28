@@ -120,4 +120,5 @@ if(($ans>0) && ($ans<scalar(@candidates))) {
 }
 else {
   $build->notes('build_params', undef); # just to be sure
+  exit(0); # we want to have "NA" results from CPAN Testers not "UNKNOWN"
 }
