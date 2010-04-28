@@ -23,7 +23,7 @@ sub ACTION_build {
   my $bp = $self->notes('build_params');
   die "###ERROR### Cannot continue build_params not defined" unless defined($bp);
 
-  print "Build option used:\n\t" . ($bp->{title} || 'n.a.');
+  printf("Build option used:\n\t%s\n", $bp->{title} || 'n.a.');
 
   mkdir 'sharedir' unless(-d 'sharedir');
   $self->add_to_cleanup('sharedir');
