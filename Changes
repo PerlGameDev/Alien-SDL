@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-1.4.01  Wed Apr 28 2010
+1.401  Wed Apr 28 2010
      - print chosen build-option when calling ./Build (for cpantesters reports) [FROGGS]
      - Build-script is not created when choosing quit [FROGGS]
      - there should be no cpantester result (NA/UNKNOWN) sent when choosing quit [kmx]
