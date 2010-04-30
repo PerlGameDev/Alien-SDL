@@ -185,7 +185,7 @@ my $source_packs = [
   },
 ## another src build set (without PANGO SUPPORT)
   {
-    title   => "Source code build: SDL-1.2.14 & co. (NO PANGO)\n" .
+    title   => "Source code build: SDL-1.2.14 & co. (no PANGO, but TTF)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx)\n" .
                "\tneeds preinstalled: freetype2-devel",
     prereqs => {
@@ -273,6 +273,108 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_ttf-2.0.9.tar.gz',
         ],
         sha1sum  => '6bc3618b08ddbbf565fe8f63f624782c15e1cef2',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_net',
+        dirname => 'SDL_net-1.2.7',
+        url => [
+          'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
+          'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
+        ],
+        sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_gfx',
+        dirname => 'SDL_gfx-2.0.20',
+        url => [
+          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.20.tar.gz',
+          'http://froggs.de/libsdl/SDL_gfx-2.0.20.tar.gz',
+        ],
+        sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
+        patches => [ ],
+      },
+    ],
+  },
+## another src build set (without PANGO/TTF SUPPORT)
+  {
+    title   => "Source code build: SDL-1.2.14 & co. (no PANGO, no TTF)\n" .
+               "\tbuilds: SDL, SDL_(image|mixer|net|gfx)",
+    prereqs => {
+        libs => [
+          'pthread',  # SDL
+        ]
+    },
+    members     => [
+      {
+        pack => 'SDL',
+        dirname => 'SDL-1.2.14',
+        url => [
+          'http://www.libsdl.org/release/SDL-1.2.14.tar.gz',
+          'http://froggs.de/libsdl/SDL-1.2.14.tar.gz',
+        ],
+        sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
+        patches => [
+          'test1.patch',
+        ],
+      },
+      {
+        pack => 'zlib',
+        dirname => 'zlib-1.2.5',
+        url => [
+          'http://zlib.net/zlib-1.2.5.tar.gz',
+          'http://froggs.de/libz/zlib-1.2.5.tar.gz',
+        ],
+        sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+      },
+      {
+        pack => 'jpeg',
+        dirname => 'jpeg-8a',
+        url => [
+          'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8a.tar.gz',
+        ],
+        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
+        patches => [ 'jpeg-8a_cygwin.patch' ],
+      },
+      {
+        pack => 'tiff',
+        dirname => 'tiff-3.9.1',
+        url => [
+          'http://froggs.de/libtiff/tiff-3.9.1.tar.gz',
+          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
+        ],
+        sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
+        patches => [ ],
+      },
+      {
+        pack => 'libpng',
+        dirname => 'libpng-1.4.1',
+        url => [
+          'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
+          'http://froggs.de/libpng/libpng-1.4.1.tar.gz',
+        ],
+        sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
+      },
+      {
+        pack => 'SDL_image',
+        dirname => 'SDL_image-1.2.10',
+        url => [
+          'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.10.tar.gz',
+          'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
+        ],
+        sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_mixer',
+        dirname => 'SDL_mixer-1.2.11',
+        url => [
+          'http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.11.tar.gz',
+          'http://froggs.de/libsdl/SDL_mixer-1.2.11.tar.gz',
+        ],
+        sha1sum  => 'ef5d45160babeb51eafa7e4019cec38324ee1a5d',
         patches => [ ],
       },
       {

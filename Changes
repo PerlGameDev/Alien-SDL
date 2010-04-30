@@ -3,6 +3,8 @@ Revision history for Perl module Alien::SDL
 1.402  Fri Apr 30 2010
      - header tests: stdio.h is only included on windows boxes [#127] [FROGGS]
      - disabling audio support on solaris in case sys/audioio.h is missing [#125] [FROGGS]
+     - using Text::Patch instead of patch-command [#125] [FROGGS]
+     - added another buildset for BSD's (without TTF/freetype) [#126] [FROGGS]
 
 1.401  Wed Apr 28 2010
      - print chosen build-option when calling ./Build (for cpantesters reports) [FROGGS]
