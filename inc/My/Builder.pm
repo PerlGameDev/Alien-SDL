@@ -13,6 +13,7 @@ use File::Fetch;
 use File::Find;
 use Archive::Extract;
 use Digest::SHA qw(sha1_hex);
+use Text::Patch;
 use Config;
 
 sub ACTION_build {
@@ -109,9 +110,9 @@ sub fetch_file {
   {
     die "###ERROR### _fetch_file undefined url\n" unless $current_url;
     print "Fetching '$current_url'...\n";
-	$ff = File::Fetch->new(uri => $current_url);
+    $ff = File::Fetch->new(uri => $current_url);
     $fullpath = $ff->fetch(to => $download);
-	last if $fullpath;
+    last if $fullpath;
   }
   die "###ERROR### Unable to fetch '$ff->file'" unless $fullpath;
   if (-e $fn) {
@@ -163,23 +164,21 @@ sub extract_sources {
       die "###ERROR###: cannot extract $pack ", $ae->error unless $ae->extract(to => $build_src);
       foreach my $i (@{$pack->{patches}}) {
         chdir $srcdir;
-        print "Checking affected files for patch '$i'\n";
-        foreach my $k ($self->patch_get_affected_files($srcdir, catfile($patches, $i))) {
-		  # doing the same like -p1 for 'patch'
-		  $k =~ s/^[^\/]*\/(.*)$/$1/;
-          if(-e $k) {
-			print "Preparing file '$k'\n";
-            sed_inplace( $k, 's/\r\n/\n/gm' ); # converting to UNIX newlines
-          }
-		  else {
-		    print "###WARN### file '$k' for patch '$i' not found\n";
-		  }
-        }
+        my $patch_file = File::Spec->abs2rel( catfile($patches, $i), $srcdir );
         print "Applying patch '$i'\n";
-        my $cmd = $self->patch_command($srcdir, catfile($patches, $i));
-        if ($cmd) {
-          print "(cmd: $cmd)\n";
-          $self->do_system($cmd) or die "###ERROR### [$?] during patch ... ";
+        foreach my $k ($self->patch_get_affected_files($patch_file)) {
+          # doing the same like -p1 for 'patch'
+          $k =~ s/^[^\/]*\/(.*)$/$1/;
+          open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
+          my @src  = map{$_ =~ /([^\r\n]*)/} <SRC>;
+          close(SRC);
+          open(DIFF, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
+          my @diff = map{$_ =~ /([^\r\n]*)/} <DIFF>;
+          close(DIFF);
+          my $out = Text::Patch::patch( join("\n", @src) . "\n", join("\n", @diff) . "\n", { STYLE => "Unified" } );
+          open(OUT, ">$k") or die "###ERROR### Cannot open file for writing: '$k'\n";
+          print(OUT $out);
+          close(OUT);
         }
         chdir $self->base_dir();
       }
@@ -340,26 +339,8 @@ sub check_sha1sum {
   return ($sha1->hexdigest eq $sha1sum) ? 1 : 0
 }
 
-sub patch_command {
-  my( $self, $base_dir, $patch_file ) = @_;
-  
-  print("patch_command: $base_dir, $patch_file\n");
-  
-  my $devnull = File::Spec->devnull();
-  my $patch_rv = system("patch -v > $devnull 2>&1");
-  if ($patch_rv == 0) {
-    $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
-    # the patches are expected with UNIX newlines
-    # the following command works on both UNIX+Windows
-	return qq("$^X" -pe0 -- "$patch_file" | patch -p1); # paths of files to patch should be relative to build_src
-  }
-  warn "###WARN### patch not available";
-  return '';
-}
-
 sub patch_get_affected_files {
-  my( $self, $base_dir, $patch_file ) = @_;
-  $patch_file = File::Spec->abs2rel( $patch_file, $base_dir );
+  my( $self, $patch_file ) = @_;
   open(DAT, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
   my @affected_files = map{$_ =~ /^---\s*([\S]+)/} <DAT>;
   close(DAT);

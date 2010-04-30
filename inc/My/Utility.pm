@@ -176,7 +176,10 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_Pango-0.1.2.tar.gz',
         ],
         sha1sum  => 'c30f2941d476d9362850a150d29cb4a93730af68',
-        patches => [ 'SDL_Pango-0.1.2-API-adds.patch' ],
+        patches => [
+          'SDL_Pango-0.1.2-API-adds.1.patch',
+          'SDL_Pango-0.1.2-API-adds.2.patch',
+        ],
       },
     ],
   },

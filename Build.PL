@@ -40,6 +40,7 @@ my $build = $package->new(
     'Archive::Tar'     => '0',
     'Archive::Zip'     => '0',
     'Module::Build'    => '0.36',
+    'Text::Patch'      => '1.4',
   },
   configure_requires   => {  #need to have for running: perl Buil.PL
     'File::Spec'       => '0',
