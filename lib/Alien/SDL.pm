@@ -219,8 +219,8 @@ sub check_header {
   my $inc = '';
   $inc .= "#include <$_>\n" for @header;  
   syswrite($fs, <<MARKER); # write test source code
-#include <stdio.h>
 #if defined(_WIN32) && !defined(__CYGWIN__)
+#include <stdio.h>
 /* GL/gl.h on Win32 requires windows.h being included before */
 #include <windows.h>
 #endif
