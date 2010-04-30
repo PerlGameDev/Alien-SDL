@@ -578,7 +578,7 @@ int demofunc(void) { return 0; }
 
 MARKER
   close($fs);
-  my $obj = eval { $cb->compile( source => $src, extra_compiler_flags => $cflags'); };
+  my $obj = eval { $cb->compile( source => $src, extra_compiler_flags => $cflags); };
   if($obj) {
     unlink $obj;
     return 1;
