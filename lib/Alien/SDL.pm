@@ -217,10 +217,14 @@ sub check_header {
   my $cb = ExtUtils::CBuilder->new(quiet => 1);
   my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
-  $inc .= "#include <$_>\n" for @header;  
+  my $i = 0;
+  foreach (@header) {
+    @header = (splice(@header, 0, $i) , 'stdio.h', splice(@header, $i)) if $_ eq 'jpeglib.h';
+    $i++;
+  }
+  $inc .= "#include <$_>\n" for @header;
   syswrite($fs, <<MARKER); # write test source code
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#include <stdio.h>
 /* GL/gl.h on Win32 requires windows.h being included before */
 #include <windows.h>
 #endif
