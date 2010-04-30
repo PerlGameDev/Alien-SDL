@@ -3,8 +3,9 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file sed_inplace);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file check_header sed_inplace);
 use Config;
+use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
 use File::Find qw(find);
 use File::Copy qw(cp);
@@ -556,6 +557,35 @@ sub find_SDL_dir {
       catpath($v, catdir(@pp, 'include'), ''),
       catpath($v, catdir(@pp, 'lib'), ''),
     );
+  }
+}
+
+sub check_header {
+  my ($cflags, @header) = @_;
+  print STDERR "Testing header(s): " . join(', ', @header) . "\n";
+  my $cb = ExtUtils::CBuilder->new(quiet => 1);
+  my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my $inc = '';
+  $inc .= "#include <$_>\n" for @header;  
+  syswrite($fs, <<MARKER); # write test source code
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#include <stdio.h>
+/* GL/gl.h on Win32 requires windows.h being included before */
+#include <windows.h>
+#endif
+$inc
+int demofunc(void) { return 0; }
+
+MARKER
+  close($fs);
+  my $obj = eval { $cb->compile( source => $src, extra_compiler_flags => $cflags'); };
+  if($obj) {
+    unlink $obj;
+    return 1;
+  }
+  else {
+    print STDERR "###TEST FAILED### for: " . join(', ', @header) . "\n";
+    return 0;
   }
 }
 

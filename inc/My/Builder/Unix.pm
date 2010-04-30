@@ -5,6 +5,7 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
+use My::Utility qw(check_header);
 use Config;
 
 my $inc_lib_candidates = {
@@ -85,9 +86,9 @@ sub build_binaries {
 
 sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
-  my $extra = '';
-  my $extra_cflags = "-I$prefixdir/include";
-  my $extra_ldflags = "-L$prefixdir/lib";  
+  my $extra                     = '';
+  my $extra_cflags              = "-I$prefixdir/include";
+  my $extra_ldflags             = "-L$prefixdir/lib";  
   my $cmd;
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
@@ -98,6 +99,10 @@ sub _get_configure_cmd {
   
   if(($pack eq 'SDL') && ($Config{archname} =~ /(powerpc|ppc)/)) {
     $extra .= ' --disable-video-ps3';
+  }
+
+  if(($pack eq 'SDL') && ($Config{archname} =~ /solaris/) && !check_header($extra_cflags, 'sys/audioio.h')) {
+    $extra .= ' --disable-audio';
   }
 
   if($pack =~ /^SDL_/) {
