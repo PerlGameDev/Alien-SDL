@@ -50,6 +50,7 @@ my $build = $package->new(
     'Digest::SHA'      => '0',
     'Archive::Extract' => '0',
     'Module::Build'    => '0.36',
+    'Text::Patch'      => '1.4',
   },
   meta_merge => {
     resources  => {
