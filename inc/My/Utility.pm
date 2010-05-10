@@ -40,13 +40,13 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (experimental, 20100301)\n" .
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100301) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100301.zip',
-        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100301.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100510.zip',	
+        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100510.zip',
       ],
-      sha1sum  => '4576dfeb812450fce5bb22b915985ec696ea699f',
+      sha1sum  => 'd22f5b72c2f33fd69dbffee0032b2d946644c89d',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
@@ -622,7 +622,11 @@ sub find_file {
   my ($dir, $re) = @_;
   my @files;
   $re ||= qr/.*/;
-  find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
+  {
+    #hide warning "Can't opendir(...): Permission denied - fix for http://rt.cpan.org/Public/Bug/Display.html?id=57232
+    no warnings 'File::Find';
+    find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
+  };
   return @files;
 }
 
