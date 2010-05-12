@@ -7,7 +7,6 @@ use File::Spec;
 use File::Find;
 use File::Spec::Functions qw(catdir catfile rel2abs);
 use File::Temp;
-use ExtUtils::CBuilder;
 
 =head1 NAME
 
@@ -214,6 +213,9 @@ sub get_header_version {
 sub check_header {
   my ($package, @header) = @_;
   print STDERR "[$package] Testing header(s): " . join(', ', @header) . "\n";
+
+  require ExtUtils::CBuilder; # PAR packer workaround
+  
   my $cb = ExtUtils::CBuilder->new(quiet => 1);
   my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
