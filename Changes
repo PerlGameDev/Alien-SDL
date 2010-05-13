@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.404  Thu May 13 2010
+     - added new binaries for Win64 with fb/pango patch [kmx]
+
 1.403  Sat May 01 2010
      - added Text::Patch to configure_requires [FROGGS]
 

@@ -2,7 +2,7 @@ NAME
     Alien::SDL - building, finding and using SDL binaries
 
 VERSION
-    Version 1.403
+    Version 1.404
 
 SYNOPSIS
     Alien::SDL tries (in given order) during its installation:
