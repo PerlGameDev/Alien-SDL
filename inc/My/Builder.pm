@@ -42,8 +42,10 @@ sub ACTION_install
  {
    print "Removing the old $sharedir \n";
 
-   unlink $sharedir;
- } 
+   remove_tree($sharedir);
+ }
+ 
+ mkdir($sharedir) unless(-d $sharedir);
 
  $self->SUPER::ACTION_install;
 }
