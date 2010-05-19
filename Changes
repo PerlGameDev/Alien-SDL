@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.405  TBD
+     - removes old share dirs installs of Alien [kthakore]
+
 1.404  Thu May 13 2010
      - added new binaries for Win64 with fb/pango patch [kmx]
 
