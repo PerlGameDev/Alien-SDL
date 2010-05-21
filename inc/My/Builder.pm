@@ -11,7 +11,7 @@ use File::Path qw(make_path remove_tree);
 use File::Copy qw(cp);
 use File::Fetch;
 use File::Find;
-use File::ShareDir ':ALL';
+use File::ShareDir;
 use Archive::Extract;
 use Digest::SHA qw(sha1_hex);
 use Text::Patch;
@@ -36,7 +36,7 @@ sub ACTION_build {
 sub ACTION_install
 {
  my $self = shift;
- my $sharedir = dist_dir('Alien-SDL');
+ my $sharedir = File::ShareDir::dist_dir('Alien-SDL');
 
  if ( -d $sharedir )
  {
