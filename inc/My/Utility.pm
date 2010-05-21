@@ -589,10 +589,11 @@ sub check_prereqs_libs {
     };
     my $header             = (defined $header_map->{$lib}) ? $header_map->{$lib} : $lib;
 
+    my $dlext = get_dlext();
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
-      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.\Q$Config{dlext}\E[\d\.]*$/);
+      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.$dlext[\d\.]*$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
     }
@@ -713,6 +714,15 @@ sub sed_inplace {
     }
     close INPF;
     close OUTF;
+  }
+}
+
+sub get_dlext {
+  if($^O =~ /darwin/) { # there can be .dylib's on a mac even if $Config{dlext} is 'bundle'
+    return 'so|dylib|bundle';
+  }
+  else {
+    return $Config{dlext};
   }
 }
 
