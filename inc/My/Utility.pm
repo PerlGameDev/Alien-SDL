@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file check_header sed_inplace);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file check_header sed_inplace get_dlext);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
