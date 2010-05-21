@@ -32,7 +32,7 @@ my $build = $package->new(
     'File::Temp'       => '0',
     'File::ShareDir'   => '0',
     'ExtUtils::CBuilder' => '0',
-    'File::Path'       => '2.07',
+    'File::Path'       => '2.08',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Digest::SHA'      => '0',
@@ -44,7 +44,7 @@ my $build = $package->new(
   },
   configure_requires   => {  #need to have for running: perl Buil.PL
     'File::Spec'       => '0',
-    'File::Path'       => '2.07',
+    'File::Path'       => '2.08',
     'File::Fetch'      => '0',
     'File::Find'       => '0',
     'Digest::SHA'      => '0',
