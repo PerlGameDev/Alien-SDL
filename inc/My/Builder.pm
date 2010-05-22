@@ -36,7 +36,9 @@ sub ACTION_build {
 sub ACTION_install
 {
  my $self = shift;
- my $sharedir = File::ShareDir::dist_dir('Alien-SDL');
+ my $sharedir = '';
+ 
+ $sharedir = eval {File::ShareDir::dist_dir('Alien-SDL')};
 
  if ( -d $sharedir )
  {
