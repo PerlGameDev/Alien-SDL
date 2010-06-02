@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-1.405  TBD
+1.405  Wed June 2nd 2010 
      - removes old share dirs installs of Alien [kthakore]
      - searching for .dylib's, .so's and .bundle's on mac [FROGGS]
 
