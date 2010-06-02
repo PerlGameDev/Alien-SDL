@@ -582,6 +582,10 @@ sub check_prereqs_libs {
     my $inc_lib_candidates = {
       '/usr/local/include' => '/usr/local/lib',
       '/usr/include'       => '/usr/lib',
+      '/usr/include'       => '/usr/lib32',
+      '/usr/include'       => '/usr/lib64',
+      '/include'       	   => '/lib',
+
     };
     my $header_map         = {
       'z'    => 'zlib',
@@ -593,7 +597,7 @@ sub check_prereqs_libs {
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
-      ($found_lib) = find_file($ld, qr/[\/\\](lib|lib64)\Q$lib\E[\-\d\.]*\.$dlext[\d\.]*$/);
+      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.$dlext[\d\.]*$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
     }
