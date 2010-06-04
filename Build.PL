@@ -17,8 +17,7 @@ eval "require $package" or die "Require '$package' failed: $@\n";
 #### Stadard Module::Builder stuff
 my $build = $package->new(
   module_name          => 'Alien::SDL',
-#  all_from             => 'lib/Alien/SDL.pm',
-  dist_name          => 'Alien::SDL',
+  all_from             => 'lib/Alien/SDL.pm',
   dist_abstract        => 'Get, Build and Use SDL libraries',
   dist_author          => 'Kartik Thakore <KTHAKORE@cpan.org>',
   license              => 'perl',
