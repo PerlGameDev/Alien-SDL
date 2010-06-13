@@ -582,11 +582,13 @@ sub check_prereqs_libs {
     my $inc_lib_candidates = {
       '/usr/local/include' => '/usr/local/lib',
       '/usr/include'       => '/usr/lib',
-      '/usr/include'       => '/usr/lib32',
-      '/usr/include'       => '/usr/lib64',
-      '/include'       	   => '/lib',
-
     };
+
+    if ( -e '/usr/lib64' )
+    {
+	$inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
+    }
+
     my $header_map         = {
       'z'    => 'zlib',
       'jpeg' => 'jpeglib',

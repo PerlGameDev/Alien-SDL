@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.406  Sun June 13 2010
+     - Added conditional ld path check for 64 bit libraries
+
 1.405  Wed June 2nd 2010 
      - searching more ld paths for libs [kthakore] {ticket #153}
      - removes old share dirs installs of Alien [kthakore]
