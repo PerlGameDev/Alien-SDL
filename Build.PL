@@ -51,6 +51,7 @@ my $build = $package->new(
     'Archive::Extract' => '0',
     'Module::Build'    => '0.36',
     'Text::Patch'      => '1.4',
+    'File::ShareDir'   => '0'
   },
   meta_merge => {
     resources  => {
