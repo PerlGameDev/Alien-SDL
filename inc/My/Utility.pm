@@ -584,7 +584,7 @@ sub check_prereqs_libs {
       '/usr/include'       => '/usr/lib',
     };
 
-    if ( -e '/usr/lib64' )
+    if ( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/)
     {
 	$inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
     }
