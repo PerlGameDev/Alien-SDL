@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.407  Wed June 16 2010
+     - Confirm archname as 64 before using /usr/lib64 as a ld path [kthakore]
+
 1.406  Sun June 13 2010
      - Added conditional ld path check for 64 bit libraries
 
