@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.407  Thu June 30 2010
+     - Fixed conflicts dude to libpng
+
 1.406  Sun June 13 2010
      - Added conditional ld path check for 64 bit libraries
 
