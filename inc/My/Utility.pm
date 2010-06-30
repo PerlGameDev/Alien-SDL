@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_src_build find_SDL_dir find_file check_header sed_inplace get_dlext);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_src_build find_SDL_dir find_file check_header sed_inplace get_dlext);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
@@ -110,7 +110,7 @@ my $source_packs = [
         patches => [ ],
       },
       {
-        pack => 'libpng',
+        pack => 'png',
         dirname => 'libpng-1.4.1',
         url => [
           'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
@@ -237,7 +237,7 @@ my $source_packs = [
         patches => [ ],
       },
       {
-        pack => 'libpng',
+        pack => 'png',
         dirname => 'libpng-1.4.1',
         url => [
           'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
@@ -349,7 +349,7 @@ my $source_packs = [
         patches => [ ],
       },
       {
-        pack => 'libpng',
+        pack => 'png',
         dirname => 'libpng-1.4.1',
         url => [
           'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',
@@ -439,7 +439,7 @@ my $source_packs = [
         patches => [ ],
       },
       {
-        pack => 'libpng',
+        pack => 'png',
         dirname => 'libpng-1.4.1',
         url => [
           'http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.gz',

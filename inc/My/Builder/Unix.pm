@@ -5,7 +5,7 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
-use My::Utility qw(check_header);
+use My::Utility qw(check_header check_prereqs_libs);
 use Config;
 
 my $inc_lib_candidates = {
@@ -54,30 +54,35 @@ sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
   my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    print "BUILDING package '" . $pack->{dirname} . "'...\n";
-    my $srcdir = catfile($build_src, $pack->{dirname});
-    my $prefixdir = rel2abs($build_out);
-    $self->config_data('build_prefix', $prefixdir); # save it for future Alien::SDL::ConfigData
-
-    chdir $srcdir;
-
-    # do './configure ...'
-    my $run_configure = 'y';
-    $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "n") if (-f "config.status");
-    if (lc($run_configure) eq 'y') {
-      my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
-      print "Configuring $pack->{pack}...\n";
-      print "(cmd: $cmd)\n";
-      $self->do_system($cmd) or die "###ERROR### [$?] during ./configure ... ";
+    if($pack->{pack} =~ m/^(png)$/ && check_prereqs_libs($pack->{pack})) {
+      print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
+    else {
+      print "BUILDING package '" . $pack->{dirname} . "'...\n";
+      my $srcdir = catfile($build_src, $pack->{dirname});
+      my $prefixdir = rel2abs($build_out);
+      $self->config_data('build_prefix', $prefixdir); # save it for future Alien::SDL::ConfigData
 
-    # do 'make install'
-    my @cmd = ($self->_get_make, 'install');
-    print "Running make install $pack->{pack}...\n";
-    print "(cmd: ".join(' ',@cmd).")\n";
-    $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
+      chdir $srcdir;
 
-    chdir $self->base_dir();
+      # do './configure ...'
+      my $run_configure = 'y';
+      $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "n") if (-f "config.status");
+      if (lc($run_configure) eq 'y') {
+        my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
+        print "Configuring $pack->{pack}...\n";
+        print "(cmd: $cmd)\n";
+        $self->do_system($cmd) or die "###ERROR### [$?] during ./configure ... ";
+      }
+
+      # do 'make install'
+      my @cmd = ($self->_get_make, 'install');
+      print "Running make install $pack->{pack}...\n";
+      print "(cmd: ".join(' ',@cmd).")\n";
+      $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
+
+      chdir $self->base_dir();
+    }
   }
   return 1;
 }
