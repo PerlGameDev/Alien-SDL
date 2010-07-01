@@ -1,8 +1,11 @@
 Revision history for Perl module Alien::SDL
 
+1.408  Thr July 01 2010 -Yay Canada Day!
+     - Messed up release version
+     - skip building libpng in case it is already installed [#129] [FROGGS]
+
 1.407  Thu June 30 2010
      - Confirm archname as 64 before using /usr/lib64 as a ld path [kthakore]
-     - skip building libpng in case it is already installed [#129] [FROGGS]
 
 1.406  Sun June 13 2010
      - Added conditional ld path check for 64 bit libraries
