@@ -16,13 +16,13 @@ use Cwd qw(realpath);
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
 my $prebuilt_binaries = [
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100328) RECOMMENDED\n" .
+      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20100704) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100328.zip',
-        'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20100328.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20100704.zip',
+        'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20100704.zip',
       ],
-      sha1sum  => 'a8f1c97ba5ec7184e3255921517bdf0e7397b56a',
+      sha1sum  => '98409ddeb649024a9cc1ab8ccb2ca7e8fe804fd8',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
@@ -40,13 +40,13 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100301) RECOMMENDED\n" .
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100704) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100510.zip',	
-        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100510.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100704.zip',	
+        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100704.zip',
       ],
-      sha1sum  => 'd22f5b72c2f33fd69dbffee0032b2d946644c89d',
+      sha1sum  => 'f23a189867865729756b9e882b3dd32b628819c9',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
