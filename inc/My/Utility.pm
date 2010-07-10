@@ -59,8 +59,7 @@ my $source_packs = [
   {
     title   => "Source code build: SDL-1.2.14 & co. (RECOMMENDED)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|net|gfx|Pango)\n" .
-               "\tneeds preinstalled: (freetype2|pango)-devel\n" .
-               "\tNOTE: uses unofficial SDL_ttf-2.0.10!!!",
+               "\tneeds preinstalled: (freetype2|pango)-devel\n",
     prereqs => {
         libs => [
           'pthread', # SDL
@@ -142,7 +141,7 @@ my $source_packs = [
         pack => 'SDL_ttf',
         dirname => 'SDL_ttf-2.0.10',
         url => [
-          'http://www.libsdl.org/tmp/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz',
+          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz',
           'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
         ],
         sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
@@ -267,12 +266,12 @@ my $source_packs = [
       },
       {
         pack => 'SDL_ttf',
-        dirname => 'SDL_ttf-2.0.9',
+        dirname => 'SDL_ttf-2.0.10',
         url => [
-          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.9.tar.gz',
-          'http://froggs.de/libsdl/SDL_ttf-2.0.9.tar.gz',
+          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz',
+          'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
         ],
-        sha1sum  => '6bc3618b08ddbbf565fe8f63f624782c15e1cef2',
+        sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
       {
@@ -490,12 +489,12 @@ my $source_packs = [
       },
       {
         pack => 'SDL_ttf',
-        dirname => 'SDL_ttf-2.0.9',
+        dirname => 'SDL_ttf-2.0.10',
         url => [
-          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.9.tar.gz',
-          'http://froggs.de/libsdl/SDL_ttf-2.0.9.tar.gz',
+          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz',
+          'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
         ],
-        sha1sum  => '6bc3618b08ddbbf565fe8f63f624782c15e1cef2',
+        sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
       {
