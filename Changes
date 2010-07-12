@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-*
+1.410  Mon July 12 2010
      - SDL_ttf 2.0.10 is released, changed url [FROGGS]
 
 1.409  Fri July 09 2010
