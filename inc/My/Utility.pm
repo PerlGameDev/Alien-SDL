@@ -566,6 +566,7 @@ sub check_src_build
   my @good = ();
   foreach my $p (@{$source_packs}) {
     $p->{buildtype} = 'build_from_sources';
+    print "CHECKING prereqs for:\n\t$p->{title}";
     push @good, $p if check_prereqs($p);
   }
   return \@good;
