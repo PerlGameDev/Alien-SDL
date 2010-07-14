@@ -302,7 +302,8 @@ my $source_packs = [
                "\tbuilds: SDL, SDL_(image|mixer|net|gfx)",
     prereqs => {
         libs => [
-          'pthread',  # SDL
+          #temporarily disabled by kmx - workaroung for RT#59324 (cygwin failure)
+          #'pthread',  # SDL
         ]
     },
     members     => [
