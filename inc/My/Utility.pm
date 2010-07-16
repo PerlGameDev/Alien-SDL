@@ -302,8 +302,7 @@ my $source_packs = [
                "\tbuilds: SDL, SDL_(image|mixer|net|gfx)",
     prereqs => {
         libs => [
-          #temporarily disabled by kmx - workaroung for RT#59324 (cygwin failure)
-          #'pthread',  # SDL
+          'pthread',  # SDL
         ]
     },
     members     => [
@@ -583,6 +582,7 @@ sub check_prereqs_libs {
     my $inc_lib_candidates = {
       '/usr/local/include' => '/usr/local/lib',
       '/usr/include'       => '/usr/lib',
+      '/usr/include'       => '/lib',
     };
 
     if ( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/)
@@ -596,11 +596,10 @@ sub check_prereqs_libs {
     };
     my $header             = (defined $header_map->{$lib}) ? $header_map->{$lib} : $lib;
 
-    my $dlext = get_dlext();
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
-      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.$dlext[\d\.]*$/);
+      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.a$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
     }
