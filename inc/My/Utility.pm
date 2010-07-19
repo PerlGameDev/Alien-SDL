@@ -595,10 +595,11 @@ sub check_prereqs_libs {
     };
     my $header             = (defined $header_map->{$lib}) ? $header_map->{$lib} : $lib;
 
+    my $dlext = get_dlext();
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
-      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.a$/);
+      ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|a)$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
     }
