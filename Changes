@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+NEXT
+     - Searching for lib<xxx>.dll.a libs (cygwin needs this) [kmx]
+     - New src build set: SDL-1.2.14 & co. (builds only SDL+SDL_*) [kmx]
+
 1.412  Mon July 19 2010
      - Searching for dynamic and static libs [FROGGS]
 
