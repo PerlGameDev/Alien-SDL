@@ -608,7 +608,10 @@ sub check_prereqs_libs {
       $ret &= 1;
     }
     else {
-      print "WARNING: required lib(-dev) '$lib' not found, disabling affected option\n";
+      my $reason = 'no-h+no-lib';
+      $reason = 'no-lib' if !$found_lib && $found_inc;
+      $reason = 'no-h' if $found_lib && !$found_inc;
+      print "WARNING: required lib(-dev) '$lib' not found, disabling affected option ($reason)\n";
       $ret = 0;
     }
   }
