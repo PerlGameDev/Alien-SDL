@@ -589,6 +589,12 @@ sub check_prereqs_libs {
 	$inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
     }
 
+    if ( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} )
+    {
+	$inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
+    }
+
+
     my $header_map         = {
       'z'    => 'zlib',
       'jpeg' => 'jpeglib',
@@ -725,6 +731,11 @@ sub sed_inplace {
 sub get_dlext {
   if($^O =~ /darwin/) { # there can be .dylib's on a mac even if $Config{dlext} is 'bundle'
     return 'so|dylib|bundle';
+  }
+  elsif( $^O =~ /cygwin/)
+  {  
+    warn 'USING la for cygwin';
+    return 'la';
   }
   else {
     return $Config{dlext};
