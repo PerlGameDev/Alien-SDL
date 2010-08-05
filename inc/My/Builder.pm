@@ -86,8 +86,8 @@ sub ACTION_code {
     if($bp->{buildtype} eq 'use_config_script') {
       $self->config_data('script', $bp->{script});
       # include path trick - adding couple of addititonal locations
-      $self->config_data('additional_cflags', '-I' . get_path($bp->{prefix} . '/include/smpeg') . ' '.
-                                              '-I' . get_path($bp->{prefix} . '/include') . ' ' .
+      $self->config_data('additional_cflags', '-I' . $self->get_path($bp->{prefix} . '/include/smpeg') . ' '.
+                                              '-I' . $self->get_path($bp->{prefix} . '/include') . ' ' .
                                               $self->get_additional_cflags);
       $self->config_data('additional_libs', $self->get_additional_libs);
     }
