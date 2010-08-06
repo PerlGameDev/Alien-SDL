@@ -1,10 +1,11 @@
 Revision history for Perl module Alien::SDL
 
-NEXT
+1.413  Fri Aug 06 2010
      - Searching for lib<xxx>.dll.a libs (cygwin needs this) [kmx]
      - New src build set: SDL-1.2.14 & co. (builds only SDL+SDL_*) [kmx]
      - Using File::Fetch 0.24 [FROGGS]
      - Fixed path of libpng-1.4.1 (has changed due to release of libpng-1.5) [FROGGS]
+     - Added fixes for fink and get_path uses in Mac [kthakore]
 
 1.412  Mon July 19 2010
      - Searching for dynamic and static libs [FROGGS]
