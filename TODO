@@ -1,14 +1,9 @@
 TODO list for Perl module Alien::SDL
 
-- discuss automated CPAN Testers issues (and perhaps change build defaults somehow)
-- think of a complex t\alien_sdl_interface.t (we need this more in SDL_perl)
 - move prebuilt binaries to http://sdl.perl.org/
-- switch src builds to SDL_ttf-2.0.10.tar.gz (not released yet)
-  unofficial version: http://www.libsdl.org/tmp/SDL_ttf/release/SDL_ttf-2.0.10.tar.gz
 - give option to use old sources
 - give app to update and manage source code see below
 - use a json file which we can update off site (not hard coded) to link to new SHA sum and packs
-- build new Win/64bit binaries with SDL_Pango patch
 - when checking for prereq. libs, use pkg-config if available
 - build only libs like png or tiff in case they are not already installed on the system
 - printing missing libs when calling Build
