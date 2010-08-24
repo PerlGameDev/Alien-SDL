@@ -40,13 +40,13 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100704) RECOMMENDED\n" .
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100824) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100704.zip',	
-        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100704.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',	
+        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',
       ],
-      sha1sum  => 'f23a189867865729756b9e882b3dd32b628819c9',
+      sha1sum  => 'ccffb7218bcb17544ab00c8a1ae383422fe9586d',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
