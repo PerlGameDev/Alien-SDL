@@ -26,6 +26,7 @@ my $build = $package->new(
     'File::Temp'       => '0',
     'File::ShareDir'   => '0',
     'ExtUtils::CBuilder' => '0',
+    'Capture::Tiny'    => '0',
   },
   build_requires       => {  #need to have for running: ./Build (install|test)
     'File::Spec'       => '0',

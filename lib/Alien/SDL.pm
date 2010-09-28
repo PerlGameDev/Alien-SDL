@@ -7,6 +7,7 @@ use File::Spec;
 use File::Find;
 use File::Spec::Functions qw(catdir catfile rel2abs);
 use File::Temp;
+use Capture::Tiny;
 
 =head1 NAME
 
@@ -212,7 +213,7 @@ sub get_header_version {
 ### check presence of header(s) specified as params
 sub check_header {
   my ($package, @header) = @_;
-  print STDERR "[$package] Testing header(s): " . join(', ', @header) . "\n";
+  print STDERR "[$package] Testing header(s): " . join(', ', @header);
 
   require ExtUtils::CBuilder; # PAR packer workaround
   
@@ -235,16 +236,22 @@ int demofunc(void) { return 0; }
 
 MARKER
   close($fs);
-  #open OLDERR, ">&STDERR";
-  #open STDERR, ">", File::Spec->devnull();  
-  my $obj = eval { $cb->compile( source => $src, extra_compiler_flags => Alien::SDL->config('cflags')); };
-  #open(STDERR, ">&OLDERR");
+  my $obj;
+  my $stdout = '';
+  my $stderr = '';
+  ($stdout, $stderr) = Capture::Tiny::capture {
+    $obj = eval { $cb->compile( source => $src, extra_compiler_flags => Alien::SDL->config('cflags')); };
+  };
   if($obj) {
+    print STDERR "\n";
     unlink $obj;
     return 1;
   }
   else {
-    print STDERR "###TEST FAILED### for: " . join(', ', @header) . "\n";
+    $stderr =~ s/[\r\n]$//;
+    $stderr =~ s/^\Q$src\E[\d\s:]*//;
+    
+    print STDERR " NOK: ($stderr)\n";
     return 0;
   }
 }
