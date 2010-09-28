@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-NEXT
+1.414  Tue Sep 28 2010
      - new Win64 binaries [kmx]
      - new repo URL http://github.com/PerlGameDev/Alien-SDL [kmx]
      - Output of header testing is a one-liner now #203 [FROGGS]
