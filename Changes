@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.415  Tue Oct 07 2010
+     - Using newer config tools for Pango (config.guess, config.sub, install.sh) [FROGGS]
+
 1.414  Tue Sep 28 2010
      - new Win64 binaries [kmx]
      - new repo URL http://github.com/PerlGameDev/Alien-SDL [kmx]

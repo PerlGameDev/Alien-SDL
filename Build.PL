@@ -56,7 +56,7 @@ my $build = $package->new(
   },
   meta_merge => {
     resources  => {
-      bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-SDL',
+      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl',
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },

@@ -178,6 +178,9 @@ my $source_packs = [
         patches => [
           'SDL_Pango-0.1.2-API-adds.1.patch',
           'SDL_Pango-0.1.2-API-adds.2.patch',
+          'SDL_Pango-0.1.2-config-tools.1.patch',
+          'SDL_Pango-0.1.2-config-tools.2.patch',
+          'SDL_Pango-0.1.2-config-tools.3.patch',
         ],
       },
     ],
@@ -268,6 +271,9 @@ my $source_packs = [
         patches => [
           'SDL_Pango-0.1.2-API-adds.1.patch',
           'SDL_Pango-0.1.2-API-adds.2.patch',
+          'SDL_Pango-0.1.2-config-tools.1.patch',
+          'SDL_Pango-0.1.2-config-tools.2.patch',
+          'SDL_Pango-0.1.2-config-tools.3.patch',
         ],
       },
     ],
