@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.416  Tue Oct 07 2010
+     - Added missing patch files [FROGGS]
+
 1.415  Tue Oct 07 2010
      - Using newer config tools for Pango (config.guess, config.sub, install.sh) [FROGGS]
 
