@@ -678,18 +678,16 @@ sub check_prereqs_libs {
     my $inc_lib_candidates = {
       '/usr/local/include' => '/usr/local/lib',
       '/usr/include'       => '/usr/lib',
+      '/usr/X11R6/include' => '/usr/X11R6/lib',
     };
 
-    if ( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/)
-    {
-	$inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
+    if( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/) {
+      $inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
     }
 
-    if ( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} )
-    {
-	$inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
+    if( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} ) {
+      $inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
     }
-
 
     my $header_map         = {
       'z'    => 'zlib',

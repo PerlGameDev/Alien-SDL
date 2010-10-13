@@ -54,7 +54,8 @@ sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
   my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    if($pack->{pack} =~ m/^(png)$/ && check_prereqs_libs($pack->{pack})) {
+    if(($pack->{pack} =~ m/^(png)$/ && check_prereqs_libs($pack->{pack}))
+    || ($pack->{pack} =~ m/^zlib$/  && check_prereqs_libs('z'))) {
       print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
     else {
