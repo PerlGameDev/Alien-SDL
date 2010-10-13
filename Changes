@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-TBD
+1.417  Wed Oct 13 2010
      - Searching for libs/headers in /usr/X11R6/lib+include [FROGGS]
      - Skipping build of zlib in case its already there (fixes OpenBSD unknown-reports) [FROGGS]
      - Skipping SDL_mixer if no GNU Make present [FROGGS]
