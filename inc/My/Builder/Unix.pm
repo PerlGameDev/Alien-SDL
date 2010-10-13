@@ -58,6 +58,9 @@ sub build_binaries {
     || ($pack->{pack} =~ m/^zlib$/  && check_prereqs_libs('z'))) {
       print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
+    elsif($pack->{pack} =~ m/^(SDL_mixer)$/ && !$self->_is_gnu_make($self->_get_make)) {
+      print "SKIPPING package '" . $pack->{dirname} . "' (GNU Make needed)...\n";
+    }
     else {
       print "BUILDING package '" . $pack->{dirname} . "'...\n";
       my $srcdir = catfile($build_src, $pack->{dirname});
@@ -146,7 +149,6 @@ sub _get_configure_cmd {
 
 sub _get_make {
   my ($self) = @_;
-  my $devnull = File::Spec->devnull();
   my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
   my %tested;
   print "Gonna detect GNU make:\n";
@@ -155,14 +157,23 @@ sub _get_make {
     next if $tested{$name};
     $tested{$name} = 1;
     print "- testing: '$name'\n";
-    my $ver = `$name --version 2> $devnull`;
-    if ($ver =~ /GNU Make/i) {
+    if ($self->_is_gnu_make($name)) {
       print "- found: '$name'\n";
       return $name
     }
   }
   print "- fallback to: 'make'\n";
   return 'make';
+}
+
+sub _is_gnu_make {
+  my ($self, $name) = @_;
+  my $devnull = File::Spec->devnull();
+  my $ver = `$name --version 2> $devnull`;
+  if ($ver =~ /GNU Make/i) {
+    return 1;
+  }
+  return 0;
 }
 
 1;
