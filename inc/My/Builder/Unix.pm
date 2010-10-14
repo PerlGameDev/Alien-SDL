@@ -118,6 +118,11 @@ sub _get_configure_cmd {
     $extra .= " --with-sdl-prefix=$prefixdir";
   }
 
+  if($pack =~ /^SDL/ && -d '/usr/X11R6/lib' && -d '/usr/X11R6/include') {
+    $extra_cflags  .= ' -I/usr/X11R6/include';
+    $extra_ldflags .= ' -L/usr/X11R6/lib';
+  }
+
   if(($pack eq 'SDL') && ($^O eq 'cygwin')) {
     # kmx experienced troubles while cygwin build when nasm was present in PATH
     $extra .= " --disable-nasm";
