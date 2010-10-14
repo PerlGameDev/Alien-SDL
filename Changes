@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+1.418  Thu Oct 14 2010
+     - removing SDL_net header check from tests [FROGGS]
+     - passing -L/usr/X11R6/lib -I/usr/X11R6/include to all SDL* libs [FROGGS]
+
 1.417  Wed Oct 13 2010
      - Searching for libs/headers in /usr/X11R6/lib+include [FROGGS]
      - Skipping build of zlib in case its already there (fixes OpenBSD unknown-reports) [FROGGS]

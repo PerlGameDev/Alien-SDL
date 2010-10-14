@@ -3,11 +3,7 @@
 use Test::More tests => 2;
 use Alien::SDL;
 
-diag("Testing basic headers SDL.h + SDL_version.h + SDL_net.h");
+diag("Testing basic headers SDL.h + SDL_version.h");
 is( Alien::SDL->check_header('SDL.h'), 1, "Testing availability of 'SDL.h'" );
 is( Alien::SDL->check_header( 'SDL.h', 'SDL_version.h' ),
     1, "Testing availability of 'SDL.h, SDL_version.h'" );
-#is( Alien::SDL->check_header('SDL_net.h'),
-#    1, "Testing availability of 'SDL_net.h'" );
-
-
