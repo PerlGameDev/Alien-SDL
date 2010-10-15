@@ -128,6 +128,11 @@ sub _get_configure_cmd {
     $extra .= " --disable-nasm";
   }
 
+  if($pack eq 'jpeg') {
+    # otherwise libtiff will complain about invalid version number on dragonflybsd
+    $extra .= " --disable-ld-version-script";
+  }
+
   ### This was intended as a fix for http://www.cpantesters.org/cpan/report/7064012
   ### Unfortunately does not work.
   #

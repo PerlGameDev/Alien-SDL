@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.419  Fri Oct 15 2010
+     - fixed 'invalid version'-error for libtiff [FROGGS]
+
 1.418  Thu Oct 14 2010
      - removing SDL_net header check from tests [FROGGS]
      - passing -L/usr/X11R6/lib -I/usr/X11R6/include to all SDL* libs [FROGGS]
