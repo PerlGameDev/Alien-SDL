@@ -734,7 +734,7 @@ sub find_file {
   $re ||= qr/.*/;
   {
     #hide warning "Can't opendir(...): Permission denied - fix for http://rt.cpan.org/Public/Bug/Display.html?id=57232
-    no warnings 'File::Find';
+    no warnings;
     find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
   };
   return @files;

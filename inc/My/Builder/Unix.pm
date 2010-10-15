@@ -47,6 +47,10 @@ sub get_additional_libs {
 
 sub can_build_binaries_from_sources {
   my $self = shift;
+  if($^O eq 'darwin' && !check_header($self->get_additional_cflags, 'X11/Xlib.h')) {
+    print "WARNING: required header 'X11/Xlib.h' not found, try installing the X11 SDK\n";
+    return 0;
+  }
   return 1; # yes we can
 }
 
