@@ -47,10 +47,6 @@ sub get_additional_libs {
 
 sub can_build_binaries_from_sources {
   my $self = shift;
-  if($^O eq 'darwin' && !check_header($self->get_additional_cflags, 'X11/Xlib.h')) {
-    print "WARNING: required header 'X11/Xlib.h' not found, try installing the X11 SDK\n";
-    return 0;
-  }
   return 1; # yes we can
 }
 
@@ -112,6 +108,10 @@ sub _get_configure_cmd {
   
   if(($pack eq 'SDL') && ($Config{archname} =~ /(powerpc|ppc)/)) {
     $extra .= ' --disable-video-ps3';
+  }
+
+  if($^O eq 'darwin' && !check_header($self->get_additional_cflags, 'X11/Xlib.h')) {
+    $extra .= ' --without-x';
   }
 
   if(($pack eq 'SDL') && ($Config{archname} =~ /solaris/) && !check_header($extra_cflags, 'sys/audioio.h')) {
