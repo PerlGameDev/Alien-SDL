@@ -1,4 +1,3 @@
-diff -u old/config.guess new/config.guess
 --- SDL_Pango-0.1.2/config.guess	2004-01-20 14:52:22.000000000 +0100
 +++ SDL_Pango-0.1.2/config.guess	2009-10-13 01:07:12.000000000 +0200
 @@ -1,9 +1,10 @@

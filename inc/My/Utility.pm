@@ -75,6 +75,9 @@ my $source_packs = [
           'http://froggs.de/libz/zlib-1.2.5.tar.gz',
         ],
         sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+        patches => [
+          'zlib-1.2.5-bsd-ldconfig.patch',
+        ],
       },
       {
         pack => 'SDL',
@@ -310,6 +313,9 @@ my $source_packs = [
           'http://froggs.de/libz/zlib-1.2.5.tar.gz',
         ],
         sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+        patches => [
+          'zlib-1.2.5-bsd-ldconfig.patch',
+        ],
       },
       {
         pack => 'jpeg',
@@ -422,6 +428,9 @@ my $source_packs = [
           'http://froggs.de/libz/zlib-1.2.5.tar.gz',
         ],
         sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+        patches => [
+          'zlib-1.2.5-bsd-ldconfig.patch',
+        ],
       },
       {
         pack => 'jpeg',
@@ -512,6 +521,9 @@ my $source_packs = [
           'http://froggs.de/libz/zlib-1.2.5.tar.gz',
         ],
         sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+        patches => [
+          'zlib-1.2.5-bsd-ldconfig.patch',
+        ],
       },
       {
         pack => 'jpeg',
