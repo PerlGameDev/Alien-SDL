@@ -177,7 +177,7 @@ sub extract_sources {
   foreach my $pack (@{$bp->{members}}) {
     my $srcdir = catfile($build_src, $pack->{dirname});
     my $unpack = 'y';
-    $unpack = $self->prompt("Dir '$srcdir' exists, wanna replace with clean sources?", "n") if (-d $srcdir);
+    $unpack = $self->prompt("Dir '$srcdir' exists, wanna replace with clean sources?", "y") if (-d $srcdir);
     if (lc($unpack) eq 'y') {
       my $archive = catfile($download, File::Fetch->new(uri => @{$pack->{url}}[0])->file);
       print "Extracting $pack->{pack}...\n";

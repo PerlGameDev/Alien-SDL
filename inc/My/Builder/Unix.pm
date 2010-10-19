@@ -71,7 +71,7 @@ sub build_binaries {
 
       # do './configure ...'
       my $run_configure = 'y';
-      $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "n") if (-f "config.status");
+      $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
       if (lc($run_configure) eq 'y') {
         my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
         print "Configuring $pack->{pack}...\n";
