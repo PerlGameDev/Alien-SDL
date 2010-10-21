@@ -746,7 +746,7 @@ sub check_prereqs_tools {
 
   foreach my $tool (@tools) {
     
-    if('pkg-config' eq $tool && !(-x $toolr) && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG}) {
+    if('pkg-config' eq $tool && !(-x $tool) && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG}) {
         $tool = $ENV{PKG_CONFIG};
     }
     if(-x $tool) {
