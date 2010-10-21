@@ -8,6 +8,7 @@ use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
 use File::Find qw(find);
+use File::Which;
 use File::Copy qw(cp);
 use Cwd qw(realpath);
 
@@ -746,10 +747,8 @@ sub check_prereqs_tools {
 
   foreach my $tool (@tools) {
     
-    if('pkg-config' eq $tool && !(-x $tool) && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG}) {
-        $tool = $ENV{PKG_CONFIG};
-    }
-    if(-x $tool) {
+    if(-x File::Which::which($tool)
+    || ('pkg-config' eq $tool && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG} && -x File::Which::which($ENV{PKG_CONFIG}))) {
       $ret &= 1;
     }
     else {
