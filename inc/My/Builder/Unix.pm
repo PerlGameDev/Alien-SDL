@@ -61,6 +61,9 @@ sub build_binaries {
     elsif($pack->{pack} =~ m/^(SDL_mixer)$/ && !$self->_is_gnu_make($self->_get_make)) {
       print "SKIPPING package '" . $pack->{dirname} . "' (GNU Make needed)...\n";
     }
+    elsif($pack->{pack} =~ m/^(SDL_Pango)$/ && !check_prereqs_tools('pkg-config')) {
+      print "SKIPPING package '" . $pack->{dirname} . "' (pkg-config needed)...\n";
+    }
     else {
       print "BUILDING package '" . $pack->{dirname} . "'...\n";
       my $srcdir = catfile($build_src, $pack->{dirname});
@@ -110,7 +113,7 @@ sub _get_configure_cmd {
     $extra .= ' --disable-video-ps3';
   }
 
-  if($^O eq 'darwin' && !check_header($self->get_additional_cflags, 'X11/Xlib.h')) {
+  if($pack eq 'SDL' && $^O eq 'darwin' && !check_header($self->get_additional_cflags, 'X11/Xlib.h')) {
     $extra .= ' --without-x';
   }
 
