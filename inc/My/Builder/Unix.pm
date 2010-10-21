@@ -5,7 +5,7 @@ use warnings;
 use base 'My::Builder';
 
 use File::Spec::Functions qw(catdir catfile rel2abs);
-use My::Utility qw(check_header check_prereqs_libs);
+use My::Utility qw(check_header check_prereqs_libs check_prereqs_tools);
 use Config;
 
 my $inc_lib_candidates = {
