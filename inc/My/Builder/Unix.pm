@@ -77,9 +77,16 @@ sub build_binaries {
       $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
       if (lc($run_configure) eq 'y') {
         my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
-        print "Configuring $pack->{pack}...\n";
+        print "Configuring package '$pack->{pack}'...\n";
         print "(cmd: $cmd)\n";
-        $self->do_system($cmd) or die "###ERROR### [$?] during ./configure ... ";
+        unless($self->do_system($cmd)) {
+          if(-f "config.log" && open(CONFIGLOG, "<config.log")) {
+            print "config.log:\n";
+            print while <CONFIGLOG>;
+            close(CONFIGLOG);
+          }
+          die "###ERROR### [$?] during ./configure for package '$pack->{pack}'...";
+        }
       }
 
       # do 'make install'

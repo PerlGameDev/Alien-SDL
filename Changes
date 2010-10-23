@@ -1,10 +1,11 @@
 Revision history for Perl module Alien::SDL
 
-1.419  Thu Oct 21 2010
+TBD
      - test for X11/Xlib.h on darwin, disable X if missing [FROGGS]
      - extracting sources and running configure again by default when running Build twice [FROGGS]
      - fixed bug: passing '--without-x' only to package SDL [FROGGS]
      - added sub check_prereqs_tools, checking for pkg-config to build SDL_Pango [FROGGS]
+     - printing config.log for packages that failed to run configure [FROGGS]
 
 1.418_2  Mon Oct 18 2010
      - patch for ldconfig on BSD [FROGGS]
