@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+TBD
+     - bugtracker url changed, shows Alien::SDL only [FROGGS]
+     - disabling mmx for SDL_gfx for alpha-linux [FROGGS]
+
 1.419  Sat Oct 23 2010
      - test for X11/Xlib.h on darwin, disable X if missing [FROGGS]
      - extracting sources and running configure again by default when running Build twice [FROGGS]

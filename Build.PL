@@ -59,7 +59,7 @@ my $build = $package->new(
   },
   meta_merge => {
     resources  => {
-      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl',
+      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl/query?component=Alien%3A%3ASDL&status=!closed',
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },
