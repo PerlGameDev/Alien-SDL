@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-TBD
+1.420  Fri Oct 29 2010
      - bugtracker url changed, shows Alien::SDL only [FROGGS]
      - disabling mmx for SDL_gfx for alpha-linux [FROGGS]
 
