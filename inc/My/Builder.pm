@@ -191,11 +191,13 @@ sub extract_sources {
           # doing the same like -p1 for 'patch'
           $k =~ s/^[^\/]*\/(.*)$/$1/;
           open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
-          my @src  = map{$_ =~ /([^\r\n]*)/} <SRC>;
+          my @src = <SRC>;
           close(SRC);
           open(DIFF, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
-          my @diff = map{$_ =~ /([^\r\n]*)/} <DIFF>;
+          my @diff = <DIFF>;
           close(DIFF);
+          foreach(@src)  { $_=~ s/[\r\n]+$//; }
+          foreach(@diff) { $_=~ s/[\r\n]+$//; }
           my $out = Text::Patch::patch( join("\n", @src) . "\n", join("\n", @diff) . "\n", { STYLE => "Unified" } );
           open(OUT, ">$k") or die "###ERROR### Cannot open file for writing: '$k'\n";
           print(OUT $out);

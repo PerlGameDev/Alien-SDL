@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+1.421  Sat Oct 30 2010
+     - using LD_LIBRARY_PATH on openbsd [FROGGS]
+
 1.420  Fri Oct 29 2010
      - bugtracker url changed, shows Alien::SDL only [FROGGS]
      - disabling mmx for SDL_gfx for alpha-linux [FROGGS]

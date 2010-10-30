@@ -155,7 +155,7 @@ sub _get_configure_cmd {
   #  $extra_cflags .= ' -I/usr/X11R6/include';
   #  $extra_ldflags .= ' -L/usr/X11R6/lib';
   #}
-  
+
   if($pack =~ /^zlib/) {
     # does not support params CFLAGS=...
     $cmd = "./configure --prefix=$prefixdir";
@@ -164,10 +164,14 @@ sub _get_configure_cmd {
     $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
            " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
   }
-  
+
+  if($pack ne 'SDL' && $^O eq 'openbsd') {
+    $cmd = "LD_LIBRARY_PATH=\"$prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
+  }
+
   # we need to have $prefixdir/bin in PATH while running ./configure
   $cmd = "PATH=\"$prefixdir/bin:\$PATH\" $cmd";
-  
+
   return $cmd;
 }
 
