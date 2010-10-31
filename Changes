@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+1.421_1  Sun Oct 31 2010
+     - building libjpeg-v8b[FROGGS]
+     - setting cc to gcc on cygwin [FROGGS]
+
 1.421  Sat Oct 30 2010
      - using LD_LIBRARY_PATH on openbsd [FROGGS]
 

@@ -8,6 +8,11 @@ use File::Spec::Functions qw(catdir catfile rel2abs);
 use My::Utility qw(check_header check_prereqs_libs check_prereqs_tools);
 use Config;
 
+# $Config{cc} tells us to use gcc-4, but it is not there by default
+if($^O eq 'cygwin') {
+  $My::Utility::cc = 'gcc';
+}
+
 my $inc_lib_candidates = {
   '/usr/local/include' => '/usr/local/lib',
   '/usr/local/include/smpeg' => '/usr/local/lib',

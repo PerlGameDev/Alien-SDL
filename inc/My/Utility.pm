@@ -12,6 +12,7 @@ use File::Which;
 use File::Copy qw(cp);
 use Cwd qw(realpath);
 
+our $cc = $Config{cc};
 #### packs with prebuilt binaries
 # - all regexps has to match: arch_re ~ $Config{archname}, cc_re ~ $Config{cc}, os_re ~ $^O
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
@@ -94,13 +95,15 @@ my $source_packs = [
       },
       {
         pack => 'jpeg',
-        dirname => 'jpeg-8a',
+        dirname => 'jpeg-8b',
         url => [
-          'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
-          'http://froggs.de/libjpeg/jpegsrc.v8a.tar.gz',
+          'http://www.ijg.org/files/jpegsrc.v8b.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8b.tar.gz',
         ],
-        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
-        patches => [ 'jpeg-8a_cygwin.patch' ],
+        sha1sum  => '15dc1939ea1a5b9d09baea11cceb13ca59e4f9df',
+        patches => [
+          'jpeg-8a_cygwin.patch',
+        ],
       },
       {
         pack => 'tiff',
@@ -151,16 +154,6 @@ my $source_packs = [
         sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
-      #{
-      #  pack => 'SDL_net',
-      #  dirname => 'SDL_net-1.2.7',
-      #  url => [
-      #    'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-      #    'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
-      #  ],
-      #  sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-      #  patches => [ ],
-      #},
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
@@ -244,16 +237,6 @@ my $source_packs = [
         sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
-      #{
-      #  pack => 'SDL_net',
-      #  dirname => 'SDL_net-1.2.7',
-      #  url => [
-      #    'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-      #    'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
-      #  ],
-      #  sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-      #  patches => [ ],
-      #},
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
@@ -320,13 +303,15 @@ my $source_packs = [
       },
       {
         pack => 'jpeg',
-        dirname => 'jpeg-8a',
+        dirname => 'jpeg-8b',
         url => [
-          'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
-          'http://froggs.de/libjpeg/jpegsrc.v8a.tar.gz',
+          'http://www.ijg.org/files/jpegsrc.v8b.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8b.tar.gz',
         ],
-        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
-        patches => [ 'jpeg-8a_cygwin.patch' ],
+        sha1sum  => '15dc1939ea1a5b9d09baea11cceb13ca59e4f9df',
+        patches => [
+          'jpeg-8a_cygwin.patch',
+        ],
       },
       {
         pack => 'tiff',
@@ -377,16 +362,6 @@ my $source_packs = [
         sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
-      #{
-      #  pack => 'SDL_net',
-      #  dirname => 'SDL_net-1.2.7',
-      #  url => [
-      #    'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-      #    'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
-      #  ],
-      #  sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-      #  patches => [ ],
-      #},
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
@@ -435,13 +410,15 @@ my $source_packs = [
       },
       {
         pack => 'jpeg',
-        dirname => 'jpeg-8a',
+        dirname => 'jpeg-8b',
         url => [
-          'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
-          'http://froggs.de/libjpeg/jpegsrc.v8a.tar.gz',
+          'http://www.ijg.org/files/jpegsrc.v8b.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8b.tar.gz',
         ],
-        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
-        patches => [ 'jpeg-8a_cygwin.patch' ],
+        sha1sum  => '15dc1939ea1a5b9d09baea11cceb13ca59e4f9df',
+        patches => [
+          'jpeg-8a_cygwin.patch',
+        ],
       },
       {
         pack => 'tiff',
@@ -482,16 +459,6 @@ my $source_packs = [
         sha1sum  => 'ef5d45160babeb51eafa7e4019cec38324ee1a5d',
         patches => [ ],
       },
-      #{
-      #  pack => 'SDL_net',
-      #  dirname => 'SDL_net-1.2.7',
-      #  url => [
-      #    'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-      #    'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
-      #  ],
-      #  sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-      #  patches => [ ],
-      #},
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
@@ -528,13 +495,15 @@ my $source_packs = [
       },
       {
         pack => 'jpeg',
-        dirname => 'jpeg-8a',
+        dirname => 'jpeg-8b',
         url => [
-          'http://www.ijg.org/files/jpegsrc.v8a.tar.gz',
-          'http://froggs.de/libjpeg/jpegsrc.v8a.tar.gz',
+          'http://www.ijg.org/files/jpegsrc.v8b.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8b.tar.gz',
         ],
-        sha1sum  => '78077fb22f0b526a506c21199fbca941d5c671a9',
-        patches => [ 'jpeg-8a_cygwin.patch' ],
+        sha1sum  => '15dc1939ea1a5b9d09baea11cceb13ca59e4f9df',
+        patches => [
+          'jpeg-8a_cygwin.patch',
+        ],
       },
       {
         pack => 'tiff',
@@ -606,16 +575,6 @@ my $source_packs = [
         sha1sum  => '98f6518ec71d94b8ad303a197445e0991850b887',
         patches => [ ],
       },
-      #{
-      #  pack => 'SDL_net',
-      #  dirname => 'SDL_net-1.2.7',
-      #  url => [
-      #    'http://www.libsdl.org/projects/SDL_net/release/SDL_net-1.2.7.tar.gz',
-      #    'http://froggs.de/libsdl/SDL_net-1.2.7.tar.gz',
-      #  ],
-      #  sha1sum  => 'b46c7e3221621cc34fec1238f1b5f0ce8972274d',
-      #  patches => [ ],
-      #},
       {
         pack => 'SDL_gfx',
         dirname => 'SDL_gfx-2.0.20',
@@ -654,12 +613,12 @@ sub check_config_script
 sub check_prebuilt_binaries
 {
   print "Gonna check availability of prebuilt binaries ...\n";
-  print "(os=$^O cc=$Config{cc} archname=$Config{archname})\n";
+  print "(os=$^O cc=$cc archname=$Config{archname})\n";
   my @good = ();
   foreach my $b (@{$prebuilt_binaries}) {
     if ( ($^O =~ $b->{os_re}) &&
          ($Config{archname} =~ $b->{arch_re}) &&
-         ($Config{cc} =~ $b->{cc_re}) ) {
+         ($cc =~ $b->{cc_re}) ) {
       $b->{buildtype} = 'use_prebuilt_binaries';
       push @good, $b;
     }
@@ -671,7 +630,7 @@ sub check_prebuilt_binaries
 sub check_src_build
 {
   print "Gonna check possibility for building from sources ...\n";
-  print "(os=$^O cc=$Config{cc})\n";
+  print "(os=$^O cc=$cc)\n";
   my @good = ();
   foreach my $p (@{$source_packs}) {
     $p->{buildtype} = 'build_from_sources';
@@ -864,7 +823,6 @@ sub get_dlext {
   }
   elsif( $^O =~ /cygwin/)
   {  
-    warn 'USING la for cygwin';
     return 'la';
   }
   else {
