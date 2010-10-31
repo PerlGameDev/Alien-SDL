@@ -8,6 +8,7 @@ use File::Find;
 use File::Spec::Functions qw(catdir catfile rel2abs);
 use File::Temp;
 use Capture::Tiny;
+use Config;
 
 =head1 NAME
 
@@ -15,11 +16,11 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 1.421_1
+Version 1.421_2
 
 =cut
 
-our $VERSION = '1.421_1';
+our $VERSION = '1.421_2';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -217,7 +218,14 @@ sub check_header {
 
   require ExtUtils::CBuilder; # PAR packer workaround
   
-  my $cb = ExtUtils::CBuilder->new(quiet => 1);
+  my $config  = {};
+  if($^O eq 'cygwin') {
+    my $ccflags = $Config{ccflags};
+    $ccflags    =~ s/-fstack-protector//;
+    $config     = { ld => 'gcc', cc => 'gcc', ccflags => $ccflags };
+  }
+
+  my $cb = ExtUtils::CBuilder->new( quiet => 1, config => $config );
   my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
   my $i = 0;
