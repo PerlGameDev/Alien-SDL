@@ -707,8 +707,10 @@ sub check_prereqs_tools {
 
   foreach my $tool (@tools) {
     
-    if(-x File::Which::which($tool)
-    || ('pkg-config' eq $tool && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG} && -x File::Which::which($ENV{PKG_CONFIG}))) {
+    if((File::Which::which($tool) && -x File::Which::which($tool))
+    || ('pkg-config' eq $tool && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG}
+                              && File::Which::which($ENV{PKG_CONFIG})
+                              && -x File::Which::which($ENV{PKG_CONFIG}))) {
       $ret &= 1;
     }
     else {
