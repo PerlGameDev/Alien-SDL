@@ -14,8 +14,9 @@ if($^O eq 'cygwin') {
 }
 
 my $inc_lib_candidates = {
-  '/usr/local/include' => '/usr/local/lib',
+  '/usr/local/include'       => '/usr/local/lib',
   '/usr/local/include/smpeg' => '/usr/local/lib',
+  '/usr/pkg/include'         => '/usr/pkg/lib',
 };
 
 $inc_lib_candidates->{'/usr/pkg/include/smpeg'}   = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';

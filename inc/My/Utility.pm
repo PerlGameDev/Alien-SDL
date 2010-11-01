@@ -651,6 +651,7 @@ sub check_prereqs_libs {
       '/usr/local/include' => '/usr/local/lib',
       '/usr/include'       => '/usr/lib',
       '/usr/X11R6/include' => '/usr/X11R6/lib',
+      '/usr/pkg/include'   => '/usr/pkg/lib',
     };
 
     if( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/) {
