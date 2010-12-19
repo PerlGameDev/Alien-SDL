@@ -1,7 +1,8 @@
 Revision history for Perl module Alien::SDL
 
-TBD
+1.421_3  Sun Dec 19 2010
      - added paths /usr/pkg/include and /usr/pkg/lib for dragonfly [FROGGS]
+     - patch for SDL's configure script, -Wl,-rpath,LIBDIR for openbsd [FROGGS]
 
 1.421_2  Sun Oct 31 2010
      - updated check_header() to use gcc on cygwin [FROGGS]

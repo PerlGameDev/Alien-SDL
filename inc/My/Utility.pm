@@ -91,6 +91,7 @@ my $source_packs = [
         sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
         patches => [
           'test1.patch',
+          'SDL-1.2.14-openbsd-rldflags.patch',
         ],
       },
       {
@@ -205,6 +206,7 @@ my $source_packs = [
         sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
         patches => [
           'test1.patch',
+          'SDL-1.2.14-openbsd-rldflags.patch',
         ],
       },
       {
@@ -287,6 +289,7 @@ my $source_packs = [
         sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
         patches => [
           'test1.patch',
+          'SDL-1.2.14-openbsd-rldflags.patch',
         ],
       },
       {
@@ -394,6 +397,7 @@ my $source_packs = [
         sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
         patches => [
           'test1.patch',
+          'SDL-1.2.14-openbsd-rldflags.patch',
         ],
       },
       {
@@ -543,6 +547,7 @@ my $source_packs = [
         sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
         patches => [
           'test1.patch',
+          'SDL-1.2.14-openbsd-rldflags.patch',
         ],
       },
       {
