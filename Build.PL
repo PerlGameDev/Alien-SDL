@@ -8,11 +8,13 @@ use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
 #### we need the platform-specific module
 my %platforms =(
        # Unix = default, thus not listing all UNIX like systems
-       MSWin32 => 'Windows',       
+       MSWin32 => 'Windows',
 );
 my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
 print "Gonna use '$package' class ...\n";
 eval "require $package" or die "Require '$package' failed: $@\n";
+
+my $sdl_config;
 
 #### Stadard Module::Builder stuff
 my $build = $package->new(
@@ -63,63 +65,80 @@ my $build = $package->new(
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },
+  get_options => { 'with-sdl' => { qw(type =s  store) => \$sdl_config } },
+  dynamic_config => 1,
   create_readme => 1,
   share_dir => 'sharedir',
   # sharedir is used for storing compiled/prebuilt binaries of SDL lib + related libraries
   # avoid using 'share' name as M::B doe not handle well paths like /xx/yy/share/zz/ww/share/xx
 );
 
-print "\nWelcome to Alien::SDL module installation";
-print "\n-----------------------------------------\n\n";
+my $choice;
 
-#### check what options we have for our platform
-my $rv; my @candidates = ();
+if (defined $sdl_config) {
+  # Don't prompt; just use specified location:
+  $choice = check_config_script($sdl_config)
+      or warn "###ERROR### Unable to use config script $sdl_config\n";
+}
+else {
+  # Search for possible methods, then prompt:
+  print "\nWelcome to Alien::SDL module installation";
+  print "\n-----------------------------------------\n\n";
 
-if(defined($ENV{SDL_INST_DIR})) {
-  print "Gonna use SDL_INST_DIR environment variable...\n";
-  print "(SDL_INST_DIR=$ENV{SDL_INST_DIR})\n";
-  if (-d $ENV{SDL_INST_DIR}) {
-    my @sdlinst = File::Spec->splitdir($ENV{SDL_INST_DIR});
-    if($rv=check_config_script(File::Spec->catdir(@sdlinst, 'bin', 'sdl-config'))) {
-      push @candidates, $rv;
+  #### check what options we have for our platform
+  my $rv; my @candidates = ();
+
+  if(defined($ENV{SDL_INST_DIR})) {
+    print "Gonna use SDL_INST_DIR environment variable...\n";
+    print "(SDL_INST_DIR=$ENV{SDL_INST_DIR})\n";
+    if (-d $ENV{SDL_INST_DIR}) {
+      my @sdlinst = File::Spec->splitdir($ENV{SDL_INST_DIR});
+      if($rv=check_config_script(File::Spec->catdir(@sdlinst, 'bin', 'sdl-config'))) {
+        push @candidates, $rv;
+      }
+      elsif($rv=check_config_script(File::Spec->catdir(@sdlinst, 'sdl-config'))) {
+        push @candidates, $rv;
+      }
     }
-    elsif($rv=check_config_script(File::Spec->catdir(@sdlinst, 'sdl-config'))) {
-      push @candidates, $rv;
+    else {
+      warn "###WARN### Non-existing directory '$ENV{SDL_INST_DIR}' - skipping";
     }
   }
-  else {
-    warn "###WARN### Non-existing directory '$ENV{SDL_INST_DIR}' - skipping";
+
+  if($rv=check_config_script("sdl-config")) {
+    push @candidates, $rv;
+  };
+
+  if($rv=check_prebuilt_binaries($build->os_type)) {
+    push @candidates, @{$rv};
+  };
+
+  if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_type))) {
+    push @candidates, @{$rv};
+  };
+
+  push @candidates, { title => 'Quit installation' };
+
+  #### ask user what way to go
+  my $i                     = 1;
+  my $prompt_string         = "\nYou have the following options:\n";
+  my $recommended_candidate = 1;
+  foreach my $c (@candidates) {
+    $recommended_candidate = $i if $c->{title} =~ /RECOMMENDED/;
+    $prompt_string        .= "[" . $i++ . "] " . $c->{title} . "\n"
   }
-}
+  $prompt_string .= "\nWhat way do you wanna go?";
+  my $ans = $build->prompt($prompt_string, $recommended_candidate);
 
-if($rv=check_config_script("sdl-config")) {
-  push @candidates, $rv;
-};
-
-if($rv=check_prebuilt_binaries($build->os_type)) {
-  push @candidates, @{$rv};
-};
-
-if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_type))) {
-  push @candidates, @{$rv};
-};
-
-push @candidates, { title => 'Quit installation' };
-
-#### ask user what way to go
-my $i                     = 1;
-my $prompt_string         = "\nYou have the following options:\n";
-my $recommended_candidate = 1;
-foreach my $c (@candidates) {
-  $recommended_candidate = $i if $c->{title} =~ /RECOMMENDED/;
-  $prompt_string        .= "[" . $i++ . "] " . $c->{title} . "\n"
-}
-$prompt_string .= "\nWhat way do you wanna go?";
-my $ans = $build->prompt($prompt_string, $recommended_candidate);
+  if(($ans>0) && ($ans<scalar(@candidates))) {
+    $choice = $candidates[$ans-1];
+  }
+} # end else search and prompt for build method
 
 #### store build params into 'notes'
-if(($ans>0) && ($ans<scalar(@candidates))) {
-  $build->notes('build_params', $candidates[$ans-1]);
+if($choice) {
+  print "Using \l$choice->{title}\n";
+  $build->notes('build_params', $choice);
   $build->create_build_script();
 
   #### clean build_done stamp; force rebuild when running 'Build'
