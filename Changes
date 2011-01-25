@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-NEXT
+1.422_1 Tue Jan 25 2011
      - added Build.PL option --with-sdl-config (madsen,kmx)
 
 1.422 Wed Jan 19 2011
