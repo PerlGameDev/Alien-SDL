@@ -65,7 +65,7 @@ my $build = $package->new(
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },
-  get_options => { 'with-sdl-config' => { qw(type =s  store) => \$sdl_config } },
+  get_options => { 'with-sdl-config' => { qw(type :s  store) => \$sdl_config } },
   dynamic_config => 1,
   create_readme => 1,
   share_dir => 'sharedir',
@@ -75,7 +75,9 @@ my $build = $package->new(
 
 my $choice;
 
-if (defined $sdl_config) {
+if (defined $sdl_config) {  
+  # handle --with-sdl-config (without params)
+  $sdl_config = 'sdl-config' if $sdl_config eq ''; 
   # Don't prompt; just use specified location:
   $choice = check_config_script($sdl_config)
       or warn "###ERROR### Unable to use config script $sdl_config\n";

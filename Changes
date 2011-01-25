@@ -1,7 +1,10 @@
 Revision history for Perl module Alien::SDL
 
+1.423 Tue Jan 25 2011
+     - now '--with-sdl-config' is the same as '--with-sdl-config=sdl-config' [kmx]
+
 1.422_1 Tue Jan 25 2011
-     - added Build.PL option --with-sdl-config (madsen,kmx)
+     - added Build.PL option --with-sdl-config=... [madsen,kmx]
 
 1.422 Wed Jan 19 2011
      - the same as latest dev release
