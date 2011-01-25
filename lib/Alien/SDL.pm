@@ -34,6 +34,9 @@ script to locate SDL libs.
 
  perl ./Build.pl --with-sdl-config=/opt/sdl/bin/sdl-config
 
+ B<IMPORTANT NOTE:> Using --with-sdl-config avoids considering any other
+ build methods; no prompt with other available build options.
+
 =item * Locate an already installed SDL via 'sdl-config' script.
 
 =item * Check for SDL libs in directory specified by SDL_INST_DIR variable.
