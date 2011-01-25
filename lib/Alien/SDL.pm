@@ -29,11 +29,18 @@ Alien::SDL tries (in given order) during its installation:
 
 =over
 
+=item * When given C<--with-sdl-config> option use specified sdl-config
+script to locate SDL libs.
+
+ perl ./Build.pl --with-sdl-config=/opt/sdl/bin/sdl-config
+
 =item * Locate an already installed SDL via 'sdl-config' script.
 
 =item * Check for SDL libs in directory specified by SDL_INST_DIR variable.
 In this case the module performs SDL library detection via
 '$SDL_INST_DIR/bin/sdl-config' script.
+
+ SDL_INST_DIR=/opt/sdl perl ./Build.PL
 
 =item * Download prebuilt SDL binaries (if available for your platform).
 
