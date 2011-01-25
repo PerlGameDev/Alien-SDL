@@ -1,5 +1,11 @@
 Revision history for Perl module Alien::SDL
 
+NEXT
+     - added Build.PL option --with-sdl-config (madsen,kmx)
+
+1.422 Wed Jan 19 2011
+     - the same as latest dev release
+
 1.421_3  Sun Dec 19 2010
      - added paths /usr/pkg/include and /usr/pkg/lib for dragonfly [FROGGS]
      - patch for SDL's configure script, -Wl,-rpath,LIBDIR for openbsd [FROGGS]
