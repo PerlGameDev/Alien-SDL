@@ -65,7 +65,7 @@ my $build = $package->new(
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },
-  get_options => { 'with-sdl' => { qw(type =s  store) => \$sdl_config } },
+  get_options => { 'with-sdl-config' => { qw(type =s  store) => \$sdl_config } },
   dynamic_config => 1,
   create_readme => 1,
   share_dir => 'sharedir',
