@@ -38,8 +38,8 @@ or using default script name 'sdl-config' by running:
 
  perl ./Build.pl --with-sdl-config
 
- B<IMPORTANT NOTE:> Using --with-sdl-config avoids considering any other
- build methods; no prompt with other available build options.
+B<IMPORTANT NOTE:> Using --with-sdl-config avoids considering any other
+build methods; no prompt with other available build options.
 
 =item * Locate an already installed SDL via 'sdl-config' script.
 
