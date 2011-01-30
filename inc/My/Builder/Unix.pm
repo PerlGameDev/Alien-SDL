@@ -130,6 +130,10 @@ sub _get_configure_cmd {
     $extra .= ' --without-x';
   }
 
+  if($pack eq 'SDL_image' && $^O eq 'darwin') {
+    $extra .= ' --disable-sdltest';
+  }
+
   if(($pack eq 'SDL') && ($Config{archname} =~ /solaris/) && !check_header($extra_cflags, 'sys/audioio.h')) {
     $extra .= ' --disable-audio';
   }

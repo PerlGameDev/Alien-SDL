@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+* TBD
+     - adding '--disable-sdltest' to SDL_image's configure for darwin #222 [FROGGS]
+
 1.423 Tue Jan 25 2011
      - now '--with-sdl-config' is the same as '--with-sdl-config=sdl-config' [kmx]
 
