@@ -133,7 +133,9 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
         sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-        patches => [ ],
+        patches => [
+          'SDL_image-1.2.10-libpng-flags.patch',
+        ],
       },
       {
         pack => 'SDL_mixer',
@@ -217,7 +219,9 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
         sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-        patches => [ ],
+        patches => [
+          'SDL_image-1.2.10-libpng-flags.patch',
+        ],
       },
       {
         pack => 'SDL_mixer',
@@ -343,7 +347,9 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
         sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-        patches => [ ],
+        patches => [
+          'SDL_image-1.2.10-libpng-flags.patch',
+        ],
       },
       {
         pack => 'SDL_mixer',
@@ -451,7 +457,9 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
         sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-        patches => [ ],
+        patches => [
+          'SDL_image-1.2.10-libpng-flags.patch',
+        ],
       },
       {
         pack => 'SDL_mixer',
@@ -558,7 +566,9 @@ my $source_packs = [
           'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
         sha1sum  => '6bae71fdfd795c3dbf39f6c7c0cf8b212914ef97',
-        patches => [ ],
+        patches => [
+          'SDL_image-1.2.10-libpng-flags.patch',
+        ],
       },
       {
         pack => 'SDL_mixer',
