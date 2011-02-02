@@ -2,7 +2,7 @@ NAME
     Alien::SDL - building, finding and using SDL binaries
 
 VERSION
-    Version 1.423
+    Version 1.424
 
 SYNOPSIS
     Alien::SDL tries (in given order) during its installation:
@@ -16,8 +16,8 @@ SYNOPSIS
 
          perl ./Build.pl --with-sdl-config
 
-         B<IMPORTANT NOTE:> Using --with-sdl-config avoids considering any other
-         build methods; no prompt with other available build options.
+        IMPORTANT NOTE: Using --with-sdl-config avoids considering any other
+        build methods; no prompt with other available build options.
 
     *   Locate an already installed SDL via 'sdl-config' script.
 
