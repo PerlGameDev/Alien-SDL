@@ -1,5 +1,8 @@
 Revision history for Perl module Alien::SDL
 
+TBD
+     - setting --disable-video-x11-xv and -DNO_SHARED_MEMORY when XShm.h is missing #221 [FROGGS]
+
 1.424 Wed Feb 02 2011
      - adding '--disable-sdltest' to SDL_image's configure for darwin #222 [FROGGS]
      - added patch for SDL_image/libpng-flags for netbsd #232 [FROGGS]

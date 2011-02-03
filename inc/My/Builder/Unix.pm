@@ -130,6 +130,11 @@ sub _get_configure_cmd {
     $extra .= ' --without-x';
   }
 
+  if($pack eq 'SDL' && !check_header($self->get_additional_cflags, 'X11/extensions/XShm.h')) {
+    $extra        .= ' --disable-video-x11-xv';
+    $extra_cflags .= ' -DNO_SHARED_MEMORY';
+  }
+
   if($pack eq 'SDL_image' && $^O eq 'darwin') {
     $extra .= ' --disable-sdltest';
   }
