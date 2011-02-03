@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-TBD
+1.425 Thu Feb 03 2011
      - setting --disable-video-x11-xv and -DNO_SHARED_MEMORY when XShm.h is missing #221 [FROGGS]
 
 1.424 Wed Feb 02 2011
