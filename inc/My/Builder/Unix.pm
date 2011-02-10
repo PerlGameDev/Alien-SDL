@@ -135,7 +135,7 @@ sub _get_configure_cmd {
     $extra_cflags .= ' -DNO_SHARED_MEMORY';
   }
 
-  if($pack eq 'SDL_image' && $^O eq 'darwin') {
+  if($pack =~ /^SDL_(image|mixer|ttf|gfx|Pango)$/ && $^O eq 'darwin') {
     $extra .= ' --disable-sdltest';
   }
 
