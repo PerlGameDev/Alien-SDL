@@ -38,16 +38,14 @@ sub ACTION_install
  my $self = shift;
  my $sharedir = '';
  
- $sharedir = eval {File::ShareDir::dist_dir('Alien-SDL')};
+ $sharedir = eval {File::ShareDir::dist_dir('Alien-SDL')} || '';
 
  if ( -d $sharedir )
  {
    print "Removing the old $sharedir \n";
-
    remove_tree($sharedir);
+   make_path($sharedir);
  }
- 
- mkdir($sharedir) unless(-d $sharedir);
 
  $self->SUPER::ACTION_install;
 }
