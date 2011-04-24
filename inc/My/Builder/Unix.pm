@@ -118,7 +118,7 @@ sub _get_configure_cmd {
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
 
-  if(($pack eq 'SDL_gfx') && $Config{archname} =~ /(powerpc|ppc|64|2level|alpha)/i) {
+  if(($pack eq 'SDL_gfx') && $Config{archname} =~ /(powerpc|ppc|64|2level|alpha|armv5)/i) {
     $extra .= ' --disable-mmx';
   }
   

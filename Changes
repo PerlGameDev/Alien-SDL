@@ -1,7 +1,9 @@
 Revision history for Perl module Alien::SDL
 
-1.426 Thu Feb 10 2011
-     - adding '--disable-sdltest' to SDL_mixer|ttf|gfx|Pango's configure for darwin [FROGGS]
+1.426 Sun Apr 24 2011
+     - added '--disable-sdltest' to SDL_mixer|ttf|gfx|Pango's configure for darwin [FROGGS]
+     - fixing 'Use of uninitialized value ..' warnings in ACTION_install [kmx]
+     - disabled MMX for SDL_gfx on ARMv5 machines [FROGGS]
 
 1.425 Thu Feb 03 2011
      - setting --disable-video-x11-xv and -DNO_SHARED_MEMORY when XShm.h is missing #221 [FROGGS]
