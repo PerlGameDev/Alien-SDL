@@ -2,6 +2,7 @@ Revision history for Perl module Alien::SDL
 
 1.427 Sun Jun 18 2011
      - SDL_Pango needs newer libtool to process ld scripts (like on ubuntu), patch added [FROGGS]
+     - using `uname -a` to detect sparc systems to disable MMX [FROGGS]
 
 1.426 Sun Apr 24 2011
      - added '--disable-sdltest' to SDL_mixer|ttf|gfx|Pango's configure for darwin [FROGGS]
