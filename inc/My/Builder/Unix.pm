@@ -122,7 +122,7 @@ sub _get_configure_cmd {
   my $cmd;
   
   ($stdout, $stderr) = Capture::Tiny::capture { print `uname -a`; };
-  my $uname .= " $stdout" if $stdout;
+  $uname .= " $stdout" if $stdout;
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
 
