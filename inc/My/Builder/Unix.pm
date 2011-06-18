@@ -96,6 +96,8 @@ sub build_binaries {
         }
       }
 
+      $self->do_system('cp ../SDL-1.2.14/libtool libtool') if $pack->{pack} eq 'SDL_Pango';
+
       # do 'make install'
       my @cmd = ($self->_get_make, 'install');
       print "Running make install $pack->{pack}...\n";
