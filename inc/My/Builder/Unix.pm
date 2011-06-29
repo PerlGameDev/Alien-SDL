@@ -172,10 +172,12 @@ sub _get_configure_cmd {
     $extra .= " --disable-ld-version-script";
   }
 
-  if($^O eq 'solaris' && -d '/usr/ccs/bin') {
-    # otherwise we get "false cru build/libSDLmain.a build/SDL_dummy_main.o"
-    # see http://fixunix.com/ntp/245613-false-cru-libs-libopts-libopts_la-libopts-o.html#post661558
-    $extra_PATH = ':/usr/ccs/bin';
+  # otherwise we get "false cru build/libSDLmain.a build/SDL_dummy_main.o"
+  # see http://fixunix.com/ntp/245613-false-cru-libs-libopts-libopts_la-libopts-o.html#post661558
+  if ($^O eq 'solaris') {
+    for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
+      $extra_PATH .= ":$_" if -d $_;
+    }
   }
 
   ### This was intended as a fix for http://www.cpantesters.org/cpan/report/7064012
