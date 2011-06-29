@@ -47,7 +47,7 @@ my $build = $package->new(
     'Module::Build'    => '0.36',
     'Text::Patch'      => '1.4',
   },
-  configure_requires   => {  #need to have for running: perl Buil.PL
+  configure_requires   => {  #need to have for running: perl Build.PL
     'File::Spec'       => '0',
     'File::Path'       => '2.08',
     'File::Fetch'      => '0.24',
@@ -57,7 +57,8 @@ my $build = $package->new(
     'Archive::Extract' => '0',
     'Module::Build'    => '0.36',
     'Text::Patch'      => '1.4',
-    'File::ShareDir'   => '0'
+    'File::ShareDir'   => '0',
+    'Capture::Tiny'    => '0',
   },
   meta_merge => {
     resources  => {
