@@ -92,6 +92,7 @@ my $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
+          'SDL-1.2.14-video_mmx.patch',
         ],
       },
       {
@@ -209,6 +210,7 @@ my $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
+          'SDL-1.2.14-video_mmx.patch',
         ],
       },
       {
@@ -294,6 +296,7 @@ my $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
+          'SDL-1.2.14-video_mmx.patch',
         ],
       },
       {
@@ -404,6 +407,7 @@ my $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
+          'SDL-1.2.14-video_mmx.patch',
         ],
       },
       {
@@ -556,6 +560,7 @@ my $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
+          'SDL-1.2.14-video_mmx.patch',
         ],
       },
       {
