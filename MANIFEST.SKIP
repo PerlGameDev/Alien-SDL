@@ -6,10 +6,12 @@ deps
 ^Build$
 ^Build.bat$
 ^MYMETA.yml$
+^MYMETA.json$
 ^tmp
 ^build_
 ^download
 ^share
+.tar.gz
 \.tmp$
 \.bak$
 \.zip$
