@@ -1,11 +1,11 @@
 Revision history for Perl module Alien::SDL
 
-1.428_2 Sun Jul 03 2011
+1.428_3 Tue Jul 05 2011
      - added Capture::Tiny to build_requires [FROGGS]
      - added search paths for command ar on solaris [FROGGS]
      - 'movq' bugfix: http://hg.libsdl.org/SDL/rev/32f0f603a0c8 [FROGGS]
      - added 'RELEASE' to get_header_version (e.g. png.h has it) [FROGGS]
-     - possible libpng15 bugfix: http://code.google.com/p/dibab/source/detail?spec=svn106&r=106 [FROGGS]
+     - libpng15 bugfix: https://bugs.gentoo.org/show_bug.cgi?id=354675 [FROGGS]
 
 1.427 Sun Jun 18 2011
      - SDL_Pango needs newer libtool to process ld scripts (like on ubuntu), patch added [FROGGS]
