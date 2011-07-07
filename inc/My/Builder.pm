@@ -116,6 +116,18 @@ sub fetch_file {
   my ($self, $url, $sha1sum, $download) = @_;
   die "###ERROR### _fetch_file undefined url\n"     unless @{$url}[0];
   die "###ERROR### _fetch_file undefined sha1sum\n" unless $sha1sum;
+
+  # setting http_proxy environment var if we are within CPAN and this information is available
+  unless($ENV{http_proxy} && $ENV{PERL5_CPAN_IS_RUNNING}) {
+    require CPAN::Config;
+    if($CPAN::Config->{http_proxy}) {
+      $ENV{http_proxy} = $CPAN::Config->{http_proxy};
+      if($CPAN::Config->{proxy_user} && $CPAN::Config->{proxy_pass} && $CPAN::Config->{http_proxy} !~ m|//.+:.+@|) {
+        $ENV{http_proxy} =~ s|://|://\Q$CPAN::Config->{proxy_user}\E:\Q$CPAN::Config->{proxy_pass}\E@|;
+      }
+    }
+  }
+
   my $ff = File::Fetch->new(uri => @{$url}[0]);
   my $fn = catfile($download, $ff->file);
   if (-e $fn) {
