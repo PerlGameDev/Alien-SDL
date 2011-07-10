@@ -71,6 +71,9 @@ sub build_binaries {
     elsif($pack->{pack} =~ m/^(SDL_Pango)$/ && !check_prereqs_tools('pkg-config')) {
       print "SKIPPING package '" . $pack->{dirname} . "' (pkg-config needed)...\n";
     }
+    elsif($pack->{pack} =~ m/^(SDL_ttf)$/ && $^O eq 'cygwin') {
+      print "SKIPPING package '" . $pack->{dirname} . "' (we cant use libfreetype)...\n";
+    }
     else {
       print "BUILDING package '" . $pack->{dirname} . "'...\n";
       my $srcdir = catfile($build_src, $pack->{dirname});
@@ -210,7 +213,7 @@ sub _get_configure_cmd {
 
 sub _get_make {
   my ($self) = @_;
-  my @try = ($Config{gmake}, 'gmake', 'make', $Config{make});
+  my @try = ('make', 'gmake', $Config{gmake}, $Config{make});
   my %tested;
   print "Gonna detect GNU make:\n";
   foreach my $name ( @try ) {
