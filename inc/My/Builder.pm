@@ -119,8 +119,7 @@ sub fetch_file {
 
   # setting http_proxy environment var if we are within CPAN and this information is available
   unless($ENV{http_proxy} && $ENV{PERL5_CPAN_IS_RUNNING}) {
-    require CPAN::Config;
-    if($CPAN::Config->{http_proxy}) {
+    if(eval('require CPAN::Config; 1') && $CPAN::Config->{http_proxy}) {
       $ENV{http_proxy} = $CPAN::Config->{http_proxy};
       if($CPAN::Config->{proxy_user} && $CPAN::Config->{proxy_pass} && $CPAN::Config->{http_proxy} !~ m|//.+:.+@|) {
         $ENV{http_proxy} =~ s|://|://\Q$CPAN::Config->{proxy_user}\E:\Q$CPAN::Config->{proxy_pass}\E@|;
