@@ -82,6 +82,9 @@ sub build_binaries {
 
       chdir $srcdir;
 
+      $self->do_system('cp ../../patches/SDL-1.2.14-configure configure') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
+      $self->do_system('cp ../../patches/SDL-1.2.14-ltmain_sh build-scripts/ltmain.sh') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
+
       # do './configure ...'
       my $run_configure = 'y';
       $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
@@ -90,16 +93,16 @@ sub build_binaries {
         print "Configuring package '$pack->{pack}'...\n";
         print "(cmd: $cmd)\n";
         unless($self->do_system($cmd)) {
-          if(-f "config.log" && open(CONFIGLOG, "<config.log")) {
-            print "config.log:\n";
-            print while <CONFIGLOG>;
-            close(CONFIGLOG);
-          }
+#          if(-f "config.log" && open(CONFIGLOG, "<config.log")) {
+#            print "config.log:\n";
+#            print while <CONFIGLOG>;
+#            close(CONFIGLOG);
+#          }
           die "###ERROR### [$?] during ./configure for package '$pack->{pack}'...";
         }
       }
 
-      $self->do_system('cp ../SDL-1.2.14/libtool libtool') if $pack->{pack} eq 'SDL_Pango';
+      $self->do_system('cp ../SDL-1.2.14/libtool libtool')                if $pack->{pack} eq 'SDL_Pango';
 
       # do 'make install'
       my @cmd = ($self->_get_make, 'install');
@@ -165,9 +168,23 @@ sub _get_configure_cmd {
     $extra_ldflags .= ' -L/usr/X11R6/lib';
   }
 
-  if(($pack eq 'SDL') && ($^O eq 'cygwin')) {
-    # kmx experienced troubles while cygwin build when nasm was present in PATH
-    $extra .= " --disable-nasm";
+  if($^O eq 'cygwin') {
+    #$extra_cflags  .= " -I/lib/gcc/i686-pc-cygwin/3.4.4/include";
+    #$extra_ldflags .= " -L/lib/gcc/i686-pc-cygwin/3.4.4";
+#    $extra_cflags  .= " -I/usr/include";
+#    $extra_ldflags .= " -L/lib";
+#    $extra_cflags  .= " -I/lib/gcc/i686-pc-cygwin/4.3.4/include";
+#    $extra_ldflags .= " -L/lib/gcc/i686-pc-cygwin/4.3.4";
+
+    if($pack eq 'SDL') {
+      # kmx experienced troubles while cygwin build when nasm was present in PATH
+#      $extra .= " --disable-nasm --enable-pthreads --enable-pthread-sem --enable-sdl-dlopen --disable-arts"
+#              . " --disable-esd --disable-nas --enable-oss --disable-pulseaudio --disable-dga --disable-video-aalib"
+#              . " --disable-video-caca --disable-video-dga --enable-video-dummy --disable-video-ggi --enable-video-opengl"
+#              . " --enable-video-x11 --disable-video-x11-dgamouse --disable-video-x11-vm --enable-video-x11-xinerama"
+#              . " --disable-video-x11-xme --enable-video-x11-xrandr --disable-video-x11-xv --disable-arts-shared"
+#              . " --disable-esd-shared --disable-pulseaudio-shared --enable-x11-shared";
+    }
   }
 
   if($pack eq 'jpeg') {
@@ -197,7 +214,7 @@ sub _get_configure_cmd {
     $cmd = "./configure --prefix=$prefixdir";
   }
   else {
-    $cmd = "./configure --prefix=$prefixdir --enable-static=no --enable-shared=yes $extra" .
+    $cmd = "./configure --prefix=$prefixdir --enable-static=yes --enable-shared=yes $extra" .
            " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
   }
 
