@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-1.428_*
+1.428 Wed Jul 20 2011
      - added Capture::Tiny to build_requires [FROGGS]
      - added search paths for command ar on solaris [FROGGS]
      - 'movq' bugfix: http://hg.libsdl.org/SDL/rev/32f0f603a0c8 [FROGGS]
