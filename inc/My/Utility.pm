@@ -44,7 +44,7 @@ my $prebuilt_binaries = [
     {
       title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100824)\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)\n" .
-                  "\tBEWARE: binaries are using old ABI - will fail with the latest gcc" .
+                  "\tBEWARE: binaries are using old ABI - will fail with the latest gcc\n" .
                   "\tBEWARE: this is intended just for old strawberryperl 5.12.x/64bit",
       url      => [
         'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',	
@@ -67,7 +67,7 @@ my $prebuilt_binaries = [
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
-      gccversion_re => qr/^4\.[4-9]\.[4-9]$/,
+      gccversion_re => qr/^4\.(4\.[5-9]|[5-9]\.[0-9])$/,
     },
  ];
 
