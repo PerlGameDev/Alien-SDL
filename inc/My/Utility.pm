@@ -57,13 +57,13 @@ my $prebuilt_binaries = [
       gccversion_re => qr/^4\.4\.3$/, #specific to the old gcc compiler used in 64bit strawberryperl 5.12.x
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20111202) RECOMMENDED\n" .
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20111205) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20111202.zip',	
-        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20111202.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',	
+        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',
       ],
-      sha1sum  => 'a5eec7cb8316011b66d9a20aa83d8f6d69493bdd',
+      sha1sum  => '35f3b496ca443a9d14eff77e9e26acfa813afafd',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
