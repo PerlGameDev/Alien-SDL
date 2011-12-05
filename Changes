@@ -1,5 +1,9 @@
 Revision history for Perl module Alien::SDL
 
+1.428_1 Mon Dec 05 2011
+     - new Win/64bit binaries (from strawberryperl 5.14+) + gccversion detection magic [KMX]
+     - new Win/32bit binaries (the same lib versions as 64bit, set as "secondary" option) [KMX]
+
 1.428 Wed Jul 20 2011
      - added Capture::Tiny to build_requires [FROGGS]
      - added search paths for command ar on solaris [FROGGS]
