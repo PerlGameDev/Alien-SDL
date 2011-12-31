@@ -1,6 +1,6 @@
 Revision history for Perl module Alien::SDL
 
-1.428_4 Sat Dec 31 2011
+1.428_5 Sat Dec 31 2011
      - setting LD_LIBRARY_PATH for GNU/kFreeBSD too so libs like SDL_image will find libSDL [FROGGS]
 
 1.428_1 Mon Dec 05 2011
