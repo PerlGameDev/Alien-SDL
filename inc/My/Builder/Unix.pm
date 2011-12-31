@@ -218,7 +218,7 @@ sub _get_configure_cmd {
            " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
   }
 
-  if($pack ne 'SDL' && $^O eq 'openbsd') {
+  if($pack ne 'SDL' && $^O =~ /^openbsd|gnukfreebsd$/) {
     $cmd = "LD_LIBRARY_PATH=\"$prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
   }
 
