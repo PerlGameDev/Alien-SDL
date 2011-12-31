@@ -30,20 +30,22 @@ my $prebuilt_binaries = [
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/32bit SDL-1.2.14 (20090831)\n" .
-                  "\t(gfx, image, mixer, net, smpeg, ttf)",
+      title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20111205)\n" .
+                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/lib-SDL-bin_win32_v2.zip',
-        'http://froggs.de/libsdl/lib-SDL-bin_win32_v2.zip',
+        'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',	
+        'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',
       ],
-      sha1sum  => 'eaeeb96b0115462f6736de568de8ec233a2397a5',
+      sha1sum  => '553b7e21bb650d047ec9f2a5f650c67d76430e61',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
     {
-      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100824) RECOMMENDED\n" .
-                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100824)\n" .
+                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)\n" .
+                  "\tBEWARE: binaries are using old ABI - will fail with the latest gcc\n" .
+                  "\tBEWARE: this is intended just for old strawberryperl 5.12.x/64bit",
       url      => [
         'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',	
         'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',
@@ -52,6 +54,20 @@ my $prebuilt_binaries = [
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
+      gccversion_re => qr/^4\.4\.3$/, #specific to the old gcc compiler used in 64bit strawberryperl 5.12.x
+    },
+    {
+      title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20111205) RECOMMENDED\n" .
+                  "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
+      url      => [
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',	
+        'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',
+      ],
+      sha1sum  => '35f3b496ca443a9d14eff77e9e26acfa813afafd',
+      arch_re  => qr/^MSWin32-x64-multi-thread$/,
+      os_re    => qr/^MSWin32$/,
+      cc_re    => qr/gcc/,
+      gccversion_re => qr/^4\.(4\.[5-9]|[5-9]\.[0-9])$/,
     },
  ];
 
@@ -224,7 +240,9 @@ sub check_prebuilt_binaries
   foreach my $b (@{$prebuilt_binaries}) {
     if ( ($^O =~ $b->{os_re}) &&
          ($Config{archname} =~ $b->{arch_re}) &&
-         ($cc =~ $b->{cc_re}) ) {
+         ($cc =~ $b->{cc_re}) &&
+         (!defined $b->{gccversion_re} || $Config{gccversion} =~ $b->{gccversion_re})
+        ) {      
       $b->{buildtype} = 'use_prebuilt_binaries';
       push @good, $b;
     }
