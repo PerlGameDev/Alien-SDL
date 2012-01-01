@@ -93,11 +93,11 @@ sub build_binaries {
         print "Configuring package '$pack->{pack}'...\n";
         print "(cmd: $cmd)\n";
         unless($self->do_system($cmd)) {
-#          if(-f "config.log" && open(CONFIGLOG, "<config.log")) {
-#            print "config.log:\n";
-#            print while <CONFIGLOG>;
-#            close(CONFIGLOG);
-#          }
+          if(-f "config.log" && open(CONFIGLOG, "<config.log")) {
+            print "config.log:\n";
+            print while <CONFIGLOG>;
+            close(CONFIGLOG);
+          }
           die "###ERROR### [$?] during ./configure for package '$pack->{pack}'...";
         }
       }
@@ -106,6 +106,14 @@ sub build_binaries {
 
       # do 'make install'
       my @cmd = ($self->_get_make, 'install');
+
+      if ($^O eq 'solaris') {
+	my $extra_PATH = "";
+        for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
+          $extra_PATH .= ":$_" if -d $_;
+        }
+	unshift(@cmd, "PATH=\"\$PATH$extra_PATH\"") if $extra_PATH;
+      }
       print "Running make install $pack->{pack}...\n";
       print "(cmd: ".join(' ',@cmd).")\n";
       $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
