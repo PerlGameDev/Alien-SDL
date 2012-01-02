@@ -44,7 +44,7 @@ sub get_additional_libs {
   my @list = ();
   my %rv; # putting detected dir into hash to avoid duplicates
   for (keys %$inc_lib_candidates) {
-    my $ld = $inc_lib_candidates->{$_};
+    my $ld       = $inc_lib_candidates->{$_};
     $rv{"-L$ld"} = 1 if ((-d $_) && (-d $ld));
   }
   push @list, (keys %rv);
@@ -76,14 +76,16 @@ sub build_binaries {
     }
     else {
       print "BUILDING package '" . $pack->{dirname} . "'...\n";
-      my $srcdir = catfile($build_src, $pack->{dirname});
+      my $srcdir    = catfile($build_src, $pack->{dirname});
       my $prefixdir = rel2abs($build_out);
       $self->config_data('build_prefix', $prefixdir); # save it for future Alien::SDL::ConfigData
 
       chdir $srcdir;
 
-      $self->do_system('cp ../../patches/SDL-1.2.14-configure configure') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
-      $self->do_system('cp ../../patches/SDL-1.2.14-ltmain_sh build-scripts/ltmain.sh') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
+      if($pack->{pack} eq 'SDL' && $^O eq 'cygwin') {
+        $self->do_system('cp ../../patches/SDL-1.2.14-configure configure');
+        $self->do_system('cp ../../patches/SDL-1.2.14-ltmain_sh build-scripts/ltmain.sh');
+      }
 
       # setting environments PATH
       my $extra_PATH = "";
@@ -98,7 +100,7 @@ sub build_binaries {
 
       # do './configure ...'
       my $run_configure = 'y';
-      $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
+      $run_configure    = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
       if (lc($run_configure) eq 'y') {
         my $cmd = $self->_get_configure_cmd($pack->{pack}, $prefixdir);
         print "Configuring package '$pack->{pack}'...\n";
@@ -113,7 +115,7 @@ sub build_binaries {
         }
       }
 
-      $self->do_system('cp ../SDL-1.2.14/libtool libtool')                if $pack->{pack} eq 'SDL_Pango';
+      $self->do_system('cp ../SDL-1.2.14/libtool libtool') if $pack->{pack} eq 'SDL_Pango';
 
       # do 'make install'
       my @cmd = ($self->_get_make, 'install');
@@ -141,7 +143,7 @@ sub _get_configure_cmd {
   my $cmd;
   
   ($stdout, $stderr) = Capture::Tiny::capture { print `uname -a`; };
-  $uname .= " $stdout" if $stdout;
+  $uname            .= " $stdout" if $stdout;
 
   # NOTE: all ugly IFs concerning ./configure params have to go here
 
@@ -230,7 +232,7 @@ sub _get_configure_cmd {
 
 sub _get_make {
   my ($self) = @_;
-  my @try = ('make', 'gmake', $Config{gmake}, $Config{make});
+  my @try    = ('make', 'gmake', $Config{gmake}, $Config{make});
   my %tested;
   print "Gonna detect GNU make:\n";
   foreach my $name ( @try ) {
@@ -238,7 +240,7 @@ sub _get_make {
     next if $tested{$name};
     $tested{$name} = 1;
     print "- testing: '$name'\n";
-    if ($self->_is_gnu_make($name)) {
+    if($self->_is_gnu_make($name)) {
       print "- found: '$name'\n";
       return $name
     }
@@ -249,9 +251,9 @@ sub _get_make {
 
 sub _is_gnu_make {
   my ($self, $name) = @_;
-  my $devnull = File::Spec->devnull();
-  my $ver = `$name --version 2> $devnull`;
-  if ($ver =~ /GNU Make/i) {
+  my $devnull       = File::Spec->devnull();
+  my $ver           = `$name --version 2> $devnull`;
+  if($ver =~ /GNU Make/i) {
     return 1;
   }
   return 0;
