@@ -85,6 +85,17 @@ sub build_binaries {
       $self->do_system('cp ../../patches/SDL-1.2.14-configure configure') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
       $self->do_system('cp ../../patches/SDL-1.2.14-ltmain_sh build-scripts/ltmain.sh') if $pack->{pack} eq 'SDL' && $^O eq 'cygwin';
 
+      # setting environments PATH
+      my $extra_PATH = "";
+      if ($^O eq 'solaris') {
+        # otherwise we get "false cru build/libSDLmain.a build/SDL_dummy_main.o"
+        # see http://fixunix.com/ntp/245613-false-cru-libs-libopts-libopts_la-libopts-o.html#post661558
+        for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
+          $extra_PATH .= ":$_" if -d $_;
+        }
+      }
+      $ENV{PATH} = "$prefixdir/bin:$ENV{PATH}$extra_PATH";
+
       # do './configure ...'
       my $run_configure = 'y';
       $run_configure = $self->prompt("Run ./configure for '$pack->{pack}' again?", "y") if (-f "config.status");
@@ -106,14 +117,6 @@ sub build_binaries {
 
       # do 'make install'
       my @cmd = ($self->_get_make, 'install');
-
-      if ($^O eq 'solaris') {
-	my $extra_PATH = "";
-        for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
-          $extra_PATH .= ":$_" if -d $_;
-        }
-	unshift(@cmd, "PATH=\"\$PATH$extra_PATH\"") if $extra_PATH;
-      }
       print "Running make install $pack->{pack}...\n";
       print "(cmd: ".join(' ',@cmd).")\n";
       $self->do_system(@cmd) or die "###ERROR### [$?] during make ... ";
@@ -200,14 +203,6 @@ sub _get_configure_cmd {
     $extra .= " --disable-ld-version-script";
   }
 
-  # otherwise we get "false cru build/libSDLmain.a build/SDL_dummy_main.o"
-  # see http://fixunix.com/ntp/245613-false-cru-libs-libopts-libopts_la-libopts-o.html#post661558
-  if ($^O eq 'solaris') {
-    for (qw[/usr/ccs/bin /usr/xpg4/bin /usr/sfw/bin /usr/xpg6/bin /usr/gnu/bin /opt/gnu/bin /usr/bin]) {
-      $extra_PATH .= ":$_" if -d $_;
-    }
-  }
-
   ### This was intended as a fix for http://www.cpantesters.org/cpan/report/7064012
   ### Unfortunately does not work.
   #
@@ -229,9 +224,6 @@ sub _get_configure_cmd {
   if($pack ne 'SDL' && $^O =~ /^openbsd|gnukfreebsd$/) {
     $cmd = "LD_LIBRARY_PATH=\"$prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
   }
-
-  # we need to have $prefixdir/bin in PATH while running ./configure
-  $cmd = "PATH=\"$prefixdir/bin:\$PATH$extra_PATH\" $cmd";
 
   return $cmd;
 }
