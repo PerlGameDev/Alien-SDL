@@ -1,6 +1,8 @@
 Revision history for Perl module Alien::SDL
 
-1.428_7 Mon Jan 02 2012
+Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
+
+1.430 Wed Jan 04 2012
      - readding source build sets that got lost [FROGGS]
      - adding extra PATH for make command like we do for configure on solaris [FROGGS]
      - setting LD_LIBRARY_PATH for GNU/kFreeBSD too so libs like SDL_image will find libSDL [FROGGS]
@@ -101,7 +103,7 @@ Revision history for Perl module Alien::SDL
      - SDL_ttf 2.0.10 is released, changed url [FROGGS]
 
 1.409  Fri July 09 2010
-     - Fixed regex for mmx disable 
+     - Fixed regex for mmx disable
 
 1.408  Thr July 01 2010 -Yay Canada Day!
      - Messed up release version
@@ -113,7 +115,7 @@ Revision history for Perl module Alien::SDL
 1.406  Sun June 13 2010
      - Added conditional ld path check for 64 bit libraries
 
-1.405  Wed June 2nd 2010 
+1.405  Wed June 2nd 2010
      - searching more ld paths for libs [kthakore] {ticket #153}
      - removes old share dirs installs of Alien [kthakore]
      - searching for .dylib's, .so's and .bundle's on mac [FROGGS]
@@ -164,8 +166,8 @@ Revision history for Perl module Alien::SDL
      - new Win32 binaries by FROGGS (now works well on WinXP & Win7)
      - typo fixes [dorkfish]
 
-1.0 
-     - TODO for 1.0 release has been met so incrementing 
+1.0
+     - TODO for 1.0 release has been met so incrementing
 
 0.9.1
      - extended Windows/32bit binaries made a default option
@@ -176,7 +178,7 @@ Revision history for Perl module Alien::SDL
      - An updated windows pack [kmx]
      - Dependencies of SHA fixed [kmx]
 
-0.8.2 
+0.8.2
      - Local sharedir building [kmx, FROGGS]
      - 64bit building [kthakore, kmx]
      - Darwin testing [Mike Stok, Stuart Watt, Chas Owens] and fixing [kthakore, kmx]
@@ -192,7 +194,7 @@ Revision history for Perl module Alien::SDL
 0.7.8
      - Get and compile latest code for SDL, gfx, image, mixer, ttf and net
 
-0.7.6 
+0.7.6
      - check if make failed or passed
 
 0.06.1 Sat Sept 14 2009

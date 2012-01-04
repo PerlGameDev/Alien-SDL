@@ -16,11 +16,11 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 1.428_7
+Version 1.430
 
 =cut
 
-our $VERSION = '1.428_7';
+our $VERSION = '1.430';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -33,7 +33,7 @@ Alien::SDL tries (in given order) during its installation:
 script to locate SDL libs.
 
  perl ./Build.pl --with-sdl-config=/opt/sdl/bin/sdl-config
- 
+
 or using default script name 'sdl-config' by running:
 
  perl ./Build.pl --with-sdl-config
@@ -133,7 +133,7 @@ where '<libnick>' is shortname for SDL related library like: SDL, SDL_gfx, SDL_n
 SDL_sound ... + some non-SDL shortnames e.g. smpeg, jpeg, png.
 
 NOTE: config('ld_<something>') return an empty list/hash if you have decided to
-use SDL libraries already installed on your system. This concerns 'sdl-config' 
+use SDL libraries already installed on your system. This concerns 'sdl-config'
 detection and detection via '$SDL_INST_DIR/bin/sdl-config'.
 
 =head2 check_header()
@@ -231,7 +231,7 @@ sub check_header {
   print STDERR "[$package] Testing header(s): " . join(', ', @header);
 
   require ExtUtils::CBuilder; # PAR packer workaround
-  
+
   my $config  = {};
   if($^O eq 'cygwin') {
     my $ccflags = $Config{ccflags};
@@ -272,7 +272,7 @@ MARKER
   else {
     $stderr =~ s/[\r\n]$//;
     $stderr =~ s/^\Q$src\E[\d\s:]*//;
-    
+
     print STDERR " NOK: ($stderr)\n";
     return 0;
   }
@@ -316,7 +316,7 @@ sub _sdl_config_via_config_data
   elsif($param eq 'libs') {
     $val .= ' ' . join(' ', @add_libs) if scalar @add_libs;
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
-  }  
+  }
   # handle @PrEfIx@ replacement
   if ($param =~ /^(ld_shared_libs|ld_paths)$/) {
     s/\@PrEfIx\@/$real_prefix/g foreach (@{$val});
