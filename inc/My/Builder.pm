@@ -37,7 +37,7 @@ sub ACTION_install
 {
  my $self = shift;
  my $sharedir = '';
- 
+
  $sharedir = eval {File::ShareDir::dist_dir('Alien-SDL')} || '';
 
  if ( -d $sharedir )
@@ -369,7 +369,9 @@ sub check_sha1sum {
   binmode($fh);
   $sha1->addfile($fh);
   close($fh);
-  return ($sha1->hexdigest eq $sha1sum) ? 1 : 0
+  my $_sha1sum = $sha1->hexdigest;
+  warn "###WARN## checksum for file $file is $_sha1sum but we expect $sha1sum\n" if $_sha1sum ne $sha1sum;
+  return ($_sha1sum eq $sha1sum) ? 1 : 0
 }
 
 sub patch_get_affected_files {

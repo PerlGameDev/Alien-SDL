@@ -33,7 +33,7 @@ my $prebuilt_binaries = [
       title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20111205)\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',	
+        'http://strawberryperl.com/package/kmx/sdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',
         'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',
       ],
       sha1sum  => '553b7e21bb650d047ec9f2a5f650c67d76430e61',
@@ -47,7 +47,7 @@ my $prebuilt_binaries = [
                   "\tBEWARE: binaries are using old ABI - will fail with the latest gcc\n" .
                   "\tBEWARE: this is intended just for old strawberryperl 5.12.x/64bit",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',	
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',
         'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20100824.zip',
       ],
       sha1sum  => 'ccffb7218bcb17544ab00c8a1ae383422fe9586d',
@@ -60,7 +60,7 @@ my $prebuilt_binaries = [
       title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20111205) RECOMMENDED\n" .
                   "\t(gfx, image, mixer, net, smpeg, ttf, sound, svg, rtf, Pango)",
       url      => [
-        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',	
+        'http://strawberryperl.com/package/kmx/sdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',
         'http://froggs.de/libsdl/Win64_SDL-1.2.14-extended-bin_20111205.zip',
       ],
       sha1sum  => '35f3b496ca443a9d14eff77e9e26acfa813afafd',
@@ -209,7 +209,143 @@ my $source_packs = [
       },
     ],
   },
-## another src set - builds just SDL+ SDL_* libs, all other prereq libs needs to be installed 
+  {
+    title   => "Source code build: SDL-1.2.15 PRERELEASE & co.\n" .
+               "\tbuilds: SDL, SDL_(image|mixer|ttf|gfx|Pango)\n" .
+               "\tneeds preinstalled: (freetype2|pango)-devel",
+    prereqs => {
+        libs => [
+          'pthread', # SDL
+          'pangoft2', 'pango', 'gobject', 'gmodule', 'glib', 'fontconfig', 'freetype', 'expat', # SDL_Pango
+        ]
+    },
+    members     => [
+      {
+        pack => 'zlib',
+        dirname => 'zlib-1.2.5',
+        url => [
+          'http://zlib.net/zlib-1.2.5.tar.gz',
+          'http://froggs.de/libz/zlib-1.2.5.tar.gz',
+        ],
+        sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
+        patches => [
+          'zlib-1.2.5-bsd-ldconfig.patch',
+        ],
+      },
+      {
+        pack => 'SDL',
+        dirname => 'SDL-1.2.15',
+        url => [
+          'http://www.libsdl.org/tmp/prerelease/SDL/SDL-1.2.15.tar.gz',
+          #'http://froggs.de/libsdl/SDL-1.2.14.tar.gz',
+        ],
+        sha1sum  => 'b79ee5ef0082fdd35dce4b9f8365bd5e8a624304',
+        patches => [
+          'test1.patch',
+          'SDL-1.2.15-openbsd-rldflags.patch',
+          #'SDL-1.2.14-video_mmx.patch',
+          'SDL-1.2.14-SDL_platform_h.patch',
+          'SDL-1.2.14-SDL_x11gl_c.patch',
+        ],
+      },
+      {
+        pack => 'jpeg',
+        dirname => 'jpeg-8b',
+        url => [
+          'http://www.ijg.org/files/jpegsrc.v8b.tar.gz',
+          'http://froggs.de/libjpeg/jpegsrc.v8b.tar.gz',
+        ],
+        sha1sum  => '15dc1939ea1a5b9d09baea11cceb13ca59e4f9df',
+        patches => [
+          'jpeg-8a_cygwin.patch',
+        ],
+      },
+      {
+        pack => 'tiff',
+        dirname => 'tiff-3.9.1',
+        url => [
+          'http://froggs.de/libtiff/tiff-3.9.1.tar.gz',
+          'ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.9.1.tar.gz',
+        ],
+        sha1sum  => '675ad1977023a89201b80cd5cd4abadea7ba0897',
+        patches => [ ],
+      },
+      {
+        pack => 'png',
+        dirname => 'libpng-1.4.1',
+        url => [
+          #'http://downloads.sourceforge.net/project/libpng/01-libpng-master/1.4.1/libpng-1.4.1.tar.gz',
+          'http://froggs.de/libpng/libpng-1.4.1.tar.gz',
+        ],
+        sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
+      },
+      {
+        pack => 'SDL_image',
+        dirname => 'SDL_image-1.2.11',
+        url => [
+          'http://www.libsdl.org/tmp/prerelease/SDL_image/SDL_image-1.2.11.tar.gz',
+          #'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
+        ],
+        sha1sum  => '1b2a806a5ca8d08f6876660ec11f2882bb2390b3',
+        patches => [
+          'SDL_image-1.2.11-libpng-flags.patch',
+          #'SDL_image-1.2.10-libpng15.patch',
+        ],
+      },
+      {
+        pack => 'SDL_mixer',
+        dirname => 'SDL_mixer-1.2.12',
+        url => [
+          'http://www.libsdl.org/tmp/prerelease/SDL_mixer/SDL_mixer-1.2.12.tar.gz',
+          #'http://froggs.de/libsdl/SDL_mixer-1.2.12.tar.gz',
+        ],
+        sha1sum  => '6ef2475fb0769ff361e502dc4cd34230fd66a9aa',
+        patches => [
+          'SDL_mixer-1.2.12-native-midi-win32.patch',
+          'SDL_mixer-1.2.12-cygwin.patch',
+        ],
+      },
+      {
+        pack => 'SDL_ttf',
+        dirname => 'SDL_ttf-2.0.11',
+        url => [
+          'http://www.libsdl.org/tmp/prerelease/SDL_ttf/SDL_ttf-2.0.11.tar.gz',
+          #'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
+        ],
+        sha1sum  => '107f30ea6fd97aabff495326ab8353cf91271552',
+        patches => [ ],
+      },
+      {
+        pack => 'SDL_gfx',
+        dirname => 'SDL_gfx-2.0.20',
+        url => [
+          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.20.tar.gz',
+          'http://froggs.de/libsdl/SDL_gfx-2.0.20.tar.gz',
+        ],
+        sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
+        patches => [
+          'SDL_gfx-2.0.20-configure.patch',
+        ],
+      },
+      {
+        pack => 'SDL_Pango',
+        dirname => 'SDL_Pango-0.1.2',
+        url => [
+          'http://downloads.sourceforge.net/sdlpango/SDL_Pango-0.1.2.tar.gz',
+          'http://froggs.de/libsdl/SDL_Pango-0.1.2.tar.gz',
+        ],
+        sha1sum  => 'c30f2941d476d9362850a150d29cb4a93730af68',
+        patches => [
+          'SDL_Pango-0.1.2-API-adds.1.patch',
+          'SDL_Pango-0.1.2-API-adds.2.patch',
+          'SDL_Pango-0.1.2-config-tools.1.patch',
+          'SDL_Pango-0.1.2-config-tools.2.patch',
+          'SDL_Pango-0.1.2-config-tools.3.patch',
+        ],
+      },
+    ],
+  },
+## another src set - builds just SDL+ SDL_* libs, all other prereq libs needs to be installed
   {
     title   => "Source code build: SDL-1.2.14 & co. (builds only SDL+SDL_*)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|gfx|Pango)\n" .
@@ -667,7 +803,7 @@ sub check_prebuilt_binaries
          ($Config{archname} =~ $b->{arch_re}) &&
          ($cc =~ $b->{cc_re}) &&
          (!defined $b->{gccversion_re} || $Config{gccversion} =~ $b->{gccversion_re})
-        ) {      
+        ) {
       $b->{buildtype} = 'use_prebuilt_binaries';
       push @good, $b;
     }
@@ -755,7 +891,7 @@ sub check_prereqs_tools {
   my $ret  = 1;
 
   foreach my $tool (@tools) {
-    
+
     if((File::Which::which($tool) && -x File::Which::which($tool))
     || ('pkg-config' eq $tool && defined $ENV{PKG_CONFIG} && $ENV{PKG_CONFIG}
                               && File::Which::which($ENV{PKG_CONFIG})
@@ -828,7 +964,7 @@ sub check_header {
   my $cb = ExtUtils::CBuilder->new(quiet => 1);
   my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
-  $inc .= "#include <$_>\n" for @header;  
+  $inc .= "#include <$_>\n" for @header;
   syswrite($fs, <<MARKER); # write test source code
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <stdio.h>
@@ -874,7 +1010,7 @@ sub get_dlext {
     return 'so|dylib|bundle';
   }
   elsif( $^O =~ /cygwin/)
-  {  
+  {
     return 'la';
   }
   else {
