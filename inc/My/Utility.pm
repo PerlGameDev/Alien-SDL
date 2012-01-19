@@ -239,10 +239,10 @@ my $source_packs = [
           'http://www.libsdl.org/tmp/prerelease/SDL/SDL-1.2.15.tar.gz',
           #'http://froggs.de/libsdl/SDL-1.2.14.tar.gz',
         ],
-        sha1sum  => 'b79ee5ef0082fdd35dce4b9f8365bd5e8a624304',
+        sha1sum  => '0c5f193ced810b0d7ce3ab06d808cbb5eef03a2c',
         patches => [
           'test1.patch',
-          'SDL-1.2.15-openbsd-rldflags.patch',
+          #'SDL-1.2.15-openbsd-rldflags.patch',
           #'SDL-1.2.14-video_mmx.patch',
           'SDL-1.2.14-SDL_platform_h.patch',
           'SDL-1.2.14-SDL_x11gl_c.patch',
@@ -283,10 +283,10 @@ my $source_packs = [
         pack => 'SDL_image',
         dirname => 'SDL_image-1.2.11',
         url => [
-          'http://www.libsdl.org/tmp/prerelease/SDL_image/SDL_image-1.2.11.tar.gz',
+          'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.11.tar.gz',
           #'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
         ],
-        sha1sum  => '1b2a806a5ca8d08f6876660ec11f2882bb2390b3',
+        sha1sum  => 'dd384ff87848595fcc0691833431ec5029f973c7',
         patches => [
           'SDL_image-1.2.11-libpng-flags.patch',
           #'SDL_image-1.2.10-libpng15.patch',
@@ -296,10 +296,10 @@ my $source_packs = [
         pack => 'SDL_mixer',
         dirname => 'SDL_mixer-1.2.12',
         url => [
-          'http://www.libsdl.org/tmp/prerelease/SDL_mixer/SDL_mixer-1.2.12.tar.gz',
+          'http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.12.tar.gz',
           #'http://froggs.de/libsdl/SDL_mixer-1.2.12.tar.gz',
         ],
-        sha1sum  => '6ef2475fb0769ff361e502dc4cd34230fd66a9aa',
+        sha1sum  => 'a20fa96470ad9e1052f1957b77ffa68fb090b384',
         patches => [
           'SDL_mixer-1.2.12-native-midi-win32.patch',
           'SDL_mixer-1.2.12-cygwin.patch',
@@ -309,20 +309,20 @@ my $source_packs = [
         pack => 'SDL_ttf',
         dirname => 'SDL_ttf-2.0.11',
         url => [
-          'http://www.libsdl.org/tmp/prerelease/SDL_ttf/SDL_ttf-2.0.11.tar.gz',
+          'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.tar.gz',
           #'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
         ],
-        sha1sum  => '107f30ea6fd97aabff495326ab8353cf91271552',
+        sha1sum  => '0ccf7c70e26b7801d83f4847766e09f09db15cc6',
         patches => [ ],
       },
       {
         pack => 'SDL_gfx',
-        dirname => 'SDL_gfx-2.0.20',
+        dirname => 'SDL_gfx-2.0.23',
         url => [
-          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.20.tar.gz',
-          'http://froggs.de/libsdl/SDL_gfx-2.0.20.tar.gz',
+          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.23.tar.gz',
+          #'http://froggs.de/libsdl/SDL_gfx-2.0.20.tar.gz',
         ],
-        sha1sum  => '077f7e64376c50a424ef11a27de2aea83bda3f78',
+        sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
         patches => [
           'SDL_gfx-2.0.20-configure.patch',
         ],
