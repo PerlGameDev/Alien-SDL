@@ -302,7 +302,7 @@ my $source_packs = [
         sha1sum  => 'a20fa96470ad9e1052f1957b77ffa68fb090b384',
         patches => [
           'SDL_mixer-1.2.12-native-midi-win32.patch',
-          'SDL_mixer-1.2.12-cygwin.patch',
+          #'SDL_mixer-1.2.12-cygwin.patch',
         ],
       },
       {
@@ -324,7 +324,7 @@ my $source_packs = [
         ],
         sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
         patches => [
-          'SDL_gfx-2.0.20-configure.patch',
+          #'SDL_gfx-2.0.20-configure.patch',
         ],
       },
       {

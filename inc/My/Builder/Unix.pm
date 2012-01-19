@@ -141,7 +141,7 @@ sub _get_configure_cmd {
   my $stdout                    = '';
   my $stderr                    = '';
   my $cmd;
-  
+
   ($stdout, $stderr) = Capture::Tiny::capture { print `uname -a`; };
   $uname            .= " $stdout" if $stdout;
 
@@ -150,7 +150,7 @@ sub _get_configure_cmd {
   if($pack eq 'SDL_gfx' && $uname =~ /(powerpc|ppc|64|2level|alpha|armv5|sparc)/i) {
     $extra .= ' --disable-mmx';
   }
-  
+
   if($pack eq 'SDL' && $uname =~ /(powerpc|ppc)/) {
     $extra .= ' --disable-video-ps3';
   }
@@ -170,6 +170,10 @@ sub _get_configure_cmd {
 
   if($pack eq 'SDL' && $^O eq 'solaris' && !check_header($extra_cflags, 'sys/audioio.h')) {
     $extra .= ' --disable-audio';
+  }
+
+  if($pack eq 'SDL' && $^O eq 'openbsd') {
+    $extra_ldflags .= ' -lpthread';
   }
 
   if($pack =~ /^SDL_/) {
