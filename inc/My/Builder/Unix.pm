@@ -20,13 +20,14 @@ my $inc_lib_candidates = {
   '/usr/pkg/include'         => '/usr/pkg/lib',
 };
 
-$inc_lib_candidates->{'/usr/pkg/include/smpeg'}   = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';
-#$inc_lib_candidates->{'/usr/local/include/smpeg'} = '/usr/local/lib' if -f '/usr/local/include/smpeg/smpeg.h';
-$inc_lib_candidates->{'/usr/include/smpeg'}       = '/usr/lib'       if -f '/usr/include/smpeg/smpeg.h';
-$inc_lib_candidates->{'/usr/X11R6/include'}       = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
-#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/png.h';
-#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/tiff.h';
-#$inc_lib_candidates->{'/usr/local/include'}       = '/usr/local/lib' if -f '/usr/local/include/jpeglib.h';
+$inc_lib_candidates->{'/usr/pkg/include/smpeg'}        = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';
+#$inc_lib_candidates->{'/usr/local/include/smpeg'}     = '/usr/local/lib' if -f '/usr/local/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/include/smpeg'}            = '/usr/lib'       if -f '/usr/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/X11R6/include'}            = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
+#$inc_lib_candidates->{'/usr/local/include'}           = '/usr/local/lib' if -f '/usr/local/include/png.h';
+#$inc_lib_candidates->{'/usr/local/include'}           = '/usr/local/lib' if -f '/usr/local/include/tiff.h';
+#$inc_lib_candidates->{'/usr/local/include'}           = '/usr/local/lib' if -f '/usr/local/include/jpeglib.h';
+$inc_lib_candidates->{'/usr/include/x86_64-linux-gnu'} = '/usr/lib/x86_64-linux-gnu' if -d '/usr/lib/x86_64-linux-gnu';
 
 sub get_additional_cflags {
   my $self = shift;
@@ -61,8 +62,8 @@ sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
   my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    if(($pack->{pack} =~ m/^(png)$/ && check_prereqs_libs($pack->{pack}))
-    || ($pack->{pack} =~ m/^zlib$/  && check_prereqs_libs('z'))) {
+    if(($pack->{pack} =~ m/^png|ogg|vorbis$/ && check_prereqs_libs($pack->{pack}))
+    || ($pack->{pack} =~ m/^zlib$/           && check_prereqs_libs('z'))) {
       print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
     elsif($pack->{pack} =~ m/^(SDL_mixer)$/ && !$self->_is_gnu_make($self->_get_make)) {
