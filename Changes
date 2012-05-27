@@ -2,6 +2,13 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.431_1 Sun May 27 2012
+     - hide proxy passwords [FROGGS]
+     - build libogg/libvorbis if its not there [FROGGS]
+     - fixed logic for detecting proxies [FROGGS]
+     - added libs like libSDL 1.2.15, tweaked patches [FROGGS]
+     - fixed bugtracker link [FROGGS]
+
 1.430 Wed Jan 04 2012
      - readding source build sets that got lost [FROGGS]
      - adding extra PATH for make command like we do for configure on solaris [FROGGS]
