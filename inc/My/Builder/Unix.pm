@@ -217,6 +217,10 @@ sub _get_configure_cmd {
     $cmd = "LD_LIBRARY_PATH=\"$prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
   }
 
+  if($pack eq 'vorbis') {
+    $cmd = "PKG_CONFIG_PATH=\"$prefixdir/lib/pkgconfig:\$PKG_CONFIG_PATH\" $cmd";
+  }
+
   return $cmd;
 }
 
