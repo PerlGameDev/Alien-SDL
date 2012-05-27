@@ -157,6 +157,26 @@ my $source_packs = [
         ],
       },
       {
+        pack => 'ogg',
+        dirname => 'libogg-1.3.0',
+        url => [
+          'http://downloads.xiph.org/releases/ogg/libogg-1.3.0.tar.gz',
+          'http://froggs.de/libsdl/libogg-1.3.0.tar.gz',
+        ],
+        sha1sum  => 'a900af21b6d7db1c7aa74eb0c39589ed9db991b8',
+        patches => [ ],
+      },
+#      {
+#        pack => 'vorbis',
+#        dirname => 'libvorbis-1.3.3',
+#        url => [
+#          'http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.3.tar.gz',
+#          'http://froggs.de/libsdl/libvorbis-1.3.3.tar.gz',
+#        ],
+#        sha1sum  => '8dae60349292ed76db0e490dc5ee51088a84518b',
+#        patches => [ ],
+#      },
+      {
         pack => 'SDL_mixer',
         dirname => 'SDL_mixer-1.2.11',
         url => [
