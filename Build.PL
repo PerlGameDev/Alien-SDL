@@ -62,7 +62,7 @@ my $build = $package->new(
   },
   meta_merge => {
     resources  => {
-      bugtracker => 'http://sdlperl.ath.cx/projects/SDLPerl/query?component=Alien%3A%3ASDL&status=!closed',
+      bugtracker => 'http://github.com/PerlGameDev/SDL/issues?labels=Alien-SDL',
       repository => 'http://github.com/PerlGameDev/Alien-SDL'
     }
   },
@@ -76,9 +76,9 @@ my $build = $package->new(
 
 my $choice;
 
-if (defined $sdl_config) {  
+if (defined $sdl_config) {
   # handle --with-sdl-config (without params)
-  $sdl_config = 'sdl-config' if $sdl_config eq ''; 
+  $sdl_config = 'sdl-config' if $sdl_config eq '';
   # Don't prompt; just use specified location:
   $choice = check_config_script($sdl_config)
       or warn "###ERROR### Unable to use config script $sdl_config\n";
