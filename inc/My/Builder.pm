@@ -17,6 +17,13 @@ use Digest::SHA qw(sha1_hex);
 use Text::Patch;
 use Config;
 
+$SIG{__WARN__} = sub {
+	my $thing =  join('', @_);
+	$thing    =~ s|(://.+:).+(\@.+)|$1******$2|;
+	warn $thing;
+	return 1;
+};
+
 sub ACTION_build {
   my $self = shift;
   # as we want to wipe 'sharedir' during 'Build clean' we has
