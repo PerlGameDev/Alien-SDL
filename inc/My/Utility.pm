@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools check_src_build find_SDL_dir find_file check_header sed_inplace get_dlext);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools check_src_build find_SDL_dir find_file check_header sed_inplace get_dlext $inc_lib_candidates);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
@@ -13,6 +13,27 @@ use File::Copy qw(cp);
 use Cwd qw(realpath);
 
 our $cc = $Config{cc};
+our $inc_lib_candidates = {
+'/usr/local/include' => '/usr/local/lib',
+'/usr/include'       => '/usr/lib',
+'/usr/X11R6/include' => '/usr/X11R6/lib',
+'/usr/pkg/include'   => '/usr/pkg/lib',
+'/usr/local/include/smpeg' => '/usr/local/lib',
+};
+$inc_lib_candidates->{'/usr/pkg/include/smpeg'}    = '/usr/local/lib' if -f '/usr/pkg/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/include/smpeg'}        = '/usr/lib'       if -f '/usr/include/smpeg/smpeg.h';
+$inc_lib_candidates->{'/usr/X11R6/include'}        = '/usr/X11R6/lib' if -f '/usr/X11R6/include/GL/gl.h';
+$inc_lib_candidates->{'/usr/include/ogg'}          = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libogg.so';
+$inc_lib_candidates->{'/usr/include/vorbis'}       = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libvorbis.so';
+
+if( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/) {
+$inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
+}
+
+if( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} ) {
+$inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
+}
+
 #### packs with prebuilt binaries
 # - all regexps has to match: arch_re ~ $Config{archname}, cc_re ~ $Config{cc}, os_re ~ $^O
 # - the order matters, we offer binaries to user in the same order (1st = preffered)
@@ -166,16 +187,16 @@ my $source_packs = [
         sha1sum  => 'a900af21b6d7db1c7aa74eb0c39589ed9db991b8',
         patches => [ ],
       },
-#      {
-#        pack => 'vorbis',
-#        dirname => 'libvorbis-1.3.3',
-#        url => [
-#          'http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.3.tar.gz',
-#          'http://froggs.de/libsdl/libvorbis-1.3.3.tar.gz',
-#        ],
-#        sha1sum  => '8dae60349292ed76db0e490dc5ee51088a84518b',
-#        patches => [ ],
-#      },
+      {
+        pack => 'vorbis',
+        dirname => 'libvorbis-1.3.3',
+        url => [
+          'http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.3.tar.gz',
+          'http://froggs.de/libsdl/libvorbis-1.3.3.tar.gz',
+        ],
+        sha1sum  => '8dae60349292ed76db0e490dc5ee51088a84518b',
+        patches => [ ],
+      },
       {
         pack => 'SDL_mixer',
         dirname => 'SDL_mixer-1.2.11',
@@ -852,24 +873,10 @@ sub check_prereqs_libs {
   foreach my $lib (@libs) {
     my $found_lib          = '';
     my $found_inc          = '';
-    my $inc_lib_candidates = {
-      '/usr/local/include' => '/usr/local/lib',
-      '/usr/include'       => '/usr/lib',
-      '/usr/X11R6/include' => '/usr/X11R6/lib',
-      '/usr/pkg/include'   => '/usr/pkg/lib',
-    };
-
-    if( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/) {
-      $inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
-    }
-
-    if( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} ) {
-      $inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
-    }
-
     my $header_map         = {
-      'z'    => 'zlib',
-      'jpeg' => 'jpeglib',
+      'z'      => 'zlib',
+      'jpeg'   => 'jpeglib',
+      'vorbis' => 'vorbisenc',
     };
     my $header             = (defined $header_map->{$lib}) ? $header_map->{$lib} : $lib;
 
