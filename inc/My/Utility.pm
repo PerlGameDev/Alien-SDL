@@ -95,7 +95,7 @@ my $prebuilt_binaries = [
 #### tarballs with source codes
 my $source_packs = [
   {
-    title   => "Source code build: SDL-1.2.14 & co. (RECOMMENDED)\n" .
+    title   => "Source code build: SDL-1.2.15 & co. (RECOMMENDED)\n" .
                "\tbuilds: SDL, SDL_(image|mixer|ttf|gfx|Pango)\n" .
                "\tneeds preinstalled: (freetype2|pango)-devel",
     prereqs => {
@@ -119,18 +119,13 @@ my $source_packs = [
       },
       {
         pack => 'SDL',
-        dirname => 'SDL-1.2.14',
+        dirname => 'SDL-1.2',
         url => [
-          'http://www.libsdl.org/release/SDL-1.2.14.tar.gz',
-          'http://froggs.de/libsdl/SDL-1.2.14.tar.gz',
+          'http://froggs.de/libsdl/SDL-1.2-2b923729fd01.tar.gz',
         ],
-        sha1sum  => 'ba625b4b404589b97e92d7acd165992debe576dd',
+        sha1sum  => 'ec9841377403e8d1bcfd76626434be64d11f59f0',
         patches => [
           'test1.patch',
-          'SDL-1.2.14-openbsd-rldflags.patch',
-          'SDL-1.2.14-video_mmx.patch',
-          'SDL-1.2.14-SDL_platform_h.patch',
-          'SDL-1.2.14-SDL_x11gl_c.patch',
         ],
       },
       {
@@ -432,6 +427,10 @@ my $source_packs = [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
           'SDL-1.2.14-video_mmx.patch',
+          'SDL-1.2.14-SDL_platform_h.patch',
+          'SDL-1.2.14-SDL_x11gl_c.patch',
+          'SDL-1-2-14-x11sym_h.patch',
+          'SDL-1.2.14-x11dyn_c.patch',
         ],
       },
       {
@@ -519,6 +518,10 @@ my $source_packs = [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
           'SDL-1.2.14-video_mmx.patch',
+          'SDL-1.2.14-SDL_platform_h.patch',
+          'SDL-1.2.14-SDL_x11gl_c.patch',
+          'SDL-1-2-14-x11sym_h.patch',
+          'SDL-1.2.14-x11dyn_c.patch',
         ],
       },
       {
@@ -651,6 +654,10 @@ my $source_packs = [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
           'SDL-1.2.14-video_mmx.patch',
+          'SDL-1.2.14-SDL_platform_h.patch',
+          'SDL-1.2.14-SDL_x11gl_c.patch',
+          'SDL-1-2-14-x11sym_h.patch',
+          'SDL-1.2.14-x11dyn_c.patch',
         ],
       },
       {
@@ -825,6 +832,10 @@ my $source_packs = [
           'test1.patch',
           'SDL-1.2.14-openbsd-rldflags.patch',
           'SDL-1.2.14-video_mmx.patch',
+          'SDL-1.2.14-SDL_platform_h.patch',
+          'SDL-1.2.14-SDL_x11gl_c.patch',
+          'SDL-1-2-14-x11sym_h.patch',
+          'SDL-1.2.14-x11dyn_c.patch',
         ],
       },
       {
