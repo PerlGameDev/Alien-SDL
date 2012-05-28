@@ -3,7 +3,14 @@ use warnings;
 
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
-use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build);
+use Config;
+use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build check_prereqs_libs $source_packs);
+
+print "Welcome to Alien::SDL module installation\n";
+print "-----------------------------------------\n";
+print "checking operating system... $^O\n";
+print "checking compiler... $My::Utility::cc\n";
+print "checking build system type... $Config{archname}\n";
 
 #### we need the platform-specific module
 my %platforms =(
@@ -11,7 +18,7 @@ my %platforms =(
        MSWin32 => 'Windows',
 );
 my $package = 'My::Builder::' . ($platforms{$^O} || 'Unix');
-print "Gonna use '$package' class ...\n";
+print "checking platform specific module... using '$package'\n";
 eval "require $package" or die "Require '$package' failed: $@\n";
 
 my $sdl_config;
@@ -84,40 +91,59 @@ if (defined $sdl_config) {
       or warn "###ERROR### Unable to use config script $sdl_config\n";
 }
 else {
-  # Search for possible methods, then prompt:
-  print "\nWelcome to Alien::SDL module installation";
-  print "\n-----------------------------------------\n\n";
+  $| = 1;
 
   #### check what options we have for our platform
-  my $rv; my @candidates = ();
+  my $rv;
+  my @candidates = ();
 
+  print "checking SDL_INST_DIR env var... ";
   if(defined($ENV{SDL_INST_DIR})) {
-    print "Gonna use SDL_INST_DIR environment variable...\n";
-    print "(SDL_INST_DIR=$ENV{SDL_INST_DIR})\n";
     if (-d $ENV{SDL_INST_DIR}) {
+      print "set to '$ENV{SDL_INST_DIR}'\n";
       my @sdlinst = File::Spec->splitdir($ENV{SDL_INST_DIR});
-      if($rv=check_config_script(File::Spec->catdir(@sdlinst, 'bin', 'sdl-config'))) {
+      if($rv = check_config_script(File::Spec->catdir(@sdlinst, 'bin', 'sdl-config'))) {
         push @candidates, $rv;
       }
-      elsif($rv=check_config_script(File::Spec->catdir(@sdlinst, 'sdl-config'))) {
+      elsif($rv = check_config_script(File::Spec->catdir(@sdlinst, 'sdl-config'))) {
         push @candidates, $rv;
       }
     }
     else {
-      warn "###WARN### Non-existing directory '$ENV{SDL_INST_DIR}' - skipping";
+      print "directory '$ENV{SDL_INST_DIR}' does not exist";
+    }
+  }
+  print "not set\n";
+
+  # sdl-config script
+  push @candidates, $rv if $rv = check_config_script("sdl-config");
+
+  # prebuilt binaries (windows only)
+  push @candidates, @{$rv} if $rv = check_prebuilt_binaries($build->os_type);
+
+  my %have_libs = ();
+  if( $build->can_build_binaries_from_sources || scalar(@candidates) ) {
+    for(qw(pthread SDL z jpeg tiff png SDL_image ogg vorbis SDL_mixer SDL_ttf SDL_gfx
+           pangoft2 pango gobject gmodule glib fontconfig freetype expat SDL_Pango)) {
+      $have_libs{$_} = check_prereqs_libs($_);
     }
   }
 
-  if($rv=check_config_script("sdl-config")) {
-    push @candidates, $rv;
-  };
-
-  if($rv=check_prebuilt_binaries($build->os_type)) {
-    push @candidates, @{$rv};
-  };
-
-  if($build->can_build_binaries_from_sources() && ($rv=check_src_build($build->os_type))) {
-    push @candidates, @{$rv};
+  if($build->can_build_binaries_from_sources) {
+    for my $p ( @$source_packs ) {
+      $rv = { title => $p->{title}, members => [], buildtype => 'build_from_sources' };
+      for my $m (@{ $p->{members} }) {
+        next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} };
+        my $good = 1;
+        $good   &= $have_libs{$_} ? 1 : 0 for @{ $m->{prereqs}->{libs} };
+        if( $good ) {
+          $have_libs{ $m->{pack} } ||= 1;
+          push @{ $rv->{members} }, $m;
+          $rv->{title} .= "$m->{pack}(v$m->{version}) ";
+        }
+      }
+      push @candidates, $rv if scalar( @{ $rv->{members} } );
+    }
   };
 
   push @candidates, { title => 'Quit installation' };
@@ -128,14 +154,24 @@ else {
   my $recommended_candidate = 1;
   foreach my $c (@candidates) {
     $recommended_candidate = $i if $c->{title} =~ /RECOMMENDED/;
-    $prompt_string        .= "[" . $i++ . "] " . $c->{title} . "\n"
+
+    if( $c->{buildtype} eq 'use_config_script' ) {
+      $c->{title} .= "\n    ";
+      for(qw(SDL SDL_image SDL_mixer SDL_ttf SDL_gfx SDL_Pango)) {
+        $c->{title} .= "$_(v$have_libs{$_}) " if $have_libs{$_};
+      }
+    }
+
+    $prompt_string .= "[" . $i++ . "] " . $c->{title} . "\n";
   }
   $prompt_string .= "\nWhat way do you wanna go?";
   my $ans = $build->prompt($prompt_string, $recommended_candidate);
 
-  if(($ans>0) && ($ans<scalar(@candidates))) {
-    $choice = $candidates[$ans-1];
+  if($ans > 0 && $ans < scalar(@candidates)) {
+    $choice = $candidates[$ans - 1];
   }
+
+  $| = 0;
 } # end else search and prompt for build method
 
 #### store build params into 'notes'

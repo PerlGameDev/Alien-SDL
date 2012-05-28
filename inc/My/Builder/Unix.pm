@@ -47,8 +47,7 @@ sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
   my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    if(($pack->{pack} =~ m/^png|ogg|vorbis$/ && check_prereqs_libs($pack->{pack}))
-    || ($pack->{pack} =~ m/^zlib$/           && check_prereqs_libs('z'))) {
+    if($pack->{pack} =~ m/^png|ogg|vorbis|z$/ && check_prereqs_libs($pack->{pack})) {
       print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
     elsif($pack->{pack} =~ m/^(SDL_mixer)$/ && !$self->_is_gnu_make($self->_get_make)) {
@@ -204,7 +203,7 @@ sub _get_configure_cmd {
   #  $extra_ldflags .= ' -L/usr/X11R6/lib';
   #}
 
-  if($pack =~ /^zlib/) {
+  if($pack eq 'z') {
     # does not support params CFLAGS=...
     $cmd = "./configure --prefix=$prefixdir";
   }
