@@ -2,6 +2,10 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.431_2 Tue May 29 2012
+     - configure-like appearance, first check, then do [FROGGS]
+     - libSDL is newest one from hg-repo, this should fix the _XGetRequest issue [FROGGS]
+
 1.431_1 Sun May 27 2012
      - hide proxy passwords [FROGGS]
      - build libogg/libvorbis if its not there [FROGGS]
