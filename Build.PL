@@ -153,7 +153,7 @@ else {
   my $prompt_string         = "\nYou have the following options:\n";
   my $recommended_candidate = 1;
   foreach my $c (@candidates) {
-    $recommended_candidate = $i if $c->{title} =~ /RECOMMENDED/;
+    $recommended_candidate = $i if $c->{buildtype} eq 'build_from_sources';
 
     if( $c->{buildtype} eq 'use_config_script' ) {
       $c->{title} .= "\n    ";
