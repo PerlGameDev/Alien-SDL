@@ -192,7 +192,6 @@ our $source_packs = [
         sha1sum  => 'dd384ff87848595fcc0691833431ec5029f973c7',
         patches => [
           'SDL_image-1.2.11-libpng-flags.patch',
-          #'SDL_image-1.2.10-libpng15.patch',
         ],
         prereqs => {
           libs => [
@@ -236,7 +235,6 @@ our $source_packs = [
         sha1sum  => 'a20fa96470ad9e1052f1957b77ffa68fb090b384',
         patches => [
           'SDL_mixer-1.2.12-native-midi-win32.patch',
-          #'SDL_mixer-1.2.12-cygwin.patch',
         ],
         prereqs => {
           libs => [
@@ -269,9 +267,7 @@ our $source_packs = [
           'http://froggs.de/libsdl/SDL_gfx-2.0.23.tar.gz',
         ],
         sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
-        patches => [
-          #'SDL_gfx-2.0.20-configure.patch',
-        ],
+        patches => [ ],
         prereqs => {
           libs => [ ]
         }
