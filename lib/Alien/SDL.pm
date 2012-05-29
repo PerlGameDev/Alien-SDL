@@ -16,11 +16,11 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 1.431_1
+Version 1.431_2
 
 =cut
 
-our $VERSION = '1.431_1';
+our $VERSION = '1.431_2';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -32,11 +32,11 @@ Alien::SDL tries (in given order) during its installation:
 =item * When given C<--with-sdl-config> option use specified sdl-config
 script to locate SDL libs.
 
- perl ./Build.pl --with-sdl-config=/opt/sdl/bin/sdl-config
+ perl Build.PL --with-sdl-config=/opt/sdl/bin/sdl-config
 
 or using default script name 'sdl-config' by running:
 
- perl ./Build.pl --with-sdl-config
+ perl Build.PL --with-sdl-config
 
 B<IMPORTANT NOTE:> Using --with-sdl-config avoids considering any other
 build methods; no prompt with other available build options.
