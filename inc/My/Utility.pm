@@ -318,7 +318,7 @@ sub check_config_script {
   }
   $version =~ s/[\r\n]+$//;
   $prefix  =~ s/[\r\n]+$//;
-  print "yes, $script in $prefix\n";
+  print "yes, $script\n";
   #returning HASHREF
   return {
     title     => "Already installed SDL ver=$version path=$prefix",
