@@ -4,7 +4,7 @@ use warnings;
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
 use Config;
-use My::Utility qw(check_config_script check_prebuilt_binaries check_src_build check_prereqs_libs $source_packs);
+use My::Utility qw(check_config_script check_prebuilt_binaries check_prereqs_libs $source_packs);
 
 print "Welcome to Alien::SDL module installation\n";
 print "-----------------------------------------\n";
@@ -100,7 +100,7 @@ else {
   print "checking SDL_INST_DIR env var... ";
   if(defined($ENV{SDL_INST_DIR})) {
     if (-d $ENV{SDL_INST_DIR}) {
-      print "set to '$ENV{SDL_INST_DIR}'\n";
+      print "yes, $ENV{SDL_INST_DIR}\n";
       my @sdlinst = File::Spec->splitdir($ENV{SDL_INST_DIR});
       if($rv = check_config_script(File::Spec->catdir(@sdlinst, 'bin', 'sdl-config'))) {
         push @candidates, $rv;
@@ -113,7 +113,7 @@ else {
       print "directory '$ENV{SDL_INST_DIR}' does not exist";
     }
   }
-  print "not set\n";
+  print "no\n";
 
   # sdl-config script
   push @candidates, $rv if $rv = check_config_script("sdl-config");
@@ -146,7 +146,7 @@ else {
     }
   };
 
-  push @candidates, { title => 'Quit installation' };
+  push @candidates, { title => 'Quit installation', buildtype => '' };
 
   #### ask user what way to go
   my $i                     = 1;
@@ -165,7 +165,7 @@ else {
     $prompt_string .= "[" . $i++ . "] " . $c->{title} . "\n";
   }
   $prompt_string .= "\nWhat way do you wanna go?";
-  my $ans = $build->prompt($prompt_string, $recommended_candidate);
+  my $ans         = $build->prompt($prompt_string, $recommended_candidate);
 
   if($ans > 0 && $ans < scalar(@candidates)) {
     $choice = $candidates[$ans - 1];

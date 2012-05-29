@@ -3,8 +3,8 @@ use strict;
 use warnings;
 use base qw(Exporter);
 
-our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools check_src_build find_SDL_dir find_file check_header
-                     sed_inplace get_dlext $inc_lib_candidates $source_packs);
+our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools find_SDL_dir find_file check_header
+                    sed_inplace get_dlext $inc_lib_candidates $source_packs);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
@@ -26,14 +26,8 @@ $inc_lib_candidates->{'/usr/include/smpeg'}     = '/usr/lib'                  if
 $inc_lib_candidates->{'/usr/X11R6/include'}     = '/usr/X11R6/lib'            if -f '/usr/X11R6/include/GL/gl.h';
 $inc_lib_candidates->{'/usr/include/ogg'}       = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libogg.so';
 $inc_lib_candidates->{'/usr/include/vorbis'}    = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libvorbis.so';
-
-if( -e '/usr/lib64'  && $Config{'myarchname'} =~ /64/) {
-  $inc_lib_candidates->{'/usr/include'} = '/usr/lib64'
-}
-
-if( exists $ENV{SDL_LIB} && exists $ENV{SDL_INC} ) {
-  $inc_lib_candidates->{$ENV{SDL_INC}} = $ENV{SDL_LIB};
-}
+$inc_lib_candidates->{'/usr/include'}           = '/usr/lib64'                if -e '/usr/lib64' && $Config{'myarchname'} =~ /64/;
+$inc_lib_candidates->{$ENV{SDL_INC}}            = $ENV{SDL_LIB}               if exists $ENV{SDL_LIB} && exists $ENV{SDL_INC};
 
 #### packs with prebuilt binaries
 # - all regexps has to match: arch_re ~ $Config{archname}, cc_re ~ $Config{cc}, os_re ~ $^O
@@ -103,7 +97,6 @@ our $source_packs = [
         version => '1.2.5',
         dirname => 'zlib-1.2.5',
         url => [
-          'http://zlib.net/zlib-1.2.5.tar.gz',
           'http://froggs.de/libz/zlib-1.2.5.tar.gz',
         ],
         sha1sum  => '8e8b93fa5eb80df1afe5422309dca42964562d7e',
@@ -149,7 +142,6 @@ our $source_packs = [
         version => '1.4.1',
         dirname => 'libpng-1.4.1',
         url => [
-          #'http://downloads.sourceforge.net/project/libpng/01-libpng-master/1.4.1/libpng-1.4.1.tar.gz',
           'http://froggs.de/libpng/libpng-1.4.1.tar.gz',
         ],
         sha1sum  => '7a3488f5844068d67074f2507dd8a7ed9c69ff04',
@@ -195,7 +187,7 @@ our $source_packs = [
         dirname => 'SDL_image-1.2.11',
         url => [
           'http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.11.tar.gz',
-          #'http://froggs.de/libsdl/SDL_image-1.2.10.tar.gz',
+          'http://froggs.de/libsdl/SDL_image-1.2.11.tar.gz',
         ],
         sha1sum  => 'dd384ff87848595fcc0691833431ec5029f973c7',
         patches => [
@@ -239,7 +231,7 @@ our $source_packs = [
         dirname => 'SDL_mixer-1.2.12',
         url => [
           'http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.12.tar.gz',
-          #'http://froggs.de/libsdl/SDL_mixer-1.2.12.tar.gz',
+          'http://froggs.de/libsdl/SDL_mixer-1.2.12.tar.gz',
         ],
         sha1sum  => 'a20fa96470ad9e1052f1957b77ffa68fb090b384',
         patches => [
@@ -258,7 +250,7 @@ our $source_packs = [
         dirname => 'SDL_ttf-2.0.11',
         url => [
           'http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.tar.gz',
-          #'http://froggs.de/libsdl/SDL_ttf-2.0.10.tar.gz',
+          'http://froggs.de/libsdl/SDL_ttf-2.0.11.tar.gz',
         ],
         sha1sum  => '0ccf7c70e26b7801d83f4847766e09f09db15cc6',
         patches => [ ],
@@ -274,7 +266,7 @@ our $source_packs = [
         dirname => 'SDL_gfx-2.0.23',
         url => [
           'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.23.tar.gz',
-          #'http://froggs.de/libsdl/SDL_gfx-2.0.20.tar.gz',
+          'http://froggs.de/libsdl/SDL_gfx-2.0.23.tar.gz',
         ],
         sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
         patches => [
@@ -316,17 +308,17 @@ sub check_config_script {
   my $devnull = File::Spec->devnull();
   my $version = `$script --version 2>$devnull`;
   if($? >> 8) {
-    print "not found $script\n";
+    print "no\n";
     return;
   }
   my $prefix = `$script --prefix 2>$devnull`;
   if($? >> 8) {
-    print "not found $script\n";
+    print "no\n";
     return;
   }
   $version =~ s/[\r\n]+$//;
   $prefix  =~ s/[\r\n]+$//;
-  print "found $script (v$version in $prefix)\n";
+  print "yes, $script in $prefix\n";
   #returning HASHREF
   return {
     title     => "Already installed SDL ver=$version path=$prefix",
@@ -352,22 +344,9 @@ sub check_prebuilt_binaries
     }
   }
   scalar(@good)
-    ? print "found " . scalar(@good) . " option(s)\n"
-    : print "none for your system\n";
+    ? print "yes, " . scalar(@good) . " option(s)\n"
+    : print "no\n";
   #returning ARRAY of HASHREFs (sometimes more than one value)
-  return \@good;
-}
-
-sub check_src_build
-{
-  print "Gonna check possibility for building from sources ...\n";
-  print "(os=$^O cc=$cc)\n";
-  my @good = ();
-  foreach my $p (@{$source_packs}) {
-    $p->{buildtype} = 'build_from_sources';
-    print "CHECKING prereqs for:\n\t$p->{title}\n";
-    push @good, $p if check_prereqs($p);
-  }
   return \@good;
 }
 
@@ -376,6 +355,7 @@ sub check_prereqs_libs {
   my $ret  = 1;
 
   foreach my $lib (@libs) {
+    print "checking for $lib... ";
     my $found_lib          = '';
     my $found_inc          = '';
     my $header_map         = {
@@ -397,20 +377,13 @@ sub check_prereqs_libs {
     }
 
     if($found_lib && $found_inc) {
+      print "yes\n";
       $ret &= 1;
     }
     else {
-#      my $reason = 'no-h+no-lib';
-#      $reason = 'no-lib' if !$found_lib && $found_inc;
-#      $reason = 'no-h' if $found_lib && !$found_inc;
-#      print "WARNING: required lib(-dev) '$lib' not found, disabling affected option ($reason)\n";
+      print "no\n";
       $ret = 0;
     }
-
-    print "checking for $lib... ";
-    $found_lib ||= 'lib not found';
-    $found_inc ||= 'header not found';
-    print "$found_lib, $found_inc\n";
 
     if( scalar(@libs) == 1 ) {
       return $ret
@@ -425,15 +398,14 @@ sub check_prereqs_libs {
 sub check_prereqs {
   my $bp  = shift;
   my $ret = 1;
-
-  $ret &= check_prereqs_libs(@{$bp->{prereqs}->{libs}}) if defined $bp->{prereqs}->{libs};
+  $ret   &= check_prereqs_libs(@{$bp->{prereqs}->{libs}}) if defined $bp->{prereqs}->{libs};
 
   return $ret;
 }
 
 sub check_prereqs_tools {
   my @tools = @_;
-  my $ret  = 1;
+  my $ret   = 1;
 
   foreach my $tool (@tools) {
 
@@ -554,8 +526,7 @@ sub get_dlext {
   if($^O =~ /darwin/) { # there can be .dylib's on a mac even if $Config{dlext} is 'bundle'
     return 'so|dylib|bundle';
   }
-  elsif( $^O =~ /cygwin/)
-  {
+  elsif( $^O =~ /cygwin/) {
     return 'la';
   }
   else {
