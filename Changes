@@ -2,6 +2,9 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.434 Thu May 31 2012
+     - added compiler checks [FROGGS]
+
 1.432 Wed May 30 2012
      - added cl to cc_re for binary sets, this way ActivePerl works again [FROGGS]
      - configure-like appearance, first check, then do [FROGGS]
