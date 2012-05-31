@@ -4,12 +4,31 @@ use warnings;
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
 use Config;
-use My::Utility qw(check_config_script check_prebuilt_binaries check_prereqs_libs $source_packs);
+use My::Utility qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools $source_packs);
 
 print "Welcome to Alien::SDL module installation\n";
 print "-----------------------------------------\n";
 print "checking operating system... $^O\n";
-print "checking compiler... $My::Utility::cc\n";
+$| = 1;
+print "checking for $My::Utility::cc... ";
+if( !check_prereqs_tools($My::Utility::cc) ) {
+  print "no\n";
+  for(qw(gcc cc lc)) {
+    next if $_ eq \$My::Utility::cc;
+    print "checking for $_... ";
+    if( check_prereqs_tools($_) ) {
+      $My::Utility::cc = $_;
+      print "yes\n";
+      last;
+    }
+    else {
+      print "no\n";
+    }
+  }
+}
+else {
+  print "yes\n";
+}
 print "checking build system type... $Config{archname}\n";
 
 #### we need the platform-specific module
@@ -118,9 +137,6 @@ else {
   # sdl-config script
   push @candidates, $rv if $rv = check_config_script("sdl-config");
 
-  # prebuilt binaries (windows only)
-  push @candidates, @{$rv} if $rv = check_prebuilt_binaries($build->os_type);
-
   my %have_libs = ();
   if( $build->can_build_binaries_from_sources || scalar(@candidates) ) {
     for(qw(pthread SDL z jpeg tiff png SDL_image ogg vorbis SDL_mixer SDL_ttf SDL_gfx
@@ -128,6 +144,9 @@ else {
       $have_libs{$_} = check_prereqs_libs($_);
     }
   }
+
+  # prebuilt binaries (windows only)
+  push @candidates, @{$rv} if $rv = check_prebuilt_binaries($build->os_type);
 
   if($build->can_build_binaries_from_sources) {
     for my $p ( @$source_packs ) {

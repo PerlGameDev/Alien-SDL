@@ -412,7 +412,6 @@ sub check_prereqs_tools {
       $ret &= 1;
     }
     else {
-      print "WARNING: required '$tool' not found\n";
       $ret = 0;
     }
   }
