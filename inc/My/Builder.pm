@@ -185,6 +185,9 @@ sub extract_binaries {
   # fix hardcoded prefix path in bin/sdl-config
   my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
   sed_inplace("$prefix/bin/sdl-config", 's/^prefix=.*/prefix=\''.quotemeta($prefix).'\'/');
+  if( $^O eq 'MSWin32' && $My::Utility::cc eq 'cl' ) {
+    cp( catfile('patches', 'SDL_config_win32.h'), catfile($incdir, 'SDL', 'SDL_config.h') );
+  }
 }
 
 sub extract_sources {
