@@ -185,6 +185,7 @@ our $source_packs = [
         sha1sum  => 'ec9841377403e8d1bcfd76626434be64d11f59f0',
         patches => [
           'test1.patch',
+          'SDL-1.2-openbsd-rldflags.patch',
         ],
         prereqs => {
           libs => [
