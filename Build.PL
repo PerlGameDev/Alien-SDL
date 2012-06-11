@@ -112,6 +112,25 @@ if (defined $sdl_config) {
 else {
   $| = 1;
 
+  if( $My::Utility::cc eq 'cl' && $^O eq 'MSWin32' ) {
+    print "checking INCLUDE and LIB... ";
+    if( !$ENV{INCLUDE} || !$ENV{LIB} ) {
+      my @set = `\@vcvars32 & set`;
+      chomp @set;
+      my %set  = map /(\w+)=(.+)/, @set;
+      for( keys %set ) {
+        if( /^INCLUDE|LIB$/ ) {
+          $ENV{$_} = $set{$_};
+        }
+      }
+      print(($ENV{INCLUDE} && $ENV{LIB})
+        ? "yes, via vcvars32\n"
+        : "no\n");
+    }
+    else {
+      print "yes\n";
+    }
+  }
   #### check what options we have for our platform
   my $rv;
   my @candidates = ();
@@ -197,6 +216,8 @@ else {
 if($choice) {
   print "Using \l$choice->{title}\n";
   $build->notes('build_params', $choice);
+  $build->notes('env_include', $ENV{INCLUDE}) if $ENV{INCLUDE};
+  $build->notes('env_lib',     $ENV{LIB})     if $ENV{LIB};
   $build->create_build_script();
 
   #### clean build_done stamp; force rebuild when running 'Build'
