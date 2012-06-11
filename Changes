@@ -9,8 +9,6 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
      - added cl to cc_re for binary sets, this way ActivePerl works again [FROGGS]
      - configure-like appearance, first check, then do [FROGGS]
      - libSDL is newest one from hg-repo, this should fix the _XGetRequest issue [FROGGS]
-
-1.431_1 Sun May 27 2012
      - hide proxy passwords [FROGGS]
      - build libogg/libvorbis if its not there [FROGGS]
      - fixed logic for detecting proxies [FROGGS]
