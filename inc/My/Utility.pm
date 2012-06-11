@@ -43,7 +43,7 @@ my $prebuilt_binaries = [
       sha1sum  => '98409ddeb649024a9cc1ab8ccb2ca7e8fe804fd8',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
-      cc_re    => qr/gcc|cl/,
+      cc_re    => qr/gcc/,
     },
     {
       title    => "Binaries Win/32bit SDL-1.2.14 (extended, 20111205)\n" .
@@ -55,7 +55,7 @@ my $prebuilt_binaries = [
       sha1sum  => '553b7e21bb650d047ec9f2a5f650c67d76430e61',
       arch_re  => qr/^MSWin32-x86-multi-thread$/,
       os_re    => qr/^MSWin32$/,
-      cc_re    => qr/gcc|cl/,
+      cc_re    => qr/gcc/,
     },
     {
       title    => "Binaries Win/64bit SDL-1.2.14 (extended, 20100824)\n" .
@@ -69,7 +69,7 @@ my $prebuilt_binaries = [
       sha1sum  => 'ccffb7218bcb17544ab00c8a1ae383422fe9586d',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
-      cc_re    => qr/gcc|cl/,
+      cc_re    => qr/gcc/,
       gccversion_re => qr/^4\.4\.3$/, #specific to the old gcc compiler used in 64bit strawberryperl 5.12.x
     },
     {
@@ -82,8 +82,19 @@ my $prebuilt_binaries = [
       sha1sum  => '35f3b496ca443a9d14eff77e9e26acfa813afafd',
       arch_re  => qr/^MSWin32-x64-multi-thread$/,
       os_re    => qr/^MSWin32$/,
-      cc_re    => qr/gcc|cl/,
+      cc_re    => qr/gcc/,
       gccversion_re => qr/^4\.(4\.[5-9]|[5-9]\.[0-9])$/,
+    },
+    {
+      title    => "Binaries Win/32bit SDL-1.2.15 (20120610)\n" .
+                  "\t(gfx, image, mixer, smpeg, ttf)",
+      url      => [
+        'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120610.zip',
+      ],
+      sha1sum  => 'fb0a582845b557a189700286eb57ce63f56a179c',
+      arch_re  => qr/^MSWin32/,
+      os_re    => qr/^MSWin32$/,
+      cc_re    => qr/cl/,
     },
  ];
 
