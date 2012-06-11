@@ -20,4 +20,40 @@ sub get_path {
   return $path;
 }
 
+sub get_additional_cflags {
+  my $self = shift;
+  if($My::Utility::cc eq 'cl' && $self->notes('env_include')) {
+    my $include = $self->notes('env_include');
+    $include    =~ s/"//g;
+    my @include = split(/;/, $include);
+    my $cflags  = '';
+    my $inc = $_;
+    for( @include ) {
+      my $inc = eval { require Win32; Win32::GetShortPathName($_); };
+      $inc ||= $_;
+      $cflags    .= "-I\"$inc\" " ;
+    }
+    return $cflags;
+  }
+  return '';
+}
+
+sub get_additional_libs {
+  my $self = shift;
+  if($My::Utility::cc eq 'cl' && $self->notes('env_lib')) {
+    my $lib  = $self->notes('env_lib');
+    $lib     =~ s/"//g;
+    my @libs = split(/;/, $lib);
+    my $libs = '';
+    my $inc  = $_;
+    for( @libs ) {
+      my $_lib = eval { require Win32; Win32::GetShortPathName($_); };
+      $_lib ||= $_;
+      $libs  .= "/LIBPATH:\"$_lib\" " ;
+    }
+    return $libs;
+  }
+  return '';
+}
+
 1;
