@@ -119,8 +119,9 @@ sub build_binaries {
 sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
   my $extra                     = '';
-  my $extra_cflags              = "-I$prefixdir/include";
-  my $extra_ldflags             = "-L$prefixdir/lib";
+  my $escaped_prefixdir         = $self->escape_path( $prefixdir );
+  my $extra_cflags              = "-I$escaped_prefixdir/include";
+  my $extra_ldflags             = "-L$escaped_prefixdir/lib";
   my $extra_PATH                = "";
   my $uname                     = $Config{archname};
   my $stdout                    = '';
@@ -162,7 +163,7 @@ sub _get_configure_cmd {
   }
 
   if($pack =~ /^SDL_/) {
-    $extra .= " --with-sdl-prefix=$prefixdir";
+    $extra .= " --with-sdl-prefix=$escaped_prefixdir";
   }
 
   if($pack =~ /^SDL/ && -d '/usr/X11R6/lib' && -d '/usr/X11R6/include') {
@@ -205,19 +206,19 @@ sub _get_configure_cmd {
 
   if($pack eq 'z') {
     # does not support params CFLAGS=...
-    $cmd = "./configure --prefix=$prefixdir";
+    $cmd = "./configure --prefix=$escaped_prefixdir";
   }
   else {
-    $cmd = "./configure --prefix=$prefixdir --enable-static=yes --enable-shared=yes $extra" .
+    $cmd = "./configure --prefix=$escaped_prefixdir --enable-static=yes --enable-shared=yes $extra" .
            " CFLAGS=\"$extra_cflags\" LDFLAGS=\"$extra_ldflags\"";
   }
 
   if($pack ne 'SDL' && $^O =~ /^openbsd|gnukfreebsd$/) {
-    $cmd = "LD_LIBRARY_PATH=\"$prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
+    $cmd = "LD_LIBRARY_PATH=\"$escaped_prefixdir/lib:\$LD_LIBRARY_PATH\" $cmd";
   }
 
   if($pack eq 'vorbis') {
-    $cmd = "PKG_CONFIG_PATH=\"$prefixdir/lib/pkgconfig:\$PKG_CONFIG_PATH\" $cmd";
+    $cmd = "PKG_CONFIG_PATH=\"$escaped_prefixdir/lib/pkgconfig:\$PKG_CONFIG_PATH\" $cmd";
   }
 
   return $cmd;
@@ -250,6 +251,13 @@ sub _is_gnu_make {
     return 1;
   }
   return 0;
+}
+
+sub escape_path {
+  my( $self, $path ) = @_;
+  my $_path          = $path;
+  $_path             =~ s/([^\\]) /$1\\ /g;
+  return $_path;
 }
 
 1;

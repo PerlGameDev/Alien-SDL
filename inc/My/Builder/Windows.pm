@@ -47,13 +47,21 @@ sub get_additional_libs {
     my $libs = '';
     my $inc  = $_;
     for( @libs ) {
-      my $_lib = eval { require Win32; Win32::GetShortPathName($_); };
-      $_lib ||= $_;
-      $libs  .= "/LIBPATH:\"$_lib\" " ;
+      my $_lib = $self->escape_path( $_ );
+      $libs   .= "/LIBPATH:$_lib " ;
     }
     return $libs;
   }
   return '';
+}
+
+sub escape_path {
+  my( $self, $path ) = @_;
+  my $_path          = eval { require Win32; Win32::GetShortPathName($path); };
+  $_path           ||= $path;
+  $_path             = qq("$_path") if $_path =~ / /;
+
+  return $_path;
 }
 
 1;

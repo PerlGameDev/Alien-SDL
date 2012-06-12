@@ -251,9 +251,9 @@ sub set_config_data {
   };
 
   # overwrite values available via sdl-config
-  my $bp = $self->config_data('build_prefix') || $prefix;
+  my $bp      = $self->config_data('build_prefix') || $prefix;
   my $devnull = File::Spec->devnull();
-  my $script = rel2abs("$prefix/bin/sdl-config");
+  my $script  = $self->escape_path( rel2abs("$prefix/bin/sdl-config") );
   foreach my $p (qw(version prefix libs cflags)) {
     my $o=`$script --$p 2>$devnull`;
     if ($o) {
@@ -354,6 +354,12 @@ sub clean_dir {
     remove_tree($dir);
     make_path($dir);
   }
+}
+
+sub escape_path {
+  # this needs to be overriden in My::Builder::<platform>
+  my( $self, $path ) = @_;
+  return $path;
 }
 
 sub check_build_done_marker {
