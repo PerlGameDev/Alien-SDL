@@ -2,6 +2,16 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.435_1 Tue Jun 12 2012
+     - removed cl from cc_re for gcc binary sets, made new binary set for ActivePerl instead [FROGGS]
+     - fixed SDL dirname during Build when applying patches (was SDL-1.2.14, is SDL-1.2) [FROGGS]
+     - checking environment on windows when compiler is cl [FROGGS]
+     - using vcvars32.bat to set up env on windows [FROGGS]
+     - cl compiler prints to stdout instead of stderr, displaying these messages [FROGGS]
+     - added libs like ogg to shlib_map, needed for loading these libs at runtime to help msvc [FROGGS]
+     - added patches/SDL_config_win32.h for msvc, because it has no configure [FROGGS]
+     - reapplied openbsd-rldflags patch, it got lost during update to SDL-1.2.15 [FROGGS]
+
 1.434 Thu May 31 2012
      - added compiler checks [FROGGS]
 
