@@ -91,7 +91,7 @@ my $prebuilt_binaries = [
       url      => [
         'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120610.zip',
       ],
-      sha1sum  => '22c531c1d0cc5a363c05045760870b2f45e9d0da',
+      sha1sum  => 'fb0a582845b557a189700286eb57ce63f56a179c',
       arch_re  => qr/^MSWin32/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/cl/,
