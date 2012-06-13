@@ -364,6 +364,7 @@ sub check_prereqs_libs {
 
   foreach my $lib (@libs) {
     print "checking for $lib... ";
+    my $found_dll          = '';
     my $found_lib          = '';
     my $found_inc          = '';
     my $header_map         = {
@@ -379,6 +380,8 @@ sub check_prereqs_libs {
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
+      ($found_dll) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|so|dll)$/);
+      $found_dll   = $1 if $found_dll && $found_dll =~/^(.+($dlext|so|dll))/ && -e $1;
       ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|a|dll.a)$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
@@ -395,7 +398,7 @@ sub check_prereqs_libs {
 
     if( scalar(@libs) == 1 ) {
       return $ret
-        ? (get_header_version($found_inc) || 'found')
+        ? [(get_header_version($found_inc) || 'found'), $found_dll]
         : 0;
     }
   }
