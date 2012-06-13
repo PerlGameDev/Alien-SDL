@@ -86,12 +86,12 @@ my $prebuilt_binaries = [
       gccversion_re => qr/^4\.(4\.[5-9]|[5-9]\.[0-9])$/,
     },
     {
-      title    => "Binaries Win/32bit SDL-1.2.15 (20120610)\n" .
+      title    => "Binaries Win/32bit SDL-1.2.15 (20120612)\n" .
                   "\t(gfx, image, mixer, smpeg, ttf)",
       url      => [
-        'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120610.zip',
+        'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120612.zip',
       ],
-      sha1sum  => 'fb0a582845b557a189700286eb57ce63f56a179c',
+      sha1sum  => '22c531c1d0cc5a363c05045760870b2f45e9d0da',
       arch_re  => qr/^MSWin32/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/cl/,
