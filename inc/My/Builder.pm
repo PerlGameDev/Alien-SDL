@@ -307,6 +307,16 @@ sub set_config_data {
       $shlib_map{SDL} = $full unless $shlib_map{SDL};
     }
   };
+
+  my $have_libs = $self->notes('have_libs');
+  for(qw(pthread  z jpeg tiff png ogg vorbis vorbisfile freetype
+         pangoft2 pango gobject gmodule glib fontconfig expat )) {
+    if( !$shlib_map{$_} && $have_libs->{$_} ) {
+      push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
+      $shlib_map{$_} = $have_libs->{$_}->[1];
+    }
+  }
+  
   $cfg->{ld_paths} = [ keys %tmp ];
   $cfg->{ld_shlib_map} = \%shlib_map;
 
