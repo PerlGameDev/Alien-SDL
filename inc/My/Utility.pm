@@ -399,7 +399,7 @@ sub check_prereqs_libs {
     if( scalar(@libs) == 1 ) {
       return $ret
         ? [(get_header_version($found_inc) || 'found'), $found_dll]
-        : 0;
+        : [0, undef];
     }
   }
 

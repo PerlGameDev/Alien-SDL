@@ -177,7 +177,7 @@ else {
       for my $m (@{ $p->{members} }) {
         next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} };
         my $good = 1;
-        $good   &= $have_libs{$_} ? 1 : 0 for @{ $m->{prereqs}->{libs} };
+        $good   &= $have_libs{$_} && $have_libs{$_}[0] ? 1 : 0 for @{ $m->{prereqs}->{libs} };
         if( $good ) {
           $have_libs{ $m->{pack} }[0] ||= 1;
           push @{ $rv->{members} }, $m;

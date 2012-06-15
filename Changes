@@ -2,6 +2,13 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.435_3 Fri Jun 12 2012
+     - small fix for latest dev release [FROGGS]
+
+1.435_2 Wed Jun 12 2012
+     - installed libs are pushed to shlib_map [FROGGS]
+     - msvc binary package contains patches SDL_rwops.h [FROGGS]
+
 1.435_1 Tue Jun 12 2012
      - removed cl from cc_re for gcc binary sets, made new binary set for ActivePerl instead [FROGGS]
      - fixed SDL dirname during Build when applying patches (was SDL-1.2.14, is SDL-1.2) [FROGGS]
