@@ -2,6 +2,9 @@ Revision history for Perl module Alien::SDL
 
 Versioning rule: public releases are even numbers, dev releases are odd. (same like perl dist)
 
+1.435_4 Sat Jun 12 2012
+     - setting ld_shlib_map for 'already installed'-option too [FROGGS]
+
 1.435_3 Fri Jun 12 2012
      - small fix for latest dev release [FROGGS]
 
