@@ -1,6 +1,6 @@
 # t/002_config.t - test config() functionality
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Alien::SDL;
 
 ### test some config strings
@@ -18,6 +18,13 @@ foreach (@{Alien::SDL->config('ld_shared_libs')}) {
   $l_result = 0 unless (-e $_);
 }
 is( $l_result, 1, "Testing 'ld_shared_libs'" );
+
+### check if list of ld_shlib_map contains existing files
+my $m_result = 1;
+foreach (values %{Alien::SDL->config('ld_shlib_map')}) {
+  $m_result = 0 unless (-e $_);
+}
+is( $m_result, 1, "Testing 'ld_shlib_map'" );
 
 ### check if list of ld_paths contains existing directories
 my $p_result = 1;
