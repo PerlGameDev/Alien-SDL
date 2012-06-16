@@ -328,7 +328,7 @@ sub set_ld_config {
   my $have_libs = $self->notes('have_libs');
   for(qw(pthread  z jpeg tiff png ogg vorbis vorbisfile freetype
          pangoft2 pango gobject gmodule glib fontconfig expat )) {
-    if( !$shlib_map{$_} && $have_libs->{$_} ) {
+    if( !$shlib_map{$_} && $have_libs->{$_}->[0] ) {
       push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
       $shlib_map{$_} = $have_libs->{$_}->[1];
     }
