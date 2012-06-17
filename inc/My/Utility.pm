@@ -231,7 +231,9 @@ our $source_packs = [
           'http://froggs.de/libsdl/libvorbis-1.3.3.tar.gz',
         ],
         sha1sum  => '8dae60349292ed76db0e490dc5ee51088a84518b',
-        patches => [ ],
+        patches => [
+          'libvorbis-1.3.3-configure.patch',
+        ],
         prereqs => {
           libs => [ ]
         }
