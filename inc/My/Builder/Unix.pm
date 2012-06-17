@@ -47,7 +47,7 @@ sub build_binaries {
   my( $self, $build_out, $build_src ) = @_;
   my $bp = $self->notes('build_params');
   foreach my $pack (@{$bp->{members}}) {
-    if($pack->{pack} =~ m/^png|ogg|vorbis|z$/ && check_prereqs_libs($pack->{pack})) {
+    if($pack->{pack} =~ m/^png|ogg|vorbis|z$/ && check_prereqs_libs($pack->{pack})->[0]) {
       print "SKIPPING package '" . $pack->{dirname} . "' (already installed)...\n";
     }
     elsif($pack->{pack} =~ m/^(SDL_mixer)$/ && !$self->_is_gnu_make($self->_get_make)) {
@@ -120,8 +120,8 @@ sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
   my $extra                     = '';
   my $escaped_prefixdir         = $self->escape_path( $prefixdir );
-  my $extra_cflags              = "-I$escaped_prefixdir/include";
-  my $extra_ldflags             = "-L$escaped_prefixdir/lib";
+  my $extra_cflags              = "-I$escaped_prefixdir/include" . $self->get_additional_cflags();
+  my $extra_ldflags             = "-L$escaped_prefixdir/lib"     . $self->get_additional_libs();
   my $extra_PATH                = "";
   my $uname                     = $Config{archname};
   my $stdout                    = '';

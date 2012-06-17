@@ -175,7 +175,7 @@ else {
     for my $p ( @$source_packs ) {
       $rv = { title => $p->{title}, members => [], buildtype => 'build_from_sources' };
       for my $m (@{ $p->{members} }) {
-        next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} };
+        next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} }[0];
         my $good = 1;
         $good   &= $have_libs{$_} && $have_libs{$_}[0] ? 1 : 0 for @{ $m->{prereqs}->{libs} };
         if( $good ) {
@@ -200,7 +200,7 @@ else {
     if( $c->{buildtype} eq 'use_config_script' ) {
       $c->{title} .= "\n    ";
       for(qw(SDL SDL_image SDL_mixer SDL_ttf SDL_gfx SDL_Pango)) {
-        $c->{title} .= "$_(v$have_libs{$_}->[0]) " if $have_libs{$_};
+        $c->{title} .= "$_(v$have_libs{$_}->[0]) " if $have_libs{$_}[0];
       }
     }
 
