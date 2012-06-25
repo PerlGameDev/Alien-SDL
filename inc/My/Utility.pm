@@ -23,6 +23,9 @@ our $inc_lib_candidates = {
 $inc_lib_candidates->{'/usr/pkg/include/smpeg'} = '/usr/local/lib'            if -f '/usr/pkg/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/include/smpeg'}     = '/usr/lib'                  if -f '/usr/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/X11R6/include'}     = '/usr/X11R6/lib'            if -f '/usr/X11R6/include/GL/gl.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/GL/gl.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/freetype2/freetype/freetype.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/fontconfig/fontconfig.h';
 $inc_lib_candidates->{'/usr/include/ogg'}       = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libogg.so';
 $inc_lib_candidates->{'/usr/include/vorbis'}    = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libvorbis.so';
 $inc_lib_candidates->{'/usr/include'}           = '/usr/lib64'                if -e '/usr/lib64' && $Config{'myarchname'} =~ /64/;
