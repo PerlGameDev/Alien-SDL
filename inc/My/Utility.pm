@@ -18,7 +18,6 @@ our $inc_lib_candidates = {
   '/usr/local/include'       => '/usr/local/lib',
   '/usr/include'             => '/usr/lib',
   '/usr/X11R6/include'       => '/usr/X11R6/lib',
-  '/usr/pkg/include'         => '/usr/pkg/lib',
   '/usr/local/include/smpeg' => '/usr/local/lib',
 };
 $inc_lib_candidates->{'/usr/pkg/include/smpeg'} = '/usr/local/lib'            if -f '/usr/pkg/include/smpeg/smpeg.h';
