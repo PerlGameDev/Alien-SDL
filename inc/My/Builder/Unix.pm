@@ -169,11 +169,6 @@ sub _get_configure_cmd {
     $extra .= " --with-sdl-prefix=$escaped_prefixdir";
   }
 
-  if($pack =~ /^SDL/ && -d '/usr/X11R6/lib' && -d '/usr/X11R6/include') {
-    $extra_cflags  .= ' -I/usr/X11R6/include';
-    $extra_ldflags .= ' -L/usr/X11R6/lib';
-  }
-
   if($^O eq 'cygwin') {
     #$extra_cflags  .= " -I/lib/gcc/i686-pc-cygwin/3.4.4/include";
     #$extra_ldflags .= " -L/lib/gcc/i686-pc-cygwin/3.4.4";
