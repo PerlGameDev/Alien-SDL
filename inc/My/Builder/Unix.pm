@@ -31,7 +31,10 @@ sub get_additional_libs {
   my %rv; # putting detected dir into hash to avoid duplicates
   for (keys %$inc_lib_candidates) {
     my $ld       = $inc_lib_candidates->{$_};
-    $rv{"-L$ld"} = 1 if ((-d $_) && (-d $ld));
+    if( -d $_ && -d $ld ) {
+      $rv{"-L$ld"}          = 1;
+      $rv{"-Wl,-rpath,$ld"} = 1 if $^O =~ /^linux|dragonfly|.+bsd$/;
+    }
   }
   push @list, (keys %rv);
   push @list, '-lpthread' if ($^O eq 'openbsd');
