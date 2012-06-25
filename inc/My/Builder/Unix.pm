@@ -123,8 +123,8 @@ sub _get_configure_cmd {
   my ($self, $pack, $prefixdir) = @_;
   my $extra                     = '';
   my $escaped_prefixdir         = $self->escape_path( $prefixdir );
-  my $extra_cflags              = "-I$escaped_prefixdir/include" . $self->get_additional_cflags();
-  my $extra_ldflags             = "-L$escaped_prefixdir/lib"     . $self->get_additional_libs();
+  my $extra_cflags              = "-I$escaped_prefixdir/include " . $self->get_additional_cflags();
+  my $extra_ldflags             = "-L$escaped_prefixdir/lib "     . $self->get_additional_libs();
   my $extra_PATH                = "";
   my $uname                     = $Config{archname};
   my $stdout                    = '';
