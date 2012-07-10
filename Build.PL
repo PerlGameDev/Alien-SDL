@@ -101,6 +101,7 @@ my $build = $package->new(
 );
 
 my $choice;
+my %have_libs = ();
 
 if (defined $sdl_config) {
   # handle --with-sdl-config (without params)
@@ -156,10 +157,13 @@ else {
   # sdl-config script
   push @candidates, $rv if $rv = check_config_script("sdl-config");
 
-  my %have_libs = ();
   if( $build->can_build_binaries_from_sources || scalar(@candidates) ) {
-    for(qw(pthread SDL z jpeg tiff png SDL_image ogg vorbis SDL_mixer SDL_ttf SDL_gfx
-           pangoft2 pango gobject gmodule glib fontconfig freetype expat SDL_Pango)) {
+    for(qw(pthread SDL
+           z jpeg tiff png SDL_image
+           ogg vorbis vorbisfile SDL_mixer
+           freetype SDL_ttf
+           SDL_gfx
+           pangoft2 pango gobject gmodule glib fontconfig expat SDL_Pango)) {
       $have_libs{$_} = check_prereqs_libs($_);
     }
   }
@@ -171,11 +175,11 @@ else {
     for my $p ( @$source_packs ) {
       $rv = { title => $p->{title}, members => [], buildtype => 'build_from_sources' };
       for my $m (@{ $p->{members} }) {
-        next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} };
+        next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} }[0];
         my $good = 1;
-        $good   &= $have_libs{$_} ? 1 : 0 for @{ $m->{prereqs}->{libs} };
+        $good   &= $have_libs{$_} && $have_libs{$_}[0] ? 1 : 0 for @{ $m->{prereqs}->{libs} };
         if( $good ) {
-          $have_libs{ $m->{pack} } ||= 1;
+          $have_libs{ $m->{pack} }[0] ||= 1;
           push @{ $rv->{members} }, $m;
           $rv->{title} .= "$m->{pack}(v$m->{version}) ";
         }
@@ -196,7 +200,7 @@ else {
     if( $c->{buildtype} eq 'use_config_script' ) {
       $c->{title} .= "\n    ";
       for(qw(SDL SDL_image SDL_mixer SDL_ttf SDL_gfx SDL_Pango)) {
-        $c->{title} .= "$_(v$have_libs{$_}) " if $have_libs{$_};
+        $c->{title} .= "$_(v$have_libs{$_}->[0]) " if $have_libs{$_}[0];
       }
     }
 
@@ -218,6 +222,7 @@ if($choice) {
   $build->notes('build_params', $choice);
   $build->notes('env_include', $ENV{INCLUDE}) if $ENV{INCLUDE};
   $build->notes('env_lib',     $ENV{LIB})     if $ENV{LIB};
+  $build->notes('have_libs',   \%have_libs);
   $build->create_build_script();
 
   #### clean build_done stamp; force rebuild when running 'Build'

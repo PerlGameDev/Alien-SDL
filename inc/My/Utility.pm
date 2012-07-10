@@ -18,12 +18,14 @@ our $inc_lib_candidates = {
   '/usr/local/include'       => '/usr/local/lib',
   '/usr/include'             => '/usr/lib',
   '/usr/X11R6/include'       => '/usr/X11R6/lib',
-  '/usr/pkg/include'         => '/usr/pkg/lib',
   '/usr/local/include/smpeg' => '/usr/local/lib',
 };
 $inc_lib_candidates->{'/usr/pkg/include/smpeg'} = '/usr/local/lib'            if -f '/usr/pkg/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/include/smpeg'}     = '/usr/lib'                  if -f '/usr/include/smpeg/smpeg.h';
 $inc_lib_candidates->{'/usr/X11R6/include'}     = '/usr/X11R6/lib'            if -f '/usr/X11R6/include/GL/gl.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/GL/gl.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/freetype2/freetype/freetype.h';
+$inc_lib_candidates->{'/usr/X11R7/include'}     = '/usr/X11R7/lib'            if -f '/usr/X11R7/include/fontconfig/fontconfig.h';
 $inc_lib_candidates->{'/usr/include/ogg'}       = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libogg.so';
 $inc_lib_candidates->{'/usr/include/vorbis'}    = '/usr/lib/x86_64-linux-gnu' if -f '/usr/lib/x86_64-linux-gnu/libvorbis.so';
 $inc_lib_candidates->{'/usr/include'}           = '/usr/lib64'                if -e '/usr/lib64' && $Config{'myarchname'} =~ /64/;
@@ -86,10 +88,10 @@ my $prebuilt_binaries = [
       gccversion_re => qr/^4\.(4\.[5-9]|[5-9]\.[0-9])$/,
     },
     {
-      title    => "Binaries Win/32bit SDL-1.2.15 (20120610)\n" .
+      title    => "Binaries Win/32bit SDL-1.2.15 (20120612)\n" .
                   "\t(gfx, image, mixer, smpeg, ttf)",
       url      => [
-        'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120610.zip',
+        'http://froggs.de/libsdl/Win32_SDL-1.2.15-20120612.zip',
       ],
       sha1sum  => '22c531c1d0cc5a363c05045760870b2f45e9d0da',
       arch_re  => qr/^MSWin32/,
@@ -185,6 +187,7 @@ our $source_packs = [
         sha1sum  => 'ec9841377403e8d1bcfd76626434be64d11f59f0',
         patches => [
           'test1.patch',
+          'SDL-1.2-openbsd-rldflags.patch',
         ],
         prereqs => {
           libs => [
@@ -230,7 +233,9 @@ our $source_packs = [
           'http://froggs.de/libsdl/libvorbis-1.3.3.tar.gz',
         ],
         sha1sum  => '8dae60349292ed76db0e490dc5ee51088a84518b',
-        patches => [ ],
+        patches => [
+          'libvorbis-1.3.3-configure.patch',
+        ],
         prereqs => {
           libs => [ ]
         }
@@ -363,6 +368,7 @@ sub check_prereqs_libs {
 
   foreach my $lib (@libs) {
     print "checking for $lib... ";
+    my $found_dll          = '';
     my $found_lib          = '';
     my $found_inc          = '';
     my $header_map         = {
@@ -378,6 +384,8 @@ sub check_prereqs_libs {
     foreach (keys %$inc_lib_candidates) {
       my $ld = $inc_lib_candidates->{$_};
       next unless -d $_ && -d $ld;
+      ($found_dll) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|so|dll)$/);
+      $found_dll   = $1 if $found_dll && $found_dll =~/^(.+($dlext|so|dll))/ && -e $1;
       ($found_lib) = find_file($ld, qr/[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|a|dll.a)$/);
       ($found_inc) = find_file($_,  qr/[\/\\]\Q$header\E[\-\d\.]*\.h$/);
       last if $found_lib && $found_inc;
@@ -394,8 +402,8 @@ sub check_prereqs_libs {
 
     if( scalar(@libs) == 1 ) {
       return $ret
-        ? (get_header_version($found_inc) || 'found')
-        : 0;
+        ? [(get_header_version($found_inc) || 'found'), $found_dll]
+        : [0, undef];
     }
   }
 

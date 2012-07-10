@@ -91,6 +91,7 @@ sub ACTION_code {
     if($bp->{buildtype} eq 'use_config_script') {
       $self->config_data('script', $bp->{script});
       # include path trick - adding couple of addititonal locations
+      $self->set_ld_config($build_out);
       $self->config_data('additional_cflags', '-I' . $self->get_path($bp->{prefix} . '/include/smpeg') . ' '.
                                               '-I' . $self->get_path($bp->{prefix} . '/include') . ' ' .
                                               $self->get_additional_cflags);
@@ -102,6 +103,7 @@ sub ACTION_code {
       $self->clean_dir($build_out);
       $self->extract_binaries($download, $build_out);
       $self->set_config_data($build_out);
+      $self->set_ld_config($build_out);
     }
     elsif($bp->{buildtype} eq 'build_from_sources' ) {
       # all the following functions die on error, no need to test ret values
@@ -110,6 +112,7 @@ sub ACTION_code {
       $self->clean_dir($build_out);
       $self->build_binaries($build_out, $build_src);
       $self->set_config_data($build_out);
+      $self->set_ld_config($build_out);
     }
 
     # mark sucessfully finished build
@@ -241,19 +244,19 @@ sub set_config_data {
   my $L   = $My::Utility::cc eq 'cl'
           ? '/LIBPATH:'
           : '-L';
-  my $cfg = {
-    # defaults
-    version     => $version,
-    prefix      => '@PrEfIx@',
-    libs        => $L . $self->get_path('@PrEfIx@/lib') . ' -lSDLmain -lSDL',
-    cflags      => '-I' . $self->get_path('@PrEfIx@/include/SDL') . ' -D_GNU_SOURCE=1 -Dmain=SDL_main',
-    shared_libs => [ ],
-  };
+  my $cfg = $self->config_data('config') || {};
+
+  # defaults
+  $cfg->{version}        = $version;
+  $cfg->{prefix}         = '@PrEfIx@';
+  $cfg->{libs}           = $L . $self->get_path('@PrEfIx@/lib') . ' -lSDLmain -lSDL';
+  $cfg->{cflags}         = '-I' . $self->get_path('@PrEfIx@/include/SDL') . ' -D_GNU_SOURCE=1 -Dmain=SDL_main';
+  $cfg->{ld_shared_libs} = [ ];
 
   # overwrite values available via sdl-config
-  my $bp = $self->config_data('build_prefix') || $prefix;
+  my $bp      = $self->config_data('build_prefix') || $prefix;
   my $devnull = File::Spec->devnull();
-  my $script = rel2abs("$prefix/bin/sdl-config");
+  my $script  = $self->escape_path( rel2abs("$prefix/bin/sdl-config") );
   foreach my $p (qw(version prefix libs cflags)) {
     my $o=`$script --$p 2>$devnull`;
     if ($o) {
@@ -263,11 +266,22 @@ sub set_config_data {
     }
   }
 
+  # write config
+  $self->config_data('additional_cflags', '-I' . $self->get_path('@PrEfIx@/include') . ' ' .
+                                          '-I' . $self->get_path('@PrEfIx@/include/smpeg') . ' ' .
+                                          $self->get_additional_cflags);
+  $self->config_data('additional_libs', $self->get_additional_libs);
+  $self->config_data('config', $cfg);
+}
+
+sub set_ld_config {
+  my( $self, $build_out ) = @_;
+  my ($version, $prefix, $incdir, $libdir) = find_SDL_dir(rel2abs($build_out));
+  my $cfg   = $self->config_data('config') || {};
   my $dlext = get_dlext();
   # find ld_shared_libs and create symlinks if necessary
   my $symlink_exists = eval { symlink("",""); 1 };
-  if($symlink_exists)
-  {
+  if($symlink_exists) {
     my @shlibs_ = find_file($build_out, qr/\.$dlext[\d\.]+$/);
     foreach my $full (@shlibs_){
       $full =~ qr/(.*\.$dlext)[\d\.]+$/;
@@ -278,9 +292,8 @@ sub set_config_data {
 
   # find and set ld_shared_libs
   my @shlibs = find_file($build_out, qr/\.$dlext$/);
-  my $p = rel2abs($prefix);
-  $_ =~ s/^\Q$prefix\E/\@PrEfIx\@/ foreach (@shlibs);
-  $cfg->{ld_shared_libs} = [ @shlibs ];
+#  my $p      = rel2abs($prefix);
+  $_         =~ s/^\Q$prefix\E/\@PrEfIx\@/ foreach (@shlibs);
 
   # set ld_paths and ld_shlib_map
   my %tmp = ();
@@ -307,14 +320,20 @@ sub set_config_data {
       $shlib_map{SDL} = $full unless $shlib_map{SDL};
     }
   };
-  $cfg->{ld_paths} = [ keys %tmp ];
-  $cfg->{ld_shlib_map} = \%shlib_map;
 
-  # write config
-  $self->config_data('additional_cflags', '-I' . $self->get_path('@PrEfIx@/include') . ' ' .
-                                          '-I' . $self->get_path('@PrEfIx@/include/smpeg') . ' ' .
-                                          $self->get_additional_cflags);
-  $self->config_data('additional_libs', $self->get_additional_libs);
+  $cfg->{ld_shared_libs} = [ @shlibs ];
+  $cfg->{ld_paths}       = [ keys %tmp ];
+  $cfg->{ld_shlib_map}   = \%shlib_map;
+
+  my $have_libs = $self->notes('have_libs');
+  for(qw(pthread  z jpeg tiff png ogg vorbis vorbisfile freetype
+         pangoft2 pango gobject gmodule glib fontconfig expat )) {
+    if( !$shlib_map{$_} && $have_libs->{$_}->[0] ) {
+      push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
+      $shlib_map{$_} = $have_libs->{$_}->[1];
+    }
+  }
+
   $self->config_data('config', $cfg);
 }
 
@@ -354,6 +373,12 @@ sub clean_dir {
     remove_tree($dir);
     make_path($dir);
   }
+}
+
+sub escape_path {
+  # this needs to be overriden in My::Builder::<platform>
+  my( $self, $path ) = @_;
+  return $path;
 }
 
 sub check_build_done_marker {
