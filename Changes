@@ -5,6 +5,10 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.437_2
+     - disabling mmx for SDL_gfx for armv6-unix [jtpalmer]
+     - added bin script to make configuring easier [kthakore]
+
 1.437_1 Mon Jun 25 2012
      - CFLAGS: added several circumstances where we need /usr/X11R7/... [FROGGS]
      - CFLAGS: removed /usr/pkg/..., that clashed on my netbsd [FROGGS]
