@@ -308,7 +308,7 @@ sub set_ld_config {
     elsif ($f =~ /^(lib)?(png12)/) {
       $shlib_map{png12} = $full unless $shlib_map{png12}; # what if it isnt png12?
     }
-    elsif ($f =~ /^(lib)?(intl|tiff|jpeg|png|ogg|vorbis|vorbisfile|FLAC|mikmod)[^a-zA-Z]/) {
+    elsif ($f =~ /^(lib)?(intl|z|tiff|jpeg|png|ogg|vorbis|vorbisfile|freetype|FLAC|mikmod)[^a-zA-Z]/) {
       $shlib_map{$2} = $full unless $shlib_map{$2};
     }
     elsif ($f =~ /^(lib)?(SDL_[a-zA-Z]{2,8})[^a-zA-Z0-9]/) {
