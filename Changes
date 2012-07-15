@@ -5,6 +5,14 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.437_1 Mon Jun 25 2012
+     - CFLAGS: added several circumstances where we need /usr/X11R7/... [FROGGS]
+     - CFLAGS: removed /usr/pkg/..., that clashed on my netbsd [FROGGS]
+     - CFLAGS: removed duplicate /usr/X11R6/... [FROGGS]
+     - setting LD_LIBRARY_PATH for all BSDs [FROGGS]
+     - added missing space in cflags and ldflags [FROGGS]
+     - adding rpath linker flag for linux and bsd [FROGGS]
+
 1.436 Tue Jun 19 2012
      - reapplied openbsd-rldflags patch, it got lost during update to SDL-1.2.15 [FROGGS]
      - fixed SDL dirname during Build when applying patches (was SDL-1.2.14, is SDL-1.2) [FROGGS]
