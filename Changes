@@ -9,6 +9,7 @@ TODO
      - changed shlib regex to match libz and libfreetype [jtpalmer]
      - disabling mmx for SDL_gfx for armv6-unix [jtpalmer]
      - added bin script to make configuring easier [kthakore]
+     - added CGFloat patch for darwin/SDL_image [FROGGS]
 
 1.437_1 Mon Jun 25 2012
      - CFLAGS: added several circumstances where we need /usr/X11R7/... [FROGGS]

@@ -205,6 +205,7 @@ our $source_packs = [
         ],
         sha1sum  => 'dd384ff87848595fcc0691833431ec5029f973c7',
         patches => [
+          'SDL_image-1.2.11-CGFloat.patch',
           'SDL_image-1.2.11-libpng-flags.patch',
         ],
         prereqs => {

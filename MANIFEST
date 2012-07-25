@@ -14,6 +14,7 @@ patches/jpeg-8a_cygwin.patch
 patches/libvorbis-1.3.3-configure.patch
 patches/SDL-1.2-openbsd-rldflags.patch
 patches/SDL_config_win32.h
+patches/SDL_image-1.2.11-CGFloat.patch
 patches/SDL_image-1.2.11-libpng-flags.patch
 patches/SDL_mixer-1.2.12-native-midi-win32.patch
 patches/SDL_Pango-0.1.2-API-adds.1.patch
