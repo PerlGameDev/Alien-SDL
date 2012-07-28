@@ -305,6 +305,9 @@ sub _sdl_config_via_script
     $val .= ' ' . join(' ', @add_libs) if scalar @add_libs;
     $val .= ' ' . Alien::SDL::ConfigData->config('additional_libs');
   }
+  elsif($param =~ /^(ld_shlib_map|ld_shared_libs|ld_paths)$/) {
+    $val = Alien::SDL::ConfigData->config('config')->{$param};
+  }
   return $val;
 }
 
