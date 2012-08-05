@@ -43,4 +43,6 @@ t/001_load.t
 t/002_config.t
 t/003_check_header.t
 t/004_get_header_version.t
+t/release-pod-coverage.t
+t/release-pod-syntax.t
 TODO
