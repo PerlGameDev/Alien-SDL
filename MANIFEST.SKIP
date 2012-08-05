@@ -5,6 +5,7 @@ blib
 deps
 ^Build$
 ^Build.bat$
+^MANIFEST.SKIP$
 ^MYMETA.yml$
 ^MYMETA.json$
 ^tmp
