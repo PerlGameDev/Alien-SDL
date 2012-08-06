@@ -5,7 +5,9 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
-1.437_2
+1.437_2 Sun Aug 05 2012
+     - added minimum Perl version [jtpalmer]
+     - added release tests to check pod syntax and coverage [jtpalmer]
      - return ld_shlib_map, ld_shared_libs and ld_paths from config when using script option [jtpalmer]
      - excluding undef paths from ld_shlib_map and ld_shared_libs [jtpalmer]
      - changed shlib regex to match libz and libfreetype [jtpalmer]
