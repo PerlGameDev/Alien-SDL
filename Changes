@@ -8,7 +8,11 @@ TODO
 TBD
      - added patch for SDL::GFX::ImageFilter::MMX_detect (by Steve Langasek, ubuntu bug 1029981) [FROGGS]
 
-1.437_2
+1.437_2 Sun Aug 05 2012
+     - added minimum Perl version [jtpalmer]
+     - added release tests to check pod syntax and coverage [jtpalmer]
+     - return ld_shlib_map, ld_shared_libs and ld_paths from config when using script option [jtpalmer]
+     - excluding undef paths from ld_shlib_map and ld_shared_libs [jtpalmer]
      - changed shlib regex to match libz and libfreetype [jtpalmer]
      - disabling mmx for SDL_gfx for armv6-unix [jtpalmer]
      - added bin script to make configuring easier [kthakore]
