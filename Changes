@@ -7,6 +7,7 @@ TODO
 
 TBD
      - added patch for SDL::GFX::ImageFilter::MMX_detect (by Steve Langasek, ubuntu bug 1029981) [FROGGS]
+     - source code build option is now only available when SDL itself can/will be built [FROGGS]
 
 1.437_2 Sun Aug 05 2012
      - added minimum Perl version [jtpalmer]
