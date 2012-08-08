@@ -284,7 +284,9 @@ our $source_packs = [
           'http://froggs.de/libsdl/SDL_gfx-2.0.23.tar.gz',
         ],
         sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
-        patches => [ ],
+        patches => [
+          'SDL_gfx-2.0.23-wrong-cpuid-mmx-detection.patch',
+        ],
         prereqs => {
           libs => [ ]
         }

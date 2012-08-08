@@ -5,6 +5,9 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+TBD
+     - added patch for SDL::GFX::ImageFilter::MMX_detect (by Steve Langasek, ubuntu bug 1029981) [FROGGS]
+
 1.437_2
      - changed shlib regex to match libz and libfreetype [jtpalmer]
      - disabling mmx for SDL_gfx for armv6-unix [jtpalmer]

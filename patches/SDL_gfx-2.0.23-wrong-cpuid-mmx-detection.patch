@@ -1,0 +1,20 @@
+--- SDL_gfx-2.0.23/SDL_imageFilter.c	2011-12-04 08:00:09.000000000 +0100
++++ SDL_gfx-2.0.23/SDL_imageFilter.c	2012-08-08 09:11:25.000000000 +0200
+@@ -80,12 +80,12 @@
+ 			popa
+ 	}
+ #else
+-	asm volatile ("pusha		     \n\t" "mov    %1, %%eax     \n\t"	/* request feature flag */
++	asm volatile ("pusha		     \n\t" "mov    %0, %%eax     \n\t"	/* request feature flag */
+ 		"cpuid                \n\t"	/* get CPU ID flag */
+-		"mov    %%edx, %0     \n\t"	/* move result to mmx_bit */
+-		"popa		     \n\t":"=m" (flags)	/* %0 */
+-		:"i"(0x00000001)	/* %1 */
+-		);
++		"mov    %%edx, 0(%1)  \n\t"	/* move result to mmx_bit */
++		"popa		     \n\t":
++		:"i"(0x00000001), "S"(&flags)	/* %0, %1 */
++		: "memory");
+ #endif
+ #endif
+ 
