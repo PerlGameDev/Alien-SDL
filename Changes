@@ -9,7 +9,7 @@ TBD
      - added patch for SDL::GFX::ImageFilter::MMX_detect (by Steve Langasek, ubuntu bug 1029981) [FROGGS]
      - source code build option is now only available when SDL itself can/will be built [FROGGS]
 
-1.437_2 Sun Aug 05 2012
+1.438 Sun Aug 12 2012
      - added minimum Perl version [jtpalmer]
      - added release tests to check pod syntax and coverage [jtpalmer]
      - return ld_shlib_map, ld_shared_libs and ld_paths from config when using script option [jtpalmer]
@@ -18,8 +18,6 @@ TBD
      - disabling mmx for SDL_gfx for armv6-unix [jtpalmer]
      - added bin script to make configuring easier [kthakore]
      - added CGFloat patch for darwin/SDL_image [FROGGS]
-
-1.437_1 Mon Jun 25 2012
      - CFLAGS: added several circumstances where we need /usr/X11R7/... [FROGGS]
      - CFLAGS: removed /usr/pkg/..., that clashed on my netbsd [FROGGS]
      - CFLAGS: removed duplicate /usr/X11R6/... [FROGGS]
