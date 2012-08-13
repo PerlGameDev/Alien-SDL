@@ -5,7 +5,7 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
-TBD
+1.439_1 Sun Aug 12 2012
      - added patch for SDL::GFX::ImageFilter::MMX_detect (by Steve Langasek, ubuntu bug 1029981) [FROGGS]
      - source code build option is now only available when SDL itself can/will be built [FROGGS]
 
