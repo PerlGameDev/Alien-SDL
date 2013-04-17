@@ -5,6 +5,9 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.440 Sun Aug 12 2012
+     - patch for File::Temp->tempfile -> File::Temp::tempfile (#244) [FROGGS]
+
 1.438 Sun Aug 12 2012
      - added minimum Perl version [jtpalmer]
      - added release tests to check pod syntax and coverage [jtpalmer]

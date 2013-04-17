@@ -16,11 +16,11 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 1.438
+Version 1.440
 
 =cut
 
-our $VERSION = '1.438';
+our $VERSION = '1.440';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -240,7 +240,7 @@ sub check_header {
   }
 
   my $cb = ExtUtils::CBuilder->new( quiet => 1, config => $config );
-  my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my ($fs, $src) = File::Temp::tempfile('aaXXXX', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
   my $i = 0;
   foreach (@header) {
