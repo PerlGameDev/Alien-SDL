@@ -23,6 +23,7 @@ patches/SDL-1.2.14-video_mmx.patch
 patches/SDL-1.2.15-openbsd-rldflags.patch
 patches/SDL_config_win32.h
 patches/SDL_gfx-2.0.20-configure.patch
+patches/SDL_gfx-2.0.23-wrong-cpuid-mmx-detection.patch
 patches/SDL_image-1.2.10-libpng-flags.patch
 patches/SDL_image-1.2.10-libpng15.patch
 patches/SDL_image-1.2.11-CGFloat.patch

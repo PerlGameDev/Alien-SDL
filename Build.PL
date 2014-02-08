@@ -174,18 +174,20 @@ else {
 
   if($build->can_build_binaries_from_sources) {
     for my $p ( @$source_packs ) {
-      $rv = { title => $p->{title}, members => [], buildtype => 'build_from_sources' };
+      $rv           = { title => $p->{title}, members => [], buildtype => 'build_from_sources' };
+      my $build_SDL = 0;
       for my $m (@{ $p->{members} }) {
         next if $m->{pack} !~ /^SDL/ && $have_libs{ $m->{pack} }[0];
         my $good = 1;
         $good   &= $have_libs{$_} && $have_libs{$_}[0] ? 1 : 0 for @{ $m->{prereqs}->{libs} };
         if( $good ) {
           $have_libs{ $m->{pack} }[0] ||= 1;
+          $build_SDL                    = 1 if $m->{pack} eq 'SDL';
           push @{ $rv->{members} }, $m;
           $rv->{title} .= "$m->{pack}(v$m->{version}) ";
         }
       }
-      push @candidates, $rv if scalar( @{ $rv->{members} } );
+      push @candidates, $rv if scalar( @{ $rv->{members} } ) && $build_SDL;
     }
   };
 
