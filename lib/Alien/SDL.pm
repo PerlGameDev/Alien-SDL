@@ -95,7 +95,7 @@ installed into perl module's 'share' directory.
 
 =item * If you use prebuild binaries and/or binaries built from sources
 it happens that some of the dynamic libraries (*.so, *.dll) will not
-automaticly loadable as they will be stored somewhere under perl module's
+be automatically loadable as they will be stored somewhere under perl module's
 'share' directory. To handle this scenario Alien::SDL offers some special
 functionality (see below).
 
