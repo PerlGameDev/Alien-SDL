@@ -34,7 +34,7 @@ script to locate SDL libs.
 
  perl Build.PL --with-sdl-config=/opt/sdl/bin/sdl-config
 
-or using default script name 'sdl-config' by running:
+or use the default script named 'sdl-config' by running:
 
  perl Build.PL --with-sdl-config
 
@@ -55,7 +55,7 @@ In this case the module performs SDL library detection via
 
 =back
 
-Later you can use Alien::SDL in your module that needs to link agains SDL
+Later you can use Alien::SDL in your module that needs to link against SDL
 and/or related libraries like this:
 
     # Sample Makefile.pl
@@ -77,7 +77,7 @@ Please see L<Alien> for the manifesto of the Alien namespace.
 In short C<Alien::SDL> can be used to detect and get
 configuration settings from an installed SDL and related libraries.
 Based on your platform it offers the possibility to download and
-install prebuilt binaries or to build SDL & co. from source codes.
+install prebuilt binaries or build SDL & co. from source codes.
 
 The important facts:
 
@@ -90,14 +90,14 @@ installation on your system.
 reinstall Alien::SDL (providing that you use the same directory for
 the new installation).
 
-=item * The prebuild binaries and/or binaries built from sources are always
+=item * The prebuilt binaries and/or binaries built from sources are always
 installed into perl module's 'share' directory.
 
-=item * If you use prebuild binaries and/or binaries built from sources
+=item * If you use the prebuilt binaries and/or binaries built from sources
 it happens that some of the dynamic libraries (*.so, *.dll) will not
-be automatically loadable as they will be stored somewhere under perl module's
-'share' directory. To handle this scenario Alien::SDL offers some special
-functionality (see below).
+be automatically loadable as they will be stored somewhere under the perl
+module's 'share' directory. To handle this scenario Alien::SDL offers some
+special functionality (see below).
 
 =back
 
