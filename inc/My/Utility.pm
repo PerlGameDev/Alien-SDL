@@ -43,7 +43,7 @@ my $prebuilt_binaries = [
         'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20100704.zip',
       ],
       sha1sum  => '98409ddeb649024a9cc1ab8ccb2ca7e8fe804fd8',
-      arch_re  => qr/^MSWin32-x86-multi-thread$/,
+      arch_re  => qr/^MSWin32-x86-multi-thread(-64int)?$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
@@ -55,7 +55,7 @@ my $prebuilt_binaries = [
         'http://froggs.de/libsdl/Win32_SDL-1.2.14-extended-bin_20111205.zip',
       ],
       sha1sum  => '553b7e21bb650d047ec9f2a5f650c67d76430e61',
-      arch_re  => qr/^MSWin32-x86-multi-thread$/,
+      arch_re  => qr/^MSWin32-x86-multi-thread(-64int)?$/,
       os_re    => qr/^MSWin32$/,
       cc_re    => qr/gcc/,
     },
@@ -496,7 +496,7 @@ sub check_header {
   my ($cflags, @header) = @_;
   print STDERR "Testing header(s): " . join(', ', @header) . "\n";
   my $cb = ExtUtils::CBuilder->new(quiet => 1);
-  my ($fs, $src) = File::Temp->tempfile('XXXXaa', SUFFIX => '.c', UNLINK => 1);
+  my ($fs, $src) = File::Temp::tempfile('aaXXXX', SUFFIX => '.c', UNLINK => 1);
   my $inc = '';
   $inc .= "#include <$_>\n" for @header;
   syswrite($fs, <<MARKER); # write test source code
