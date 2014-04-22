@@ -5,6 +5,10 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.442 Tue Apr 22 2014
+     - bump SDL_gfx to 2.0.25 [FROGGS]
+     - fix for building on >=libX11-1.5.99.901 [FROGGS]
+
 1.440 Sun Aug 12 2012
      - patch for File::Temp->tempfile -> File::Temp::tempfile (#244) [FROGGS]
 
