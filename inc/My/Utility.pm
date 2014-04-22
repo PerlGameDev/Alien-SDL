@@ -277,13 +277,13 @@ our $source_packs = [
       },
       {
         pack => 'SDL_gfx',
-        version => '2.0.23',
-        dirname => 'SDL_gfx-2.0.23',
+        version => '2.0.25',
+        dirname => 'SDL_gfx-2.0.25',
         url => [
-          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.23.tar.gz',
-          'http://froggs.de/libsdl/SDL_gfx-2.0.23.tar.gz',
+          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz',
+          'http://froggs.de/libsdl/SDL_gfx-2.0.25.tar.gz',
         ],
-        sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
+        sha1sum  => '20a89d0b71b7b790b830c70f17ed2c44100bc0f4',
         patches => [ ],
         prereqs => {
           libs => [ ]
