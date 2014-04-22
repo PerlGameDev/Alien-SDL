@@ -188,6 +188,10 @@ our $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2-openbsd-rldflags.patch',
+          'libsdl-1.2.15-const-xdata32.1.patch',
+          'libsdl-1.2.15-const-xdata32.2.patch',
+          'libsdl-1.2.15-const-xdata32.3.patch',
+          'libsdl-1.2.15-const-xdata32.4.patch',
         ],
         prereqs => {
           libs => [
