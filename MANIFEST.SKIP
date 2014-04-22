@@ -1,4 +1,5 @@
 .git
+.travis.yml
 _build
 stage
 blib
