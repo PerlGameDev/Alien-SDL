@@ -25,6 +25,7 @@ patches/SDL-1.2.14-SDL_platform_h.patch
 patches/SDL-1.2.14-SDL_x11gl_c.patch
 patches/SDL-1.2.14-video_mmx.patch
 patches/SDL-1.2.15-openbsd-rldflags.patch
+patches/SDL-1.2.15-PIC-in-CFLAGS.patch
 patches/SDL_config_win32.h
 patches/SDL_gfx-2.0.20-configure.patch
 patches/SDL_image-1.2.10-libpng-flags.patch

@@ -192,6 +192,7 @@ our $source_packs = [
           'libsdl-1.2.15-const-xdata32.2.patch',
           'libsdl-1.2.15-const-xdata32.3.patch',
           'libsdl-1.2.15-const-xdata32.4.patch',
+          'SDL-1.2.15-PIC-in-CFLAGS.patch',
         ],
         prereqs => {
           libs => [
