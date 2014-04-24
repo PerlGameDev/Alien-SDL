@@ -309,6 +309,7 @@ our $source_packs = [
           'SDL_Pango-0.1.2-config-tools.1.patch',
           'SDL_Pango-0.1.2-config-tools.2.patch',
           'SDL_Pango-0.1.2-config-tools.3.patch',
+          'SDL_Pango-0.1.2-include-ft2build.h.patch',
         ],
         prereqs => {
           libs => [

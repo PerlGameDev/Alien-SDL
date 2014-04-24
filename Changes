@@ -5,6 +5,10 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.443_2 Wed Apr 24 2014
+     - let SDL_Pango.h include ft2build.h, because even when the header file ifdef's out some
+       code that needs it, the source file does not and thus explodes happily. [FROGGS]
+
 1.443_1 Wed Apr 23 2014
      - add PIC flags to CFLAGS when the compiler can handle it, this is meant to fix
        an issue on freebsd [FROGGS]
