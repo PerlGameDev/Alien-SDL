@@ -5,6 +5,9 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.443_3 Sun May 04 2014
+     - add patch that replaces $^ in Makefile.in, which can be a problem for BSD's make [FROGGS]
+
 1.443_2 Wed Apr 24 2014
      - let SDL_Pango.h include ft2build.h, because even when the header file ifdef's out some
        code that needs it, the source file does not and thus explodes happily. [FROGGS]
