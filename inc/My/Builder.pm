@@ -330,8 +330,17 @@ sub set_ld_config {
          pangoft2 pango gobject gmodule glib fontconfig expat )) {
     if( !$shlib_map{$_} && $have_libs->{$_}->[0] ) {
       next unless defined $have_libs->{$_}->[1];
-      push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
-      $shlib_map{$_} = $have_libs->{$_}->[1];
+      if ($_ eq 'pthread' && $^O eq 'openbsd') {
+        my $osver = `uname -r 2>/dev/null`;
+        if ($self->notes('perl_libs')->{pthread} || ($osver && $osver < 5.0)) {
+          push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
+          $shlib_map{$_} = $have_libs->{$_}->[1];
+        }
+      }
+      else {
+        push @{ $cfg->{ld_shared_libs} }, $have_libs->{$_}->[1];
+        $shlib_map{$_} = $have_libs->{$_}->[1];
+      }
     }
   }
 
