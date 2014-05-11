@@ -166,6 +166,13 @@ sub _get_configure_cmd {
     $extra .= ' --disable-audio';
   }
 
+  if ($pack eq 'SDL' && $^O eq 'openbsd') {
+    my $osver = `uname -r 2>/dev/null`;
+    if (!$self->notes('perl_libs')->{pthread} || !$osver || $osver >= 5.0) {
+      $extra .= ' --disable-pthreads';
+    }
+  }
+
   if($pack =~ /^SDL_/) {
     $extra .= " --with-sdl-prefix=$escaped_prefixdir";
   }
