@@ -266,6 +266,13 @@ sub set_config_data {
     }
   }
 
+  if ($^O eq 'openbsd') {
+    my $osver = `uname -r 2>/dev/null`;
+    if (!$self->notes('perl_libs')->{pthread} || !$osver || $osver >= 5.0) {
+      $cfg->{libs} =~ s/\s*-l?pthread//g;
+    }
+  }
+
   # write config
   $self->config_data('additional_cflags', '-I' . $self->get_path('@PrEfIx@/include') . ' ' .
                                           '-I' . $self->get_path('@PrEfIx@/include/smpeg') . ' ' .
