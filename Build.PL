@@ -4,7 +4,8 @@ use warnings;
 use lib "inc";
 use File::Spec::Functions qw(catdir catfile);
 use Config;
-use My::Utility qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools $source_packs);
+use My::Utility qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools $source_packs
+                   check_perl_buildlibs);
 
 use Getopt::Long;
 my ( $ans, $travis ) = 0;
@@ -107,6 +108,7 @@ my $build = $package->new(
 
 my $choice;
 my %have_libs = ();
+my %perl_libs = ();
 
 if (defined $sdl_config) {
   # handle --with-sdl-config (without params)
@@ -173,6 +175,8 @@ else {
     }
   }
 
+  $perl_libs{pthread} = check_perl_buildlibs('pthread') if $have_libs{pthread} && $^O eq 'openbsd';
+
   # prebuilt binaries (windows only)
   push @candidates, @{$rv} if $rv = check_prebuilt_binaries($build->os_type);
 
@@ -237,6 +241,7 @@ if($choice) {
   $build->notes('env_include', $ENV{INCLUDE}) if $ENV{INCLUDE};
   $build->notes('env_lib',     $ENV{LIB})     if $ENV{LIB};
   $build->notes('have_libs',   \%have_libs);
+  $build->notes('perl_libs',   \%perl_libs);
   $build->create_build_script();
 
   #### clean build_done stamp; force rebuild when running 'Build'

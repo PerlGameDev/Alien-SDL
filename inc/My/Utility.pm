@@ -4,7 +4,7 @@ use warnings;
 use base qw(Exporter);
 
 our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools find_SDL_dir find_file check_header
-                    sed_inplace get_dlext $inc_lib_candidates $source_packs);
+                    sed_inplace get_dlext $inc_lib_candidates $source_packs check_perl_buildlibs);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
@@ -415,6 +415,27 @@ sub check_prereqs_libs {
     }
   }
 
+  return $ret;
+}
+
+sub check_perl_buildlibs {
+  my @libs    = @_;
+  my $ret     = 1;
+  my $dlext   = get_dlext();
+  my $devnull = File::Spec->devnull();
+  for my $lib (@libs) {
+    print "checking if perl is linked against $lib... ";
+    if($Config{libs}        =~ /\Q-l$lib\E\b/
+    || $Config{perllibs}    =~ /\Q-l$lib\E\b/
+    || `ldd $^X 2>$devnull` =~ /[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|so|dll)$/) {
+      print "yes\n";
+      $ret &= 1;
+    }
+    else {
+      print "no\n";
+      $ret = 0;
+    }
+  }
   return $ret;
 }
 
