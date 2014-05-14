@@ -16,11 +16,11 @@ Alien::SDL - building, finding and using SDL binaries
 
 =head1 VERSION
 
-Version 1.443_4
+Version 1.444
 
 =cut
 
-our $VERSION = '1.443_4';
+our $VERSION = '1.444';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
