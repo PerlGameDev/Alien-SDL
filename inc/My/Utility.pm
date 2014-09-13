@@ -289,7 +289,7 @@ our $source_packs = [
           'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz',
           'http://froggs.de/libsdl/SDL_gfx-2.0.25.tar.gz',
         ],
-        sha1sum  => '20a89d0b71b7b790b830c70f17ed2c44100bc0f4',
+        sha1sum  => '0bca85da58f5f66690d5ddcb58549dcd68db2b37',
         patches => [ ],
         prereqs => {
           libs => [ ]
