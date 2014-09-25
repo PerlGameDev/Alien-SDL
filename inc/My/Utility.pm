@@ -194,6 +194,7 @@ our $source_packs = [
           'libsdl-1.2.15-const-xdata32.4.patch',
           'SDL-1.2.15-PIC-in-CFLAGS.patch',
           'SDL-1.2.15-Makefile.in-OBJECTS.patch',
+          'SDL-1.2.15-mavericks-cgdirectpallete.patch',
         ],
         prereqs => {
           libs => [

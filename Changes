@@ -5,6 +5,9 @@ Versioning rule: public releases are even numbers, dev releases are odd. (same l
 TODO
      - check for available libs when using --with-sdl-config option
 
+1.445_1 Thu Aug 14 2014
+     - fix build on OS X Mavericks (missing symbol CGDirectPaletteRef) [FROGGS]
+
 1.444 Wed May 14 2014
      - check that perl was linked against pthread and do a pthread-less build if not (OpenBSD) [FROGGS]
      - add patch that replaces $^ in Makefile.in, which can be a problem for BSD's make [FROGGS]
