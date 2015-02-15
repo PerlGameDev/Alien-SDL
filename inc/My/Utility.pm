@@ -291,9 +291,7 @@ our $source_packs = [
           'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz',
         ],
         sha1sum  => '20a89d0b71b7b790b830c70f17ed2c44100bc0f4',
-        patches => [
-          'SDL_gfx-2.0.23-wrong-cpuid-mmx-detection.patch',
-        ],
+        patches => [ ],
         prereqs => {
           libs => [ ]
         }
