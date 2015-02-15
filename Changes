@@ -6,6 +6,9 @@ TODO
      - fixed spelling and grammar in docs
      - check for available libs when using --with-sdl-config option
 
+1.445_2 Sun Feb 15 2015
+    - Apply patch from Debian [jtpalmer]
+
 1.445_1 Thu Aug 14 2014
      - fix build on OS X Mavericks (missing symbol CGDirectPaletteRef) [FROGGS]
 
