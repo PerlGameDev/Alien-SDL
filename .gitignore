@@ -1,6 +1,7 @@
 blib*
 Build
 _build*
+build_src/
 pm_to_blib*
 *.tar.gz
 *.bak
