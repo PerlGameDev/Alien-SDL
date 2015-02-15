@@ -9,6 +9,7 @@ deps
 ^MANIFEST.SKIP$
 ^MYMETA.yml$
 ^MYMETA.json$
+^README.md$
 ^tmp
 ^build_
 ^download
