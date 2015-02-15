@@ -4,7 +4,7 @@ use warnings;
 use base qw(Exporter);
 
 our @EXPORT_OK = qw(check_config_script check_prebuilt_binaries check_prereqs_libs check_prereqs_tools find_SDL_dir find_file check_header
-                    sed_inplace get_dlext $inc_lib_candidates $source_packs);
+                    sed_inplace get_dlext $inc_lib_candidates $source_packs check_perl_buildlibs);
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec::Functions qw(splitdir catdir splitpath catpath rel2abs);
@@ -188,6 +188,13 @@ our $source_packs = [
         patches => [
           'test1.patch',
           'SDL-1.2-openbsd-rldflags.patch',
+          'libsdl-1.2.15-const-xdata32.1.patch',
+          'libsdl-1.2.15-const-xdata32.2.patch',
+          'libsdl-1.2.15-const-xdata32.3.patch',
+          'libsdl-1.2.15-const-xdata32.4.patch',
+          'SDL-1.2.15-PIC-in-CFLAGS.patch',
+          'SDL-1.2.15-Makefile.in-OBJECTS.patch',
+          'SDL-1.2.15-mavericks-cgdirectpallete.patch',
         ],
         prereqs => {
           libs => [
@@ -277,11 +284,11 @@ our $source_packs = [
       },
       {
         pack => 'SDL_gfx',
-        version => '2.0.23',
-        dirname => 'SDL_gfx-2.0.23',
+        version => '2.0.25',
+        dirname => 'SDL_gfx-2.0.25',
         url => [
-          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.23.tar.gz',
-          'http://froggs.de/libsdl/SDL_gfx-2.0.23.tar.gz',
+          'http://froggs.de/libsdl/SDL_gfx-2.0.25.tar.gz',
+          'http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz',
         ],
         sha1sum  => 'aae60e7fed539f3f8a0a0bd6da3bbcf625642596',
         patches => [
@@ -306,6 +313,7 @@ our $source_packs = [
           'SDL_Pango-0.1.2-config-tools.1.patch',
           'SDL_Pango-0.1.2-config-tools.2.patch',
           'SDL_Pango-0.1.2-config-tools.3.patch',
+          'SDL_Pango-0.1.2-include-ft2build.h.patch',
         ],
         prereqs => {
           libs => [
@@ -410,6 +418,27 @@ sub check_prereqs_libs {
     }
   }
 
+  return $ret;
+}
+
+sub check_perl_buildlibs {
+  my @libs    = @_;
+  my $ret     = 1;
+  my $dlext   = get_dlext();
+  my $devnull = File::Spec->devnull();
+  for my $lib (@libs) {
+    print "checking if perl is linked against $lib... ";
+    if($Config{libs}        =~ /\Q-l$lib\E\b/
+    || $Config{perllibs}    =~ /\Q-l$lib\E\b/
+    || `ldd $^X 2>$devnull` =~ /[\/\\]lib\Q$lib\E[\-\d\.]*\.($dlext[\d\.]*|so|dll)$/) {
+      print "yes\n";
+      $ret &= 1;
+    }
+    else {
+      print "no\n";
+      $ret = 0;
+    }
+  }
   return $ret;
 }
 
@@ -547,7 +576,7 @@ sub get_dlext {
     return 'la';
   }
   else {
-    return $Config{dlext};
+    return $Config{so};
   }
 }
 

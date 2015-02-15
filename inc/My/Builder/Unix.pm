@@ -37,7 +37,12 @@ sub get_additional_libs {
     }
   }
   push @list, (keys %rv);
-  push @list, '-lpthread' if ($^O eq 'openbsd');
+  if ($^O eq 'openbsd') {
+    my $osver = `uname -r 2>/dev/null`;
+    if ($self->notes('perl_libs')->{pthread} || ($osver && $osver < 5.0)) {
+      push @list, '-lpthread'
+    }
+  }
   return join(' ', @list);
 }
 
@@ -161,8 +166,11 @@ sub _get_configure_cmd {
     $extra .= ' --disable-audio';
   }
 
-  if($pack eq 'SDL' && $^O eq 'openbsd') {
-    $extra_ldflags .= ' -lpthread';
+  if ($pack eq 'SDL' && $^O eq 'openbsd') {
+    my $osver = `uname -r 2>/dev/null`;
+    if (!$self->notes('perl_libs')->{pthread} || !$osver || $osver >= 5.0) {
+      $extra .= ' --disable-pthreads';
+    }
   }
 
   if($pack =~ /^SDL_/) {
