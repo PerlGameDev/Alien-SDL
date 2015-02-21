@@ -47,6 +47,7 @@ patches/SDL_Pango-0.1.2-include-ft2build.h.patch
 patches/test1.patch
 patches/zlib-1.2.5-bsd-ldconfig.patch
 README
+README.md
 t/001_load.t
 t/002_config.t
 t/003_check_header.t
