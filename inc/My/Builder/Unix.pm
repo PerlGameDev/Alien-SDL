@@ -18,7 +18,7 @@ sub get_additional_cflags {
   my $self = shift;
   my @list = ();
   ### any platform specific -L/path/to/libs shoud go here
-  for (keys %$inc_lib_candidates) {
+  for (sort keys %$inc_lib_candidates) {
     push @list, "-I$_" if (-d $_);
   }
   return join(' ', @list);
@@ -36,7 +36,7 @@ sub get_additional_libs {
       $rv{"-Wl,-rpath,$ld"} = 1 if $^O =~ /^linux|dragonfly|.+bsd$/;
     }
   }
-  push @list, (keys %rv);
+  push @list, sort (keys %rv);
   if ($^O eq 'openbsd') {
     my $osver = `uname -r 2>/dev/null`;
     if ($self->notes('perl_libs')->{pthread} || ($osver && $osver < 5.0)) {

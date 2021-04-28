@@ -477,7 +477,7 @@ sub find_file {
     no warnings;
     find({ wanted => sub { push @files, rel2abs($_) if /$re/ }, follow => 1, no_chdir => 1 , follow_skip => 2}, $dir);
   };
-  return @files;
+  return @files = sort @files; # enforce list context, see `perldoc -f sort`
 }
 
 sub find_SDL_dir {
